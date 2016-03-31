@@ -1,207 +1,156 @@
 package org.study.pizzaservice.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Order {
 
-    private static Long GID = new Long(0);
-    private static int MAX_AMOUNT_OF_PIZZAS = 10;
+	private static Long GID = new Long(0);
+	private static int MAX_AMOUNT_OF_PIZZAS = 10;
 
-    public enum Status {
-	NEW, IN_PROGRESS, CANCELLED, DONE;
-    }
-
-    private Long id;
-    private Customer customer;
-    private Map<Pizza, Integer> pizzas;
-    private int pizzasNumber = 0;
-    private double mostExpensivePizza = 0;
-    private Status orderStatus = Status.NEW;
-
-    public Order(Customer customer, List<Pizza> pizzas) {
-	id = GID++;
-	this.customer = customer;
-	this.pizzas = new HashMap<Pizza, Integer>();
-
-	for (Pizza pizza : pizzas) {
-	    add(pizza, 1);
-	}
-    }
-
-    public int getPizzasAmount() {
-	return pizzasNumber;
-    }
-
-    public int setPizza(Pizza pizza, int amount) {
-
-	if (amount <= MAX_AMOUNT_OF_PIZZAS && amount > 0) {
-
-	    if (pizzas.containsKey(pizza)) {
-		pizzasNumber -= pizzas.get(pizza);
-	    }
-
-	    pizzas.put(pizza, amount);
-	    pizzasNumber += amount;
-	    return amount;
+	public enum Status {
+		NEW, IN_PROGRESS, CANCELLED, DONE;
 	}
 
-	return 0;
-    }
+	private Long id;
+	private Customer customer;
+	private List<Pizza> pizzas;
+	private Discount discount;
+	private Status orderStatus = Status.NEW;
 
-    public int addPizza(Pizza pizza, int amount) {
-	return add(pizza, amount);
-    }
+	public Order(Customer customer, List<Pizza> pizzas) {
+		id = GID++;
+		this.customer = customer;
+		this.pizzas = new ArrayList<Pizza>(pizzas);
 
-    private int add(Pizza pizza, int amount) {
-
-	if (amount <= 0) {
-	    return amount;
 	}
 
-	int result = 0;
-
-	if (pizzas.containsKey(pizza)) {
-	    if ((pizzas.get(pizza) + amount) > MAX_AMOUNT_OF_PIZZAS) {
-		pizzas.put(pizza, MAX_AMOUNT_OF_PIZZAS);
-		result = amount - (MAX_AMOUNT_OF_PIZZAS - (pizzas.get(pizza) + amount));
-	    } else {
-		pizzas.put(pizza, pizzas.get(pizza) + amount);
-		result = amount;
-	    }
-	} else {
-	    if (amount > MAX_AMOUNT_OF_PIZZAS) {
-		pizzas.put(pizza, amount);
-		result = MAX_AMOUNT_OF_PIZZAS;
-	    } else {
-		pizzas.put(pizza, amount);
-		result = amount;
-	    }
+	public void setDiscount(Discount discount) {
+		this.discount = discount;
 	}
 
-	if (pizza.getPrice() > mostExpensivePizza) {
-	    mostExpensivePizza = pizza.getPrice();
+	public int getPizzasAmount() {
+		return pizzas.size();
 	}
 
-	pizzasNumber += amount;
-
-	return result;
-    }
-
-    public Status getStatus() {
-	return orderStatus;
-    }
-
-    public void confirmOrder() {
-	if (orderStatus == Status.NEW) {
-	    orderStatus = Status.IN_PROGRESS;
-	}
-    }
-
-    public void cancelOrder() {
-	if (orderStatus == Status.NEW || orderStatus == Status.IN_PROGRESS) {
-	    orderStatus = Status.CANCELLED;
-	}
-    }
-
-    public void completeOrder() {
-	if (orderStatus == Status.IN_PROGRESS) {
-	    orderStatus = Status.DONE;
-	    if (customer.hasAccumulativeCard()) {
-		customer.addToAcummulativeCard(countPrice());
-	    }
-	}
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-	return "Order [id=" + id + ", customer=" + customer + ", pizzas=" + pizzas + "]";
-    }
-
-    /**
-     * @return the id
-     */
-    public Long getId() {
-	return id;
-    }
-
-    /**
-     * @return the customer
-     */
-    public Customer getCustomer() {
-	return customer;
-    }
-
-    /**
-     * @param customer
-     *            the customer to set
-     */
-    public void setCustomer(Customer customer) {
-	this.customer = customer;
-    }
-
-    /**
-     * @return the pizzas
-     */
-    public List<Pizza> getPizzas() {
-	return new ArrayList<Pizza>(pizzas.keySet());
-    }
-
-    /**
-     * @param pizzas
-     *            the pizzas to set
-     */
-    public void setPizzas(List<Pizza> pizzas) {
-	// this.pizzas = pizzas;
-    }
-
-    public double getDiscount() {
-	double result = 0;
-	double price = countPrice();
-
-	if (pizzasNumber >= 4) {
-	    result += mostExpensivePizza * 0.30;
-	    price -= result;
+	public boolean addPizza(Pizza pizza) {
+		if (pizzas.size() < MAX_AMOUNT_OF_PIZZAS && orderStatus == Status.NEW) {
+			pizzas.add(pizza);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	if (customer.hasAccumulativeCard()) {
-	    double AccummulativeCardDiscount = customer.getSumFromAccummulative() * 0.1;
-
-	    if (Double.compare(AccummulativeCardDiscount, price * 0.3) < 0) {
-		result += AccummulativeCardDiscount;
-	    } else {
-		result += price * 0.3;
-	    }
+	public boolean removePizza(Pizza pizza) {
+		if (orderStatus == Status.NEW) {
+			return pizzas.remove(pizza);
+		} else {
+			return false;
+		}
 	}
 
-	return result;
-    }
-
-    private double countPrice() {
-	double price = 0;
-
-	for (Pizza pizza : pizzas.keySet()) {
-	    price += pizza.getPrice() * pizzas.get(pizza);
+	public Status getStatus() {
+		return orderStatus;
 	}
 
-	return price;
+	public boolean confirmOrder() {
+		if (orderStatus == Status.NEW) {
+			orderStatus = Status.IN_PROGRESS;
+			return true;
+		}
+	
+		return false;
+	}
 
-    }
+	public boolean cancelOrder() {
+		if (orderStatus == Status.NEW || orderStatus == Status.IN_PROGRESS) {
+			orderStatus = Status.CANCELLED;
+			return true;
+		}
+		
+		return false;
+	}
 
-    public double getPrice() {
-	return countPrice();
-    }
+	public boolean completeOrder() {
+		if (orderStatus == Status.IN_PROGRESS) {
+			orderStatus = Status.DONE;
+			if (customer.hasAccumulativeCard()) {
+				customer.getAccumulativeCard().addToCard(getPriceWithDiscount());
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
 
-    public double getPriceWithDiscount() {
-	return getPrice() - getDiscount();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customer=" + customer + ", pizzas=" + pizzas + "]";
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @return the customer
+	 */
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	/**
+	 * @param customer
+	 *            the customer to set
+	 */
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	/**
+	 * @return the pizzas
+	 */
+	public List<Pizza> getPizzas() {
+		return pizzas;
+	}
+
+	/**
+	 * @param pizzas
+	 *            the pizzas to set
+	 */
+	public void setPizzas(List<Pizza> pizzas) {
+		this.pizzas = pizzas;
+	}
+
+	public double getDiscount() {
+		if (discount != null) {
+			return discount.getDiscount(this);
+		}
+
+		return 0;
+	}
+
+	public double getPrice() {
+		double price = 0;
+
+		for (Pizza pizza : pizzas) {
+			price += pizza.getPrice();
+		}
+
+		return price;
+	}
+
+	public double getPriceWithDiscount() {
+		return getPrice() + getDiscount();
+	}
 }
