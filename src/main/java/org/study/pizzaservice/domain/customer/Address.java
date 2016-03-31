@@ -1,6 +1,12 @@
-package org.study.pizzaservice.domain;
+package org.study.pizzaservice.domain.customer;
 
-public class Address {
+/**
+ * Immutable class that represents address object
+ * 
+ * @author Andrii Lehuta
+ *
+ */
+public final class Address {
     private String city;
     private String street;
     private String house;
@@ -41,11 +47,6 @@ public class Address {
 	return room;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
 	final int prime = 31;
@@ -57,11 +58,6 @@ public class Address {
 	return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 	if (this == obj)

@@ -1,7 +1,7 @@
 package org.study.pizzaservice;
 
-import org.study.pizzaservice.domain.Customer;
-import org.study.pizzaservice.domain.Order;
+import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.domain.customer.Customer;
 
 public class PizzaApp {
 

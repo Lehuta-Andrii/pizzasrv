@@ -1,5 +1,6 @@
 package org.study.pizzaservice;
 
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -10,17 +11,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.Mock;
-import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Discount;
-import org.study.pizzaservice.domain.Order;
+import org.study.pizzaservice.domain.order.CanceledOrder;
+import org.study.pizzaservice.domain.order.DoneOrder;
+import org.study.pizzaservice.domain.order.InProgressOrder;
+import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.AccumulativeCard;
+import org.study.pizzaservice.domain.customer.Customer;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderTest {
 
-	@Mock
+    
+    	@Mock
 	private Customer mockCustomer;
 	
 	@Mock
@@ -28,6 +35,9 @@ public class OrderTest {
 
 	@Mock
 	private Discount mockDiscount;
+	
+	@Mock
+	private AccumulativeCard mockAccumulativeCard;
 
 	private Order order;
 
@@ -58,7 +68,7 @@ public class OrderTest {
 	@Test
 	public void getDicountTestOnNullDiscountObject() {
 
-		order = new Order(mockCustomer, Collections.EMPTY_LIST);
+		order = new Order(mockCustomer, Collections.<Pizza>emptyList());
 		assertTrue(Double.compare(order.getDiscount(), 0) == 0);
 
 	}
@@ -68,7 +78,7 @@ public class OrderTest {
 		
 		double expectedDiscount = 40;
 
-		order = new Order(mockCustomer, Collections.EMPTY_LIST);
+		order = new Order(mockCustomer, Collections.<Pizza>emptyList());
 		order.setDiscount(mockDiscount);
 		
 		when(mockDiscount.getDiscount(order)).thenReturn(expectedDiscount);
@@ -117,40 +127,16 @@ public class OrderTest {
 	@Test
 	public void addPizzaTestOnEmptyPizzaListAndNewOrder() {
 		
-		order = new Order(mockCustomer, Collections.EMPTY_LIST);
+		order = new Order(mockCustomer, Collections.<Pizza>emptyList());
 				
 		assertTrue(order.addPizza(new Pizza("Pizza1", 45, Pizza.type.MEAT)));
 		assertTrue(order.getPizzasAmount() == 1);
 
 	}
 	
-	@Test
-	public void addPizzaTestOnPizzaListWithTenPizzasAndNewOrder() {
-		
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
-
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza5", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza6", 45, Pizza.type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza7", 45, Pizza.type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza8", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza9", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza10", 45, Pizza.type.VEGETARIAN));
-		
-		
-		order = new Order(mockCustomer, pizzasList);
-		int expectedPizzasAmount = order.getPizzasAmount();
-	
-		assertFalse(order.addPizza(new Pizza("Pizza11", 45, Pizza.type.MEAT)));
-		assertTrue(order.getPizzasAmount() == expectedPizzasAmount );
-
-	}
 	
 	@Test
-	public void addPizzaTestOnPizzaListWithLessThenTenPizzasAndInProgressOrder() {
+	public void addPizzaTestOnPizzaListWithInProgressOrder() {
 		
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
@@ -161,7 +147,7 @@ public class OrderTest {
 		order = new Order(mockCustomer, pizzasList);
 		int expectedPizzasAmount = order.getPizzasAmount();
 		
-		order.confirmOrder();
+		order.setState(new InProgressOrder());
 	
 		assertFalse(order.addPizza(new Pizza("Pizza11", 45, Pizza.type.MEAT)));
 		assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
@@ -169,7 +155,7 @@ public class OrderTest {
 	}
 	
 	@Test
-	public void addPizzaTestOnPizzaListWithLessThenTenPizzasAndInCancelledOrder() {
+	public void addPizzaTestOnPizzaListInCancelledOrder() {
 		
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
@@ -180,14 +166,15 @@ public class OrderTest {
 		order = new Order(mockCustomer, pizzasList);
 		int expectedPizzasAmount = order.getPizzasAmount();
 		
-		order.cancelOrder();
+		order.setState(new CanceledOrder());
 	
 		assertFalse(order.addPizza(new Pizza("Pizza11", 45, Pizza.type.MEAT)));
 		assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
+
 	}
 	
 	@Test
-	public void addPizzaTestOnPizzaListWithLessThenTenPizzasAndInDoneOrder() {
+	public void addPizzaTestOnPizzaListInDoneOrder() {
 		
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
@@ -198,8 +185,7 @@ public class OrderTest {
 		order = new Order(mockCustomer, pizzasList);
 		int expectedPizzasAmount = order.getPizzasAmount();
 		
-		order.confirmOrder();
-		order.completeOrder();
+		order.setState(new DoneOrder());
 		
 		assertFalse(order.addPizza(new Pizza("Pizza11", 45, Pizza.type.MEAT)));
 		assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
@@ -209,7 +195,7 @@ public class OrderTest {
 	@Test
 	public void removePizzaTestOnEmptyPizzaListAndNewOrder() {
 		
-		order = new Order(mockCustomer, Collections.EMPTY_LIST);
+		order = new Order(mockCustomer, Collections.<Pizza>emptyList());
 				
 		assertFalse(order.removePizza(new Pizza("Pizza1", 45, Pizza.type.MEAT)));
 		assertTrue(order.getPizzasAmount() == 0);
@@ -237,7 +223,7 @@ public class OrderTest {
 	}
 	
 	@Test
-	public void removePizzaTestOnListLessThanTenPizzasAndInProgressOrder() {
+	public void removePizzaTestOnListOfPizzasAndInProgressOrder() {
 		
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
@@ -250,16 +236,16 @@ public class OrderTest {
 		
 		
 		order = new Order(mockCustomer, pizzasList);
-		order.confirmOrder();
+		order.setState(new InProgressOrder());
 		int expectedPizzasAmount = order.getPizzasAmount();
 	
 		assertFalse(order.removePizza(specific));
 		assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
-	
+
 	}
 	
 	@Test
-	public void removePizzaTestOnListLessThanTenPizzasAndInCanceledOrder() {
+	public void removePizzaTestOnListOfPizzasInCanceledOrder() {
 		
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
@@ -272,7 +258,7 @@ public class OrderTest {
 		
 		
 		order = new Order(mockCustomer, pizzasList);
-		order.cancelOrder();
+		order.setState(new CanceledOrder());
 		int expectedPizzasAmount = order.getPizzasAmount();
 	
 		assertFalse(order.removePizza(specific));
@@ -294,8 +280,7 @@ public class OrderTest {
 		
 		
 		order = new Order(mockCustomer, pizzasList);
-		order.confirmOrder();
-		order.completeOrder();
+		order.setState(new DoneOrder());
 		int expectedPizzasAmount = order.getPizzasAmount();
 	
 		assertFalse(order.removePizza(specific));
@@ -303,5 +288,42 @@ public class OrderTest {
 	
 	}
 
+	@Test
+	public void updateCustomerCardTestOnOrderDone() {
+		
+		List<Pizza> pizzasList = new ArrayList<Pizza>();
+		
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
+		
+		double expectedPrice = 135;
+		when(mockCustomer.hasAccumulativeCard()).thenReturn(true);
+		when(mockCustomer.getAccumulativeCard()).thenReturn(mockAccumulativeCard);
+		
+		order = new Order(mockCustomer, pizzasList);
+		order.setState(new DoneOrder());
+		
+		assertTrue(order.updateCustomerCard());
+		
+		verify(mockAccumulativeCard).addToCard(expectedPrice);
+	}
 	
-}
+	@Test
+	public void updateCustomerCardTestOnNewOrder() {
+		
+		List<Pizza> pizzasList = new ArrayList<Pizza>();
+		
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
+				
+		order = new Order(mockCustomer, pizzasList);
+		
+		assertFalse(order.updateCustomerCard());
+		
+	}
+	
+
+	 
+   }

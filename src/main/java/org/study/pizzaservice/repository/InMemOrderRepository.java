@@ -3,7 +3,7 @@ package org.study.pizzaservice.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.study.pizzaservice.domain.Order;
+import org.study.pizzaservice.domain.order.Order;
 
 public class InMemOrderRepository implements OrderRepository {
 
