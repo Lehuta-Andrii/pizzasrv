@@ -6,6 +6,7 @@ import java.util.List;
 import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Order;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.infrastructure.ServiceLocator;
 import org.study.pizzaservice.repository.InMemOrderRepository;
 import org.study.pizzaservice.repository.InMemPizzaRepository;
 import org.study.pizzaservice.repository.OrderRepository;
@@ -13,10 +14,20 @@ import org.study.pizzaservice.repository.PizzaRepository;
 
 public class SimpleOrderService implements OrderService {
 
-    private PizzaRepository pizzaRepository = new InMemPizzaRepository();
-    private OrderRepository orderRepository = new InMemOrderRepository();
+//    private ServiceLocator locator = ServiceLocator.getInstance();
+    private PizzaRepository pizzaRepository;
+    //= (PizzaRepository) locator.lookup("pizzaRepository");
+    private OrderRepository orderRepository;
+    //= (OrderRepository) locator.lookup("orderRepository");
+    // new InMemOrderRepository();
 
-    public SimpleOrderService() {
+//    public SimpleOrderService() {
+
+//    }
+
+    public SimpleOrderService(PizzaRepository pizzaRepository, OrderRepository orderRepository) {
+	this.pizzaRepository = pizzaRepository;
+	this.orderRepository = orderRepository;
     }
 
     public Order placeNewOrder(Customer customer, Integer... pizzasID) {
