@@ -6,9 +6,6 @@ import java.util.List;
 import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Order;
 import org.study.pizzaservice.domain.Pizza;
-import org.study.pizzaservice.infrastructure.ServiceLocator;
-import org.study.pizzaservice.repository.InMemOrderRepository;
-import org.study.pizzaservice.repository.InMemPizzaRepository;
 import org.study.pizzaservice.repository.OrderRepository;
 import org.study.pizzaservice.repository.PizzaRepository;
 

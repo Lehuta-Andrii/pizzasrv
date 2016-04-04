@@ -4,7 +4,6 @@ import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Order;
 import org.study.pizzaservice.infrastructure.ApplicationContext;
 import org.study.pizzaservice.infrastructure.JavaConfigApplicationContext;
-import org.study.pizzaservice.infrastructure.ServiceLocator;
 import org.study.pizzaservice.repository.PizzaRepository;
 
 public class PizzaApp {
