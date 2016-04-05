@@ -3,36 +3,57 @@ package org.study.pizzaservice;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.study.pizzaservice.domain.customer.Customer;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.anyObject;
+
+import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.repository.OrderRepository;
+import org.study.pizzaservice.repository.PizzaRepository;
+import org.study.pizzaservice.simpleservice.SimpleOrderService;
+
+@RunWith(MockitoJUnitRunner.class)
 public class SimpleOrderServiceTest {
 
-    @Mock
-    private Customer mockCustomer;
+	@Mock
+	private Customer mockCustomer;
 
-    private SimpleOrderService orderService;
+	@Mock
+	private OrderRepository mockOrderRepository;
 
-    @Test(expected = TooManyPizzas.class)
-    public void placeNewOrderTestOnEmptyListOfPizzas() {
-	orderService = new SimpleOrderService();
+	@Mock
+	private PizzaRepository mockPizzaRepository;
 
-	orderService.placeNewOrder(mockCustomer);
-    }
+	@Mock
+	private Pizza mockPizza;
 
-    @Test(expected = TooManyPizzas.class)
-    public void placeNewOrderTestOnMoreThanTenPizzas() {
-	orderService = new SimpleOrderService();
+	private SimpleOrderService orderService;
 
-	orderService.placeNewOrder(mockCustomer, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-    }
-    
-    @Test
-    public void placeNewOrderTestOnMoreThanZeroLessThanTenPizzas() {
-	orderService = new SimpleOrderService();
+	@Test(expected = TooManyPizzas.class)
+	public void placeNewOrderTestOnEmptyListOfPizzas() {
+		orderService = new SimpleOrderService(mockPizzaRepository, mockOrderRepository);
 
-	assertTrue(orderService.placeNewOrder(mockCustomer, 1, 1, 1, 1) != null);
-    }
-    
+		orderService.placeNewOrder(mockCustomer);
+	}
+
+	@Test(expected = TooManyPizzas.class)
+	public void placeNewOrderTestOnMoreThanTenPizzas() {
+		orderService = new SimpleOrderService(mockPizzaRepository, mockOrderRepository);
+
+		orderService.placeNewOrder(mockCustomer, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+	}
+
+	@Test
+	public void placeNewOrderTestOnMoreThanZeroLessThanTenPizzas() {
+		orderService = new SimpleOrderService(mockPizzaRepository, mockOrderRepository);
+
+		when(mockPizzaRepository.getPizzaByID(anyObject())).thenReturn(mockPizza);
+
+		assertTrue(orderService.placeNewOrder(mockCustomer, 1, 1, 1, 1) != null);
+	}
 
 }

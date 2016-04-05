@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+
+	<bean name="orderRepository"
+		class="org.study.pizzaservice.repository.InMemOrderRepository" />
+	<bean name="pizzaRepository"
+		class="org.study.pizzaservice.repository.InMemPizzaRepository" />
+	<bean name="cardsRepository"
+		class="org.study.pizzaservice.repository.InMemAccumulativeCardRepository" />
+	<bean name="simpleOrderService"
+		class="org.study.pizzaservice.simpleservice.SimpleOrderService">
+		<constructor-arg ref="pizzaRepository" />
+		<constructor-arg ref="orderRepository" />
+	</bean>
+
+</beans>

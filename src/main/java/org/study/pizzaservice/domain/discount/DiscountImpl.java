@@ -3,7 +3,7 @@ package org.study.pizzaservice.domain.discount;
 import java.util.List;
 
 import org.study.pizzaservice.domain.Pizza;
-import org.study.pizzaservice.domain.customer.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 
 /**
  * Implementation of discount entity. Discount consists of 10 percent of sum of

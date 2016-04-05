@@ -2,7 +2,7 @@ package org.study.pizzaservice;
 
 import java.util.List;
 
-import org.study.pizzaservice.domain.customer.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.order.Order;
 
