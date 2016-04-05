@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.study.pizzaservice.domain.order.Order;
+import org.study.ioc.XMLBasedApplicationContext;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
-import org.study.pizzaservice.repository.InMemOrderRepository;
-import org.study.pizzaservice.repository.InMemPizzaRepository;
 import org.study.pizzaservice.repository.OrderRepository;
 import org.study.pizzaservice.repository.PizzaRepository;
 
@@ -15,10 +14,17 @@ public class SimpleOrderService implements OrderService {
 
     public static int MAX_NUMBER_OF_PIZZAS = 10;
 
-    private PizzaRepository pizzaRepository = new InMemPizzaRepository();
-    private OrderRepository orderRepository = new InMemOrderRepository();
+    private PizzaRepository pizzaRepository;
+    private OrderRepository orderRepository;
 
     public SimpleOrderService() {
+	try{
+	pizzaRepository = (PizzaRepository) XMLBasedApplicationContext.getInstance().getBean("pizzaRepository");
+	orderRepository = (OrderRepository) XMLBasedApplicationContext.getInstance().getBean("orderRepository");
+	}catch(Exception e){
+	    e.printStackTrace();
+	}
+
     }
 
     public Order placeNewOrder(Customer customer, Integer... pizzasID) {
@@ -30,7 +36,7 @@ public class SimpleOrderService implements OrderService {
 	    orderRepository.saveOrder(newOrder);
 	    return newOrder;
 	}
-	
+
 	throw new TooManyPizzas();
     }
 
