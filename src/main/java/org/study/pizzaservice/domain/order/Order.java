@@ -2,9 +2,9 @@ package org.study.pizzaservice.domain.order;
 
 import java.util.List;
 
-import org.study.pizzaservice.domain.Discount;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.domain.order.state.NewState;
 
 /**
  * Order class represents order with states object of service. Dispatches all
@@ -16,12 +16,12 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public class Order {
 
-    private SimpleNoStateOrder order;
+    private OrderContext order;
     private OrderState state;
 
     public Order(Customer customer, List<Pizza> pizzas) {
-	this.order = new SimpleNoStateOrder(customer, pizzas);
-	this.state = new NewOrder();
+	this.order = new OrderContext(customer, pizzas);
+	this.state = new NewState();
 	state.setContext(order);
     }
 
@@ -73,18 +73,6 @@ public class Order {
 	state.setPizzas(pizzas);
     }
 
-    public void setDiscount(Discount discount) {
-	state.setDiscount(discount);
-    }
-
-    public double getDiscount() {
-	if (order.getDiscountObject() != null) {
-	    return order.getDiscountObject().getDiscount(this);
-	}
-
-	return 0;
-    }
-
     /**
      * @return the price of order
      */
@@ -96,30 +84,6 @@ public class Order {
 	}
 
 	return price;
-    }
-
-    /**
-     * @return the price of order with discount
-     */
-    public double getPriceWithDiscount() {
-	return getPrice() + getDiscount();
-    }
-
-    /**
-     * Adds the sum of price to customer Accumulative card only if order in done
-     * state
-     * 
-     * @return true if accumulative card of customer is updated
-     */
-    public boolean updateCustomerCard() {
-	if (state.getClass().equals(DoneOrder.class)) {
-	    if (order.getCustomer().hasAccumulativeCard()) {
-		order.getCustomer().getAccumulativeCard().addToCard(getPriceWithDiscount());
-		return true;
-	    }
-	}
-
-	return false;
     }
 
     @Override

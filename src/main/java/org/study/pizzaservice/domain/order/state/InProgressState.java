@@ -1,11 +1,12 @@
-package org.study.pizzaservice.domain.order;
+package org.study.pizzaservice.domain.order.state;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.study.pizzaservice.domain.Discount;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.domain.order.OrderContext;
+import org.study.pizzaservice.domain.order.OrderState;
 
 /**
  * Class object that represents In progress State of order. Dispatches all calls to
@@ -14,12 +15,12 @@ import org.study.pizzaservice.domain.customer.Customer;
  * @author Andrii Lehuta
  *
  */
-public class InProgressOrder implements OrderState {
+public class InProgressState implements OrderState {
 
-    private SimpleNoStateOrder order;
+    private OrderContext order;
 
     @Override
-    public void setContext(SimpleNoStateOrder order) {
+    public void setContext(OrderContext order) {
 	this.order = order;
     }
 
@@ -60,10 +61,6 @@ public class InProgressOrder implements OrderState {
 
     @Override
     public void setPizzas(List<Pizza> pizzas) {
-    }
-
-    @Override
-    public void setDiscount(Discount discount) {
     }
 
 }

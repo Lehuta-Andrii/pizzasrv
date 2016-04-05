@@ -1,10 +1,11 @@
-package org.study.pizzaservice.domain.order;
+package org.study.pizzaservice.domain.order.state;
 
 import java.util.List;
 
-import org.study.pizzaservice.domain.Discount;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.domain.order.OrderContext;
+import org.study.pizzaservice.domain.order.OrderState;
 
 /**
  * Class object that represents New State of order. Dispatches all calls to
@@ -13,11 +14,11 @@ import org.study.pizzaservice.domain.customer.Customer;
  * @author Andrii Lehuta
  *
  */
-public class NewOrder implements OrderState {
+public class NewState implements OrderState {
 
-    private SimpleNoStateOrder order;
+    private OrderContext order;
  
-    public void setContext(SimpleNoStateOrder order) {
+    public void setContext(OrderContext order) {
         this.order = order;
     }
 
@@ -59,11 +60,6 @@ public class NewOrder implements OrderState {
     @Override
     public void setPizzas(List<Pizza> pizzas) {
 	order.setPizzas(pizzas);
-    }
-
-    @Override
-    public void setDiscount(Discount discount) {
-	order.setDiscount(discount);
     }
 
 }

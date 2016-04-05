@@ -2,7 +2,6 @@ package org.study.pizzaservice.domain.order;
 
 import java.util.List;
 
-import org.study.pizzaservice.domain.Discount;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 
@@ -14,7 +13,7 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public interface OrderState {
 
-    public void setContext(SimpleNoStateOrder order);
+    public void setContext(OrderContext order);
 
     public int getPizzasAmount();
 
@@ -31,7 +30,5 @@ public interface OrderState {
     public List<Pizza> getPizzas();
 
     public void setPizzas(List<Pizza> pizzas);
-
-    public void setDiscount(Discount discount);
 
 }

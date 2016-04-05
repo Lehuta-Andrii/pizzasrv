@@ -1,25 +1,26 @@
-package org.study.pizzaservice.domain.order;
+package org.study.pizzaservice.domain.order.state;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.study.pizzaservice.domain.Discount;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.domain.order.OrderContext;
+import org.study.pizzaservice.domain.order.OrderState;
 
 /**
- * Class object that represents Done State of order. Dispatches all calls to
+ * Class object that represents Canceled State of order. Dispatches all calls to
  * SimpleNoStateOrder object.
  * 
  * @author Andrii Lehuta
  *
  */
-public class DoneOrder implements OrderState {
+public class CanceledState implements OrderState {
 
-    private SimpleNoStateOrder order;
-    
+    private OrderContext order;
+
     @Override
-    public void setContext(SimpleNoStateOrder order) {
+    public void setContext(OrderContext order) {
 	this.order = order;
     }
 
@@ -49,7 +50,7 @@ public class DoneOrder implements OrderState {
     }
 
     @Override
-    public void setCustomer(Customer customer) {	
+    public void setCustomer(Customer customer) {
     }
 
     @Override
@@ -58,11 +59,7 @@ public class DoneOrder implements OrderState {
     }
 
     @Override
-    public void setPizzas(List<Pizza> pizzas) {	
-    }
-
-    @Override
-    public void setDiscount(Discount discount) {	
+    public void setPizzas(List<Pizza> pizzas) {
     }
 
 }

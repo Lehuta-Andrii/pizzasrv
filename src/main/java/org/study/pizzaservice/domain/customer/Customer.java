@@ -14,7 +14,6 @@ public class Customer {
     private static int GID = 0;
     private int id;
     private String name;
-    private AccumulativeCard accumulativeCard;
 
     List<Address> addresses = new ArrayList<Address>();
 
@@ -63,30 +62,6 @@ public class Customer {
      */
     public boolean removeAddress(Address address) {
 	return addresses.remove(address);
-    }
-
-    /**
-     * @return the Accumulative Card object of costumer
-     */
-    public AccumulativeCard getAccumulativeCard() {
-	return accumulativeCard;
-    }
-
-    /**
-     * Sets the Accumulative Card object of Customer
-     * 
-     * @param accumulativeCard
-     *            ther Accumulative Card to set
-     */
-    public void setAccumulativeCard(AccumulativeCard accumulativeCard) {
-	this.accumulativeCard = accumulativeCard;
-    }
-
-    /**
-     * @return true if Customer has AccumulativeCard
-     */
-    public boolean hasAccumulativeCard() {
-	return accumulativeCard == null;
     }
 
     /**

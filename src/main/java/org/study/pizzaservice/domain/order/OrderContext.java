@@ -3,9 +3,9 @@ package org.study.pizzaservice.domain.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.study.pizzaservice.domain.Discount;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.domain.discount.Discount;
 
 /**
  * Class SimpleNoStateOrder keeps all information about order except of the
@@ -14,7 +14,7 @@ import org.study.pizzaservice.domain.customer.Customer;
  * @author Andrii Lehuta
  *
  */
-public class SimpleNoStateOrder {
+public class OrderContext {
 
     private static Long GID = new Long(0);
 
@@ -23,7 +23,7 @@ public class SimpleNoStateOrder {
     private List<Pizza> pizzas;
     private Discount discount;
 
-    public SimpleNoStateOrder(Customer customer, List<Pizza> pizzas) {
+    public OrderContext(Customer customer, List<Pizza> pizzas) {
 	id = GID++;
 	this.customer = customer;
 	this.pizzas = new ArrayList<Pizza>(pizzas);
