@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.study.pizzaservice.domain.Pizza;
-import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.discount.DiscountImpl;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class DiscountImplTest {
 	
 	@Mock
-	private AccumulativeCard mockAccumulativeCard;
+	private AccumulativeCardImpl mockAccumulativeCard;
 
 	private Discount discount;
 

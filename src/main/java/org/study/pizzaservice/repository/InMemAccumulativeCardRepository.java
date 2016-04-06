@@ -1,28 +1,30 @@
 package org.study.pizzaservice.repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
+import org.study.pizzaservice.domain.customer.Customer;
 
 public class InMemAccumulativeCardRepository implements AccumulativeCardRepository {
-	List<AccumulativeCard> cards = new ArrayList<AccumulativeCard>();
 
-	public InMemAccumulativeCardRepository() {
-		this.cards.add(new AccumulativeCard());
-		this.cards.add(new AccumulativeCard());
-		this.cards.add(new AccumulativeCard());
+    	private Map<Customer, AccumulativeCard> cards = new HashMap<Customer, AccumulativeCard>(); 
+    
+	@Override
+	public AccumulativeCard getCard(Customer customer) {
+		return cards.get(customer);
 	}
 
 	@Override
-	public AccumulativeCard getCardById(Integer id) {
-		for (AccumulativeCard card : cards) {
-			if (id.equals(card.getId())) {
-				return card;
-			}
-		}
-		return null;
+	public boolean addCard(Customer customer) {
+	    if(cards.get(customer) == null){
+		cards.put(customer, new AccumulativeCardImpl());
+		return true;
+	    }else{
+		return false;
+	    }
 	}
 
+	
 }

@@ -3,7 +3,7 @@ package org.study.pizzaservice.domain.discount;
 import java.util.List;
 
 import org.study.pizzaservice.domain.Pizza;
-import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 
 /**
  * Implementation of discount entity. Discount consists of 10 percent of sum of
@@ -18,7 +18,7 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 public class DiscountImpl implements Discount {
 
     @Override
-    public double getDiscount(List<Pizza> pizzas, AccumulativeCard accumulativeCard) {
+    public double getDiscount(List<Pizza> pizzas, AccumulativeCardImpl accumulativeCard) {
 	double result = 0;
 	double mostExpensivePizza = 0;
 	double price = 0;

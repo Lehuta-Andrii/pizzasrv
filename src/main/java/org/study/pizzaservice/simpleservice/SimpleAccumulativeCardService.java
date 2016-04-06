@@ -3,31 +3,24 @@ package org.study.pizzaservice.simpleservice;
 import org.study.pizzaservice.AccumulativeCardService;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.repository.AccumulativeCardRepository;
 
 public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
+    	private AccumulativeCardRepository cardRepository;
+    
+    	public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository){
+    	    this.cardRepository = cardRepository;
+    	}
+
 	@Override
 	public AccumulativeCard getCard(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+	    return cardRepository.getCard(customer);
 	}
 
 	@Override
-	public AccumulativeCard getCard(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean setCard(AccumulativeCard accumulativeCard) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean setCard(AccumulativeCard accumulativeCard, Customer customer) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean setCard(Customer customer) {
+	    return cardRepository.addCard(customer);
 	}
 
 }

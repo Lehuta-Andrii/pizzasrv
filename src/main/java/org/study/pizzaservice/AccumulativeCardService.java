@@ -5,10 +5,8 @@ import org.study.pizzaservice.domain.customer.Customer;
 
 public interface AccumulativeCardService {
 
-	AccumulativeCard getCard(Customer customer);
-	AccumulativeCard getCard(Integer id);
-	boolean setCard(AccumulativeCard accumulativeCard);
-	boolean setCard(AccumulativeCard accumulativeCard, Customer customer);
+    AccumulativeCard getCard(Customer customer);
 
-	
+    boolean setCard(Customer customer);
+
 }

@@ -4,14 +4,33 @@
 
 	<bean name="orderRepository"
 		class="org.study.pizzaservice.repository.InMemOrderRepository" />
+
 	<bean name="pizzaRepository"
 		class="org.study.pizzaservice.repository.InMemPizzaRepository" />
+
 	<bean name="cardsRepository"
 		class="org.study.pizzaservice.repository.InMemAccumulativeCardRepository" />
+
+	<bean name="customerRepository"
+		class="org.study.pizzaservice.repository.InMemCustomerRepository" />
+
+
 	<bean name="simpleOrderService"
 		class="org.study.pizzaservice.simpleservice.SimpleOrderService">
 		<constructor-arg ref="pizzaRepository" />
 		<constructor-arg ref="orderRepository" />
+	</bean>
+
+	<bean name="simpleAccumCardService"
+		class="org.study.pizzaservice.simpleservice.SimpleAccumulativeCardService">
+		<constructor-arg ref="cardsRepository" />
+	</bean>
+
+	<bean name="simpleDiscountService"
+		class="org.study.pizzaservice.simpleservice.SimpleDiscountService" />
+	
+	<bean name="simpleCustomerService" class="org.study.pizzaservice.simpleservice.SimpleCustomerService">
+		<constructor-arg ref="customerRepository" />
 	</bean>
 
 </beans>
