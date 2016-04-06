@@ -2,15 +2,12 @@ package org.study.pizzaservice.infrastructure;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 public class BeanchMarkHandler implements InvocationHandler {
 
-    private Set<String> methods;
     private Object target;
 
-    public BeanchMarkHandler(Set<String> methods, Object target) {
-	this.methods = methods;
+    public BeanchMarkHandler(Object target) {
 	this.target = target;
     }
 
@@ -18,7 +15,8 @@ public class BeanchMarkHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
 	Object result = null;
-	if (methods.contains(method.getName())) {
+	if (target.getClass().getMethod(method.getName(), method.getParameterTypes())
+		.isAnnotationPresent(BeanchMark.class)) {
 	    long oldTime = System.nanoTime();
 	    result = method.invoke(target, args);
 	    long timeDifference = System.nanoTime() - oldTime;

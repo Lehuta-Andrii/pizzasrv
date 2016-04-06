@@ -13,7 +13,6 @@ public class InMemPizzaRepository implements PizzaRepository {
 
     public InMemPizzaRepository() {
     }
-
     @PostConstruct
     public void cookPizzas() {
 	this.pizzas.add(new Pizza("Margarita", 50, Pizza.type.MEAT));

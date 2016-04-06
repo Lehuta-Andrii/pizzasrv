@@ -4,8 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashSet;
-import java.util.Set;
 
 class BeanBuilder {
     private static final String INIT = "init";
@@ -13,8 +11,7 @@ class BeanBuilder {
     private final Class<?> clazz;
     private Object bean;
     private Object proxy;
-    
-    
+
     private ApplicationContext applicationContext;
 
     public BeanBuilder(Class<?> clazz, ApplicationContext applicationContext) {
@@ -23,26 +20,22 @@ class BeanBuilder {
     }
 
     public void createBeanProxy() {
-	Set<String> methodsWithAnnotation = new HashSet<String>();
 
 	for (Method method : clazz.getMethods()) {
 	    if (method.isAnnotationPresent(BeanchMark.class) && method.getAnnotation(BeanchMark.class).active()) {
-		methodsWithAnnotation.add(method.getName());
+		Object proxy = Proxy.newProxyInstance(this.getClass().getClassLoader(), clazz.getInterfaces(),
+			new BeanchMarkHandler(bean));
+		this.proxy = proxy;
+		break;
 	    }
-	}
-
-	if (!methodsWithAnnotation.isEmpty()) {
-	    Object proxy = Proxy.newProxyInstance(this.getClass().getClassLoader(), clazz.getInterfaces(),
-		    new BeanchMarkHandler(methodsWithAnnotation, bean));
-	    this.proxy = proxy;
 	}
 
     }
 
     public Object build() {
-	if(proxy == null){
+	if (proxy == null) {
 	    return bean;
-	}else{
+	} else {
 	    return proxy;
 	}
     }
