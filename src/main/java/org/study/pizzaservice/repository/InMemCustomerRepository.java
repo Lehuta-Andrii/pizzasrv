@@ -10,6 +10,13 @@ public class InMemCustomerRepository implements CustomerRepository {
 
     private List<Customer> customers = new ArrayList<Customer>();
     
+    {
+    	customers.add(new Customer("Abel"));
+    	customers.add(new Customer("Albert"));
+    	customers.add(new Customer("Nikola"));
+    }
+    
+    
     @Override
     public Customer getCostumerById(Integer id) {
 	for (Customer customer : customers) {

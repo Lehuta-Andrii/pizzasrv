@@ -7,20 +7,20 @@ import org.study.pizzaservice.repository.AccumulativeCardRepository;
 
 public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
-    	private AccumulativeCardRepository cardRepository;
-    
-    	public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository){
-    	    this.cardRepository = cardRepository;
-    	}
+	private AccumulativeCardRepository cardRepository;
 
-	@Override
-	public AccumulativeCard getCard(Customer customer) {
-	    return cardRepository.getCard(customer);
+	public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository) {
+		this.cardRepository = cardRepository;
 	}
 
 	@Override
-	public boolean setCard(Customer customer) {
-	    return cardRepository.addCard(customer);
+	public AccumulativeCard getCard(Customer customer) {
+		return cardRepository.getCard(customer);
+	}
+
+	@Override
+	public AccumulativeCard setCard(Customer customer) {
+		return cardRepository.addCard(customer);
 	}
 
 }

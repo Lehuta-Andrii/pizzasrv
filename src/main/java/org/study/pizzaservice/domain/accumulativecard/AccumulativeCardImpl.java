@@ -4,7 +4,7 @@ public class AccumulativeCardImpl implements AccumulativeCard {
 
     private static int GID = 0;
 
-    private int id;
+    private Integer id;
     private double sum;
 
     public AccumulativeCardImpl() {

@@ -21,7 +21,7 @@ public interface OrderState {
 
     public boolean removePizza(Pizza pizza);
 
-    public Long getId();
+    public int getId();
 
     public Customer getCustomer();
 

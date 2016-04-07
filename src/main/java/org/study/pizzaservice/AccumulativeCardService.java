@@ -7,6 +7,6 @@ public interface AccumulativeCardService {
 
     AccumulativeCard getCard(Customer customer);
 
-    boolean setCard(Customer customer);
+    AccumulativeCard setCard(Customer customer);
 
 }

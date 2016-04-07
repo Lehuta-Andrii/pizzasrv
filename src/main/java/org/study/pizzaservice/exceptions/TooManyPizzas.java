@@ -1,4 +1,4 @@
-package org.study.pizzaservice;
+package org.study.pizzaservice.exceptions;
 
 public class TooManyPizzas extends RuntimeException {
 

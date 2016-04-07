@@ -12,7 +12,7 @@ import java.util.List;
 public class Customer {
 
     private static int GID = 0;
-    private int id;
+    private Integer id;
     private String name;
 
     List<Address> addresses = new ArrayList<Address>();

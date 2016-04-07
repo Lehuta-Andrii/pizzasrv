@@ -40,7 +40,7 @@ public class InProgressState implements OrderState {
     }
 
     @Override
-    public Long getId() {
+    public int getId() {
 	return order.getId();
     }
 

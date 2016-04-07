@@ -38,8 +38,8 @@ public class NewState implements OrderState {
     }
 
     @Override
-    public Long getId() {
-	return new Long(order.getId());
+    public int getId() {
+	return order.getId();
     }
 
     @Override
