@@ -13,24 +13,24 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public interface OrderState {
 
-    public void setContext(OrderContext order);
+    void setContext(OrderContext order);
 
-    public int getPizzasAmount();
+    int getPizzasAmount();
 
-    public boolean addPizza(Pizza pizza);
+    boolean addPizza(Pizza pizza);
 
-    public boolean removePizza(Pizza pizza);
+    boolean removePizza(Pizza pizza);
 
-    public int getId();
+    int getId();
 
-    public Customer getCustomer();
+    Customer getCustomer();
 
-    public void setCustomer(Customer customer);
+    void setCustomer(Customer customer);
 
-    public List<Pizza> getPizzas();
+    List<Pizza> getPizzas();
 
-    public void setPizzas(List<Pizza> pizzas);
+    void setPizzas(List<Pizza> pizzas);
     
-    public boolean canSetState(OrderState state);
+    boolean canSetState(OrderState state);
 
 }

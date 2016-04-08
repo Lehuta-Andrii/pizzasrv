@@ -35,9 +35,9 @@ public class DiscountImplTest {
 
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 		assertTrue(Double.compare(discount.getDiscount(pizzasList, null), 0) == 0);
 	}
@@ -49,10 +49,10 @@ public class DiscountImplTest {
 		double expectedDiscount = priceOfMostExpensivePizza * 0.3;
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
 		assertTrue(Double.compare(discount.getDiscount(pizzasList, null), expectedDiscount) == 0);
 	}
@@ -65,9 +65,9 @@ public class DiscountImplTest {
 
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -83,9 +83,9 @@ public class DiscountImplTest {
 
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -100,10 +100,10 @@ public class DiscountImplTest {
 		double expectedDiscount = (0.3 * priceOfMostExpensivePizza) + sumOnAccumulativeCard * 0.1;
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
 		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -120,10 +120,10 @@ public class DiscountImplTest {
 				+ (pizzasPrice - (0.3 * priceOfMostExpensivePizza)) * 0.30;
 		List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
+		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
+		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
+		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
 		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 

@@ -15,69 +15,75 @@ import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.OrderRepository;
 
+/**
+ * Class represent order service entity o of pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public class SimpleOrderService implements OrderService {
 
-    public static int MAX_NUMBER_OF_PIZZAS = 10;
+	public static final int MAX_NUMBER_OF_PIZZAS = 10;
 
-    private OrderRepository orderRepository;
-    private PizzasService pizzasService;
+	private OrderRepository orderRepository;
+	private PizzasService pizzasService;
 
-    public SimpleOrderService(PizzasService pizzasService, OrderRepository orderRepository) {
-	this.orderRepository = orderRepository;
-	this.pizzasService = pizzasService;
-    }
-
-    public Order placeNewOrder(Customer customer, Integer... pizzasID) {
-
-	if (pizzasID.length <= MAX_NUMBER_OF_PIZZAS && pizzasID.length > 0) {
-	    List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-	    Order newOrder = createOrder(customer, pizzas);
-
-	    orderRepository.saveOrder(newOrder);
-	    return newOrder;
+	public SimpleOrderService(PizzasService pizzasService, OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
+		this.pizzasService = pizzasService;
 	}
 
-	throw new TooManyPizzasException();
-    }
+	public Order placeNewOrder(Customer customer, Integer... pizzasID) {
 
-    @Override
-    public boolean confirmOrder(Order order) {
-	return changeOrderStatus(order, new InProgressState());
-    }
+		if (pizzasID.length <= MAX_NUMBER_OF_PIZZAS && pizzasID.length > 0) {
+			List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
+			Order newOrder = createOrder(customer, pizzas);
 
-    @Override
-    public boolean cancelOrder(Order order) {
-	return changeOrderStatus(order, new CanceledState());
-    }
+			orderRepository.saveOrder(newOrder);
+			return newOrder;
+		}
 
-    @Override
-    public boolean accomplishOrder(Order order) {
-	return changeOrderStatus(order, new DoneState());
-    }
-
-    @Override
-    public boolean changeOrderStatus(Order order, OrderState state) {
-	boolean result = order.setState(state);
-
-	if (result) {
-	    orderRepository.update(order);
+		throw new TooManyPizzasException();
 	}
 
-	return result;
-    }
-
-    private Order createOrder(Customer customer, List<Pizza> pizzas) {
-	Order newOrder = new Order(customer, pizzas);
-	return newOrder;
-    }
-
-    private List<Pizza> pizzasByArrOfId(Integer... pizzasID) {
-	List<Pizza> pizzas = new ArrayList<Pizza>();
-
-	for (Integer id : pizzasID) {
-	    pizzas.add(pizzasService.getPizzaById(id));
+	@Override
+	public boolean confirmOrder(Order order) {
+		return changeOrderStatus(order, new InProgressState());
 	}
-	return pizzas;
-    }
+
+	@Override
+	public boolean cancelOrder(Order order) {
+		return changeOrderStatus(order, new CanceledState());
+	}
+
+	@Override
+	public boolean accomplishOrder(Order order) {
+		return changeOrderStatus(order, new DoneState());
+	}
+
+	@Override
+	public boolean changeOrderStatus(Order order, OrderState state) {
+		boolean result = order.setState(state);
+
+		if (result) {
+			orderRepository.update(order);
+		}
+
+		return result;
+	}
+
+	private Order createOrder(Customer customer, List<Pizza> pizzas) {
+		Order newOrder = new Order(customer, pizzas);
+		return newOrder;
+	}
+
+	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) {
+		List<Pizza> pizzas = new ArrayList<Pizza>();
+
+		for (Integer id : pizzasID) {
+			pizzas.add(pizzasService.getPizzaById(id));
+		}
+		return pizzas;
+	}
 
 }

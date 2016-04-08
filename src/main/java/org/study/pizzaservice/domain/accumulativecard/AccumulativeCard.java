@@ -1,13 +1,19 @@
 package org.study.pizzaservice.domain.accumulativecard;
 
+/**
+ * Interface for definition of accumulative card entity in pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public interface AccumulativeCard {
-    
-    public int getId();
 
-    public double getSum();
+	int getId();
 
-    public void setSum(double sum);
+	double getSum();
 
-    public void addToCard(double sum);
+	void setSum(double sum);
+
+	void addToCard(double sum);
 
 }

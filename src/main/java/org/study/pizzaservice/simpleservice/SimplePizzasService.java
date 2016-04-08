@@ -6,6 +6,12 @@ import org.study.pizzaservice.PizzasService;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.repository.PizzaRepository;
 
+/**
+ * Class represent pizzas storage service entity o of pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public class SimplePizzasService implements PizzasService {
 
 	private PizzaRepository pizzaRepository;

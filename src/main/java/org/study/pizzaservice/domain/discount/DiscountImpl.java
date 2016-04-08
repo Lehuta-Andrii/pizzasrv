@@ -17,6 +17,10 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
  */
 public class DiscountImpl implements Discount {
 
+	private static final double ACCUMULATIVE_CARD_MULTIPLIER = 0.1;
+	private static final int PIZZAS_NUMBER_FOR_DISCOUNT = 4;
+	private static final double AFTER_FOURTH_PIZZA_DISCOUNT = 0.30;
+
 	@Override
 	public double getDiscount(List<Pizza> pizzas, AccumulativeCard accumulativeCard) {
 		double result = 0;
@@ -30,18 +34,18 @@ public class DiscountImpl implements Discount {
 			price += pizza.getPrice();
 		}
 
-		if (pizzas.size() >= 4) {
-			result += mostExpensivePizza * 0.30;
+		if (pizzas.size() >= PIZZAS_NUMBER_FOR_DISCOUNT) {
+			result += mostExpensivePizza * AFTER_FOURTH_PIZZA_DISCOUNT;
 			price -= result;
 		}
 
 		if (accumulativeCard != null) {
-			double AccummulativeCardDiscount = accumulativeCard.getSum() * 0.1;
+			double AccummulativeCardDiscount = accumulativeCard.getSum() * ACCUMULATIVE_CARD_MULTIPLIER;
 
-			if (Double.compare(AccummulativeCardDiscount, price * 0.3) < 0) {
+			if (Double.compare(AccummulativeCardDiscount, price * AFTER_FOURTH_PIZZA_DISCOUNT) < 0) {
 				result += AccummulativeCardDiscount;
 			} else {
-				result += price * 0.3;
+				result += price * AFTER_FOURTH_PIZZA_DISCOUNT;
 			}
 		}
 

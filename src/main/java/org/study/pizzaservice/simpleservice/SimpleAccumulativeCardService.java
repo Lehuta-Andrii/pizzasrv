@@ -5,35 +5,41 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.AccumulativeCardRepository;
 
+/**
+ * Class represent accumulative cards service entity o of pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
-    private AccumulativeCardRepository cardRepository;
+	private AccumulativeCardRepository cardRepository;
 
-    public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository) {
-	this.cardRepository = cardRepository;
-    }
-
-    @Override
-    public AccumulativeCard getCard(Customer customer) {
-	return cardRepository.getCard(customer);
-    }
-
-    @Override
-    public AccumulativeCard setCard(Customer customer) {
-	return cardRepository.addCard(customer);
-    }
-
-    @Override
-    public boolean addSumToCard(Customer customer, double sum) {
-	boolean result = false;
-	AccumulativeCard card = cardRepository.getCard(customer);
-	
-	if (card != null) {
-	    card.addToCard(sum);
-	    result = true;
+	public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository) {
+		this.cardRepository = cardRepository;
 	}
 
-	return result;
-    }
+	@Override
+	public AccumulativeCard getCard(Customer customer) {
+		return cardRepository.getCard(customer);
+	}
+
+	@Override
+	public AccumulativeCard setCard(Customer customer) {
+		return cardRepository.addCard(customer);
+	}
+
+	@Override
+	public boolean addSumToCard(Customer customer, double sum) {
+		boolean result = false;
+		AccumulativeCard card = cardRepository.getCard(customer);
+
+		if (card != null) {
+			card.addToCard(sum);
+			result = true;
+		}
+
+		return result;
+	}
 
 }

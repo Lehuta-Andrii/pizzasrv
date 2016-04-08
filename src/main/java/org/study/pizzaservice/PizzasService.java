@@ -4,6 +4,12 @@ import java.util.List;
 
 import org.study.pizzaservice.domain.Pizza;
 
+/**
+ * Interface for definition of pizza storage service in pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public interface PizzasService {
 
 	List<Pizza> getPizzas();

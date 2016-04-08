@@ -12,70 +12,73 @@ import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
 
+/**
+ * Implementation of pizza shop template pattern
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public class SimplePizzaShop extends PizzaShopTemplate {
 
-    private CustomerService customerService;
-    private OrderService orderService;
-    private DiscountService discountService;
-    private AccumulativeCardService cardService;
-    private PizzasService pizzasService;
+	private CustomerService customerService;
+	private OrderService orderService;
+	private DiscountService discountService;
+	private AccumulativeCardService cardService;
+	private PizzasService pizzasService;
 
-    public SimplePizzaShop(CustomerService customerService, OrderService orderService, DiscountService discountService,
-	    AccumulativeCardService cardService, PizzasService pizzasService) {
-	this.customerService = customerService;
-	this.orderService = orderService;
-	this.discountService = discountService;
-	this.cardService = cardService;
-	this.pizzasService = pizzasService;
-    }
-
-    @Override
-    public List<Pizza> showMenu() {
-	return pizzasService.getPizzas();
-    }
-
-    @Override
-    public Order makeOrder(Customer customer, Integer... pizzaIds) {
-	return orderService.placeNewOrder(customer, pizzaIds);
-    }
-
-    @Override
-    public boolean confirmOrder(Order order) {
-	return orderService.confirmOrder(order);
-    }
-
-    @Override
-    public boolean cancelOrder(Order order) {
-	return orderService.cancelOrder(order);
-    }
-
-    @Override
-    public boolean accomplishOrder(Order order) {
-	boolean result = orderService.accomplishOrder(order);
-
-	if(result){
-	    cardService.addSumToCard(order.getCustomer(), getPriceWithDiscount(order));
+	public SimplePizzaShop(CustomerService customerService, OrderService orderService, DiscountService discountService,
+			AccumulativeCardService cardService, PizzasService pizzasService) {
+		this.customerService = customerService;
+		this.orderService = orderService;
+		this.discountService = discountService;
+		this.cardService = cardService;
+		this.pizzasService = pizzasService;
 	}
-	
-	return result;
-    }
 
-    @Override
-    public double getPrice(Order order) {
-	return order.getPrice();
-    }
+	@Override
+	public List<Pizza> showMenu() {
+		return pizzasService.getPizzas();
+	}
 
-    @Override
-    public double getDiscount(Order order) {
-	return discountService.countDiscount(order, cardService.getCard(order.getCustomer()));
-    }
+	@Override
+	public Order makeOrder(Customer customer, Integer... pizzaIds) {
+		return orderService.placeNewOrder(customer, pizzaIds);
+	}
 
-    @Override
-    public double getPriceWithDiscount(Order order) {
-	return getPrice(order) + getDiscount(order);
-    }
-    
-    
+	@Override
+	public boolean confirmOrder(Order order) {
+		return orderService.confirmOrder(order);
+	}
 
-    
+	@Override
+	public boolean cancelOrder(Order order) {
+		return orderService.cancelOrder(order);
+	}
+
+	@Override
+	public boolean accomplishOrder(Order order) {
+		boolean result = orderService.accomplishOrder(order);
+
+		if (result) {
+			cardService.addSumToCard(order.getCustomer(), getPriceWithDiscount(order));
+		}
+
+		return result;
+	}
+
+	@Override
+	public double getPrice(Order order) {
+		return order.getPrice();
+	}
+
+	@Override
+	public double getDiscount(Order order) {
+		return discountService.countDiscount(order, cardService.getCard(order.getCustomer()));
+	}
+
+	@Override
+	public double getPriceWithDiscount(Order order) {
+		return getPrice(order) + getDiscount(order);
+	}
+
 }

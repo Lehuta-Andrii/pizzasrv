@@ -6,15 +6,21 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.order.Order;
 
+/**
+ * Interface for definition of Discount service in pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public interface DiscountService {
 
-    public boolean addDiscount(Discount discount);
+    boolean addDiscount(Discount discount);
 
-    public void setDiscounts(List<Discount> discounts);
+    void setDiscounts(List<Discount> discounts);
 
-    public List<Discount> getDiscounts();
+    List<Discount> getDiscounts();
 
-    public double countDiscount(Order order, AccumulativeCard accumulativeCard);
+    double countDiscount(Order order, AccumulativeCard accumulativeCard);
 
-    public double countDiscount(Order order, AccumulativeCard accumulativeCard, List<Discount> discounts);
+    double countDiscount(Order order, AccumulativeCard accumulativeCard, List<Discount> discounts);
 }

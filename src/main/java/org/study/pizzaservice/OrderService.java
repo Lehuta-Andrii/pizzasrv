@@ -4,15 +4,21 @@ import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.domain.order.OrderState;
 import org.study.pizzaservice.domain.customer.Customer;
 
+/**
+ * Interface for definition of Order service in pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public interface OrderService {
-    Order placeNewOrder(Customer customer, Integer... pizzasID);
-    
-    public boolean changeOrderStatus(Order order, OrderState state);
+	Order placeNewOrder(Customer customer, Integer... pizzasID);
 
-    public boolean confirmOrder(Order order);
+	boolean changeOrderStatus(Order order, OrderState state);
 
-    public boolean cancelOrder(Order order);
+	boolean confirmOrder(Order order);
 
-    public boolean accomplishOrder(Order order);
+	boolean cancelOrder(Order order);
+
+	boolean accomplishOrder(Order order);
 
 }

@@ -6,27 +6,33 @@ import org.study.pizzaservice.CustomerService;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.CustomerRepository;
 
+/**
+ * Class represent customer service entity o of pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public class SimpleCustomerService implements CustomerService {
 
-    private CustomerRepository customers;
-    
-    public SimpleCustomerService(CustomerRepository customers) {
-	this.customers = customers;
-    }
+	private CustomerRepository customers;
 
-    @Override
-    public Customer getCostumerById(Integer id) {
-	return customers.getCostumerById(id);
-    }
+	public SimpleCustomerService(CustomerRepository customers) {
+		this.customers = customers;
+	}
 
-    @Override
-    public List<Customer> getCostumers() {
-	return customers.getCostumers();
-    }
+	@Override
+	public Customer getCostumerById(Integer id) {
+		return customers.getCostumerById(id);
+	}
 
-    @Override
-    public boolean addCostumer(Customer costumer) {
-	return customers.addCostumer(costumer);
-    }
+	@Override
+	public List<Customer> getCostumers() {
+		return customers.getCostumers();
+	}
+
+	@Override
+	public boolean addCostumer(Customer costumer) {
+		return customers.addCostumer(costumer);
+	}
 
 }

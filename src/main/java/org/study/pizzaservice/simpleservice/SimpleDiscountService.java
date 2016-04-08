@@ -10,6 +10,12 @@ import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.discount.DiscountImpl;
 import org.study.pizzaservice.domain.order.Order;
 
+/**
+ * Class represent discount service entity o of pizza service
+ * 
+ * @author Andrii_Lehuta
+ *
+ */
 public class SimpleDiscountService implements DiscountService {
 
 	List<Discount> discounts = new ArrayList<Discount>();

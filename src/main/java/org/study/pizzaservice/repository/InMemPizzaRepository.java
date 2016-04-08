@@ -11,9 +11,9 @@ public class InMemPizzaRepository implements PizzaRepository {
 	List<Pizza> pizzas = new ArrayList<Pizza>();
 
 	public InMemPizzaRepository() {
-		this.pizzas.add(new Pizza("Margarita", 50, Pizza.type.MEAT));
-		this.pizzas.add(new Pizza("Americana", 76, Pizza.type.SEA));
-		this.pizzas.add(new Pizza("Chilly", 50, Pizza.type.VEGETARIAN));
+		this.pizzas.add(new Pizza("Margarita", 50, Pizza.Type.MEAT));
+		this.pizzas.add(new Pizza("Americana", 76, Pizza.Type.SEA));
+		this.pizzas.add(new Pizza("Chilly", 50, Pizza.Type.VEGETARIAN));
 	}
 
 	@Override

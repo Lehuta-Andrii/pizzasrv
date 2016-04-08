@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Customer class of pizza service
+ * Customer class represents customer entity of pizza service
  * 
  * @author Lehuta Andrii
  *
@@ -15,7 +15,7 @@ public class Customer {
     private Integer id;
     private String name;
 
-    List<Address> addresses = new ArrayList<Address>();
+    private List<Address> addresses = new ArrayList<Address>();
 
     public Customer(String name) {
 	this.id = GID++;
