@@ -9,4 +9,5 @@ public interface AccumulativeCardService {
 
     AccumulativeCard setCard(Customer customer);
 
+    boolean addSumToCard(Customer customer, double sum);
 }

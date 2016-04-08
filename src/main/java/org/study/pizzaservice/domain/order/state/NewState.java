@@ -17,9 +17,9 @@ import org.study.pizzaservice.domain.order.OrderState;
 public class NewState implements OrderState {
 
     private OrderContext order;
- 
+
     public void setContext(OrderContext order) {
-        this.order = order;
+	this.order = order;
     }
 
     @Override
@@ -60,6 +60,15 @@ public class NewState implements OrderState {
     @Override
     public void setPizzas(List<Pizza> pizzas) {
 	order.setPizzas(pizzas);
+    }
+
+    @Override
+    public boolean canSetState(OrderState state) {
+	if (state.getClass().equals(this.getClass())) {
+	    return false;
+	} else {
+	    return true;
+	}
     }
 
 }

@@ -30,5 +30,7 @@ public interface OrderState {
     public List<Pizza> getPizzas();
 
     public void setPizzas(List<Pizza> pizzas);
+    
+    public boolean canSetState(OrderState state);
 
 }

@@ -62,4 +62,9 @@ public class DoneState implements OrderState {
     public void setPizzas(List<Pizza> pizzas) {	
     }
 
+    @Override
+    public boolean canSetState(OrderState state) {
+	return false;
+    }
+
 }

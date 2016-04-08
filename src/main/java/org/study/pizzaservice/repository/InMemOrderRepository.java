@@ -14,4 +14,10 @@ public class InMemOrderRepository implements OrderRepository {
 		return order.getId();
 	}
 
+	@Override
+	public boolean update(Order order) {
+	    return true;
+	}
+	
+
 }

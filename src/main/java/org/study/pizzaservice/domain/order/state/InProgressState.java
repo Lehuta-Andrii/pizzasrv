@@ -9,8 +9,8 @@ import org.study.pizzaservice.domain.order.OrderContext;
 import org.study.pizzaservice.domain.order.OrderState;
 
 /**
- * Class object that represents In progress State of order. Dispatches all calls to
- * SimpleNoStateOrder object.
+ * Class object that represents In progress State of order. Dispatches all calls
+ * to SimpleNoStateOrder object.
  * 
  * @author Andrii Lehuta
  *
@@ -61,6 +61,15 @@ public class InProgressState implements OrderState {
 
     @Override
     public void setPizzas(List<Pizza> pizzas) {
+    }
+
+    @Override
+    public boolean canSetState(OrderState state) {
+	if (state.getClass().equals(this.getClass()) || state.getClass().equals(NewState.class)) {
+	    return false;
+	} else {
+	    return true;
+	}
     }
 
 }

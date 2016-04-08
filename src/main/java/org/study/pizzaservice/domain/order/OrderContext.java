@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
-import org.study.pizzaservice.domain.discount.Discount;
 
 /**
  * Class SimpleNoStateOrder keeps all information about order except of the
@@ -21,23 +20,12 @@ public class OrderContext {
 	private Integer id;
 	private Customer customer;
 	private List<Pizza> pizzas;
-	private Discount discount;
 
 	public OrderContext(Customer customer, List<Pizza> pizzas) {
 		id = GID++;
 		this.customer = customer;
 		this.pizzas = new ArrayList<Pizza>(pizzas);
 
-	}
-
-	/**
-	 * Set the object that will calculate discount in order
-	 * 
-	 * @param discount
-	 *            Discount object to set
-	 */
-	public void setDiscount(Discount discount) {
-		this.discount = discount;
 	}
 
 	/**
@@ -106,13 +94,6 @@ public class OrderContext {
 	 */
 	public void setPizzas(List<Pizza> pizzas) {
 		this.pizzas = pizzas;
-	}
-
-	/**
-	 * @return the DiscountObject of order
-	 */
-	public Discount getDiscountObject() {
-		return discount;
 	}
 
 	@Override

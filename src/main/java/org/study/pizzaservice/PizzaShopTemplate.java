@@ -10,8 +10,6 @@ public abstract class PizzaShopTemplate {
 
 	public abstract List<Pizza> showMenu();
 
-	public abstract Order makeOrder(Integer... pizzaIds);
-
 	public abstract Order makeOrder(Customer customer, Integer... pizzaIds);
 
 	public abstract boolean confirmOrder(Order order);
@@ -20,8 +18,10 @@ public abstract class PizzaShopTemplate {
 	
 	public abstract boolean accomplishOrder(Order order);
 
-	public abstract double getPrice();
+	public abstract double getPrice(Order order);
 
-	public abstract double getDiscount();
+	public abstract double getDiscount(Order order);
+	
+	public abstract double getPriceWithDiscount(Order order);
 
 }

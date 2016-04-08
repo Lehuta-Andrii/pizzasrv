@@ -177,7 +177,7 @@ public class OrderTest {
 	pizzasList.add(specific);
 
 	order = new Order(mockCustomer, pizzasList);
-	order.setState(new CanceledState());
+	assertTrue(order.setState(new CanceledState()));
 	int expectedPizzasAmount = order.getPizzasAmount();
 
 	assertFalse(order.removePizza(specific));

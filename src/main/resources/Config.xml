@@ -5,8 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-
 	<bean name="orderRepository"
 		class="org.study.pizzaservice.repository.InMemOrderRepository" />
 
@@ -19,10 +17,14 @@
 	<bean name="customerRepository"
 		class="org.study.pizzaservice.repository.InMemCustomerRepository" />
 
+	<bean name="simplePizzasService"
+		class="org.study.pizzaservice.simpleservice.SimplePizzasService">
+		<constructor-arg ref="pizzaRepository" />
+	</bean>
 
 	<bean name="simpleOrderService"
 		class="org.study.pizzaservice.simpleservice.SimpleOrderService">
-		<constructor-arg ref="pizzaRepository" />
+		<constructor-arg ref="simplePizzasService" />
 		<constructor-arg ref="orderRepository" />
 	</bean>
 
@@ -38,5 +40,14 @@
 		class="org.study.pizzaservice.simpleservice.SimpleCustomerService">
 		<constructor-arg ref="customerRepository" />
 	</bean>
-
+	
+	<bean name="pizzaShop"
+		class="org.study.pizzaservice.simpleservice.SimplePizzaShop">
+		<constructor-arg ref="simpleCustomerService" />
+		<constructor-arg ref="simpleOrderService" />
+		<constructor-arg ref="simpleDiscountService" />
+		<constructor-arg ref="simpleAccumCardService" />
+		<constructor-arg ref="simplePizzasService" />
+	</bean>
+		
 </beans>

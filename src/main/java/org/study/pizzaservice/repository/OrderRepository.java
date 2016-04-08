@@ -4,4 +4,6 @@ import org.study.pizzaservice.domain.order.Order;
 
 public interface OrderRepository {
     int saveOrder(Order order);
+
+    boolean update(Order order);
 }
