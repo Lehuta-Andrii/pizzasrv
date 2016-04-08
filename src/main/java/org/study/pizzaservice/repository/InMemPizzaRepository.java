@@ -12,14 +12,29 @@ public class InMemPizzaRepository implements PizzaRepository {
     List<Pizza> pizzas = new ArrayList<Pizza>();
 
     public InMemPizzaRepository() {
+	
     }
     @PostConstruct
     public void cookPizzas() {
-	this.pizzas.add(new Pizza("Margarita", 50, Pizza.type.MEAT));
-	this.pizzas.add(new Pizza("Americana", 76, Pizza.type.SEA));
-	this.pizzas.add(new Pizza("Chilly", 50, Pizza.type.VEGETARIAN));
+//	this.pizzas.add(new Pizza("Margarita", 50, Pizza.type.MEAT));
+//	this.pizzas.add(new Pizza("Americana", 76, Pizza.type.SEA));
+//	this.pizzas.add(new Pizza("Chilly", 50, Pizza.type.VEGETARIAN));
     }
+    
+    
 
+    /**
+     * @return the pizzas
+     */
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
+    /**
+     * @param pizzas the pizzas to set
+     */
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
     public void init(){
 	System.out.println("init called by ioc");
     }

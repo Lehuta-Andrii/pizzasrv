@@ -1,9 +1,10 @@
 package org.study.pizzaservice;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Order;
-import org.study.pizzaservice.infrastructure.ApplicationContext;
-import org.study.pizzaservice.infrastructure.JavaConfigApplicationContext;
+import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.repository.PizzaRepository;
 
 public class PizzaApp {
@@ -12,9 +13,15 @@ public class PizzaApp {
 	Customer customer = null;
 	Order order;
 
-	ApplicationContext ac = new JavaConfigApplicationContext();
+	ConfigurableApplicationContext repAc =  new ClassPathXmlApplicationContext("RepContext.xml");
+	ConfigurableApplicationContext ac =  new ClassPathXmlApplicationContext(new String[]{"AppContext.xml"}, false);
+	ac.setParent(repAc);
+	ac.refresh();
+	
+	
 	PizzaRepository pizzaRepository = (PizzaRepository) ac.getBean("pizzaRepository");
 
+	
 	System.out.println(pizzaRepository.getPizzaByID(0));
 	
 	
@@ -23,6 +30,14 @@ public class PizzaApp {
 
 	System.out.println(order);
 
+	Pizza pizza = ac.getBean(Pizza.class);
+	System.out.println(pizza);
+	
+	System.out.println(ac.getParent());
+	System.out.println(ac.getParent().getBean(Customer.class));
+	
+	repAc.close();
+	ac.close();
     }
 
 }

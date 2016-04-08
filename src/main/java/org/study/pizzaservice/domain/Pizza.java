@@ -20,6 +20,8 @@ public class Pizza {
 	this.price = price;
 	this.pizzaType = pizzaType;
     }
+    
+    
 
     /*
      * (non-Javadoc)
