@@ -12,6 +12,9 @@ import org.study.pizzaservice.repository.InMemAccumulativeCardRepository;
 import org.study.pizzaservice.simpleservice.SimpleAccumulativeCardService;
 
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,7 +33,7 @@ public class SimpleAccumulativeCardServiceTest {
     @Test
     public void addSumToCardWithNoCardTest() {
 	
-	when(mockCardRepository.getCard(null)).thenReturn(null);
+	when(mockCardRepository.getCard(null)).thenReturn(Optional.<AccumulativeCard>empty());
 	
 	assertFalse(cardService.addSumToCard(null, 0));
     }
@@ -40,7 +43,7 @@ public class SimpleAccumulativeCardServiceTest {
 
 	AccumulativeCard mockCard = mock(AccumulativeCard.class);
 	
-	when(mockCardRepository.getCard(null)).thenReturn(mockCard);
+	when(mockCardRepository.getCard(null)).thenReturn(Optional.<AccumulativeCard>of(mockCard));
 	
 	assertTrue(cardService.addSumToCard(null, 0));
     }

@@ -10,13 +10,13 @@ public final class Address {
 	private String city;
 	private String street;
 	private String house;
-	private String room;
+	private String flat;
 
-	public Address(String city, String street, String house, String room) {
+	public Address(String city, String street, String house, String flat) {
 		this.city = city;
 		this.street = street;
 		this.house = house;
-		this.room = room;
+		this.flat = flat;
 	}
 
 	/**
@@ -44,7 +44,7 @@ public final class Address {
 	 * @return the room
 	 */
 	public String getRoom() {
-		return room;
+		return flat;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public final class Address {
 		int result = 1;
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((house == null) ? 0 : house.hashCode());
-		result = prime * result + ((room == null) ? 0 : room.hashCode());
+		result = prime * result + ((flat == null) ? 0 : flat.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
 		return result;
 	}
@@ -84,11 +84,11 @@ public final class Address {
 		} else if (!house.equals(other.house)) {
 			return false;
 		}
-		if (room == null) {
-			if (other.room != null) {
+		if (flat == null) {
+			if (other.flat != null) {
 				return false;
 			}
-		} else if (!room.equals(other.room)) {
+		} else if (!flat.equals(other.flat)) {
 			return false;
 		}
 		if (street == null) {

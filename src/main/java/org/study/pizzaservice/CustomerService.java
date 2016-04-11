@@ -2,6 +2,7 @@ package org.study.pizzaservice;
 
 import java.util.List;
 
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 
 /**
@@ -16,6 +17,12 @@ public interface CustomerService {
 
     List<Customer> getCostumers();
 
-    boolean addCostumer(Customer costumer);
+    boolean addCostumer(Customer customer);
+    
+    boolean removeCustomer(Customer customer);
+    
+    boolean addAddress(Customer customer, Address address);
+    
+    boolean removeAddress(Customer customer, Address address);
 
 }

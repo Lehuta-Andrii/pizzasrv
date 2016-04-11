@@ -1,6 +1,7 @@
 package org.study.pizzaservice.domain.discount;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
@@ -17,40 +18,48 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
  */
 public class DiscountImpl implements Discount {
 
-	private static final double ACCUMULATIVE_CARD_MULTIPLIER = 0.1;
-	private static final int PIZZAS_NUMBER_FOR_DISCOUNT = 4;
-	private static final double AFTER_FOURTH_PIZZA_DISCOUNT = 0.30;
+    private static final double ACCUMULATIVE_CARD_MULTIPLIER = 0.1;
+    private static final int PIZZAS_NUMBER_FOR_DISCOUNT = 4;
+    private static final double AFTER_FOURTH_PIZZA_DISCOUNT = 0.30;
 
-	@Override
-	public double getDiscount(List<Pizza> pizzas, AccumulativeCard accumulativeCard) {
-		double result = 0;
-		double mostExpensivePizza = 0;
-		double price = 0;
+    @Override
+    public double getDiscount(List<Pizza> pizzas, Optional<AccumulativeCard> accumulativeCard) {
+	double result = 0;
+	double mostExpensivePizza = 0;
+	double price = 0;
 
-		for (Pizza pizza : pizzas) {
-			if (pizza.getPrice() > mostExpensivePizza) {
-				mostExpensivePizza = pizza.getPrice();
-			}
-			price += pizza.getPrice();
-		}
-
-		if (pizzas.size() >= PIZZAS_NUMBER_FOR_DISCOUNT) {
-			result += mostExpensivePizza * AFTER_FOURTH_PIZZA_DISCOUNT;
-			price -= result;
-		}
-
-		if (accumulativeCard != null) {
-			double AccummulativeCardDiscount = accumulativeCard.getSum() * ACCUMULATIVE_CARD_MULTIPLIER;
-
-			if (Double.compare(AccummulativeCardDiscount, price * AFTER_FOURTH_PIZZA_DISCOUNT) < 0) {
-				result += AccummulativeCardDiscount;
-			} else {
-				result += price * AFTER_FOURTH_PIZZA_DISCOUNT;
-			}
-		}
-
-		return result;
-
+	for (Pizza pizza : pizzas) {
+	    if (pizza.getPrice() > mostExpensivePizza) {
+		mostExpensivePizza = pizza.getPrice();
+	    }
+	    price += pizza.getPrice();
 	}
+
+	if (pizzas.size() >= PIZZAS_NUMBER_FOR_DISCOUNT) {
+	    result += mostExpensivePizza * AFTER_FOURTH_PIZZA_DISCOUNT;
+	    price -= result;
+	}
+
+	result = countDiscountUsingAccumulativeCard(accumulativeCard, result, price);
+
+	return result;
+
+    }
+
+    private double countDiscountUsingAccumulativeCard(Optional<AccumulativeCard> accumulativeCard, double result, double price) {
+
+	if (accumulativeCard.isPresent()) {
+
+	    double AccummulativeCardDiscount = accumulativeCard.get().getSum() * ACCUMULATIVE_CARD_MULTIPLIER;
+
+	    if (Double.compare(AccummulativeCardDiscount, price * AFTER_FOURTH_PIZZA_DISCOUNT) < 0) {
+		result += AccummulativeCardDiscount;
+	    } else {
+		result += price * AFTER_FOURTH_PIZZA_DISCOUNT;
+	    }
+	}
+
+	return result;
+    }
 
 }

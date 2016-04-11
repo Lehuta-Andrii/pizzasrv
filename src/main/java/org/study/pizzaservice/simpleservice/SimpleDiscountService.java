@@ -3,6 +3,7 @@ package org.study.pizzaservice.simpleservice;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.study.pizzaservice.DiscountService;
@@ -46,7 +47,7 @@ public class SimpleDiscountService implements DiscountService {
 	}
 
 	@Override
-	public double countDiscount(Order order, AccumulativeCard accumulativeCard) {
+	public double countDiscount(Order order, Optional<AccumulativeCard> accumulativeCard) {
 		double result = 0;
 
 		for (Discount discount : discounts) {
@@ -57,7 +58,7 @@ public class SimpleDiscountService implements DiscountService {
 	}
 
 	@Override
-	public double countDiscount(Order order, AccumulativeCard accumulativeCard, List<Discount> discounts) {
+	public double countDiscount(Order order, Optional<AccumulativeCard> accumulativeCard, List<Discount> discounts) {
 		double result = 0;
 
 		for (Discount discount : this.discounts) {
@@ -67,6 +68,11 @@ public class SimpleDiscountService implements DiscountService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public boolean removeDiscount(Discount discount) {
+	    return discounts.remove(discount);
 	}
 
 }

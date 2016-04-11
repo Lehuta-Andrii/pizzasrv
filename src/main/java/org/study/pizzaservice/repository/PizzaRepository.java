@@ -1,18 +1,25 @@
 package org.study.pizzaservice.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.study.pizzaservice.domain.Pizza;
 
+/**
+ * Interface that represents repository of pizzas entity
+ * 
+ * @author Andrii Lehuta
+ *
+ */
 public interface PizzaRepository {
-	
-	List<Pizza> getPizzas();
 
-	boolean setPizzas(List<Pizza> pizzas);
+    List<Pizza> getPizzas();
 
-	boolean addPizza(Pizza pizza);
+    boolean setPizzas(List<Pizza> pizzas);
 
-	boolean deletePizza(Pizza pizza);
+    boolean addPizza(Pizza pizza);
 
-    Pizza getPizzaByID(Integer id);
+    boolean deletePizza(Pizza pizza);
+
+    Optional<Pizza> getPizzaByID(Integer id);
 }

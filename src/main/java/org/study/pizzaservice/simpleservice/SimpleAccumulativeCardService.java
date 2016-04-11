@@ -1,5 +1,7 @@
 package org.study.pizzaservice.simpleservice;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.study.pizzaservice.AccumulativeCardService;
@@ -28,7 +30,7 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	}
 
 	@Override
-	public AccumulativeCard getCard(Customer customer) {
+	public Optional<AccumulativeCard> getCard(Customer customer) {
 		return cardRepository.getCard(customer);
 	}
 
@@ -40,14 +42,19 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	@Override
 	public boolean addSumToCard(Customer customer, double sum) {
 		boolean result = false;
-		AccumulativeCard card = cardRepository.getCard(customer);
+		Optional<AccumulativeCard> card = cardRepository.getCard(customer);
 
-		if (card != null) {
-			card.addToCard(sum);
+		if (card.isPresent()) {
+			card.get().addToCard(sum);
 			result = true;
 		}
 
 		return result;
+	}
+
+	@Override
+	public boolean removeCard(Customer customer) {
+	    return cardRepository.removeCustomerCard(customer);
 	}
 
 }

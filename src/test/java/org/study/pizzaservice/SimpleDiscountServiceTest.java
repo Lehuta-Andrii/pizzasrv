@@ -2,18 +2,13 @@ package org.study.pizzaservice;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.study.pizzaservice.domain.Pizza;
-import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
-import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.simpleservice.SimpleDiscountService;

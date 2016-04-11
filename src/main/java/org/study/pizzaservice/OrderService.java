@@ -12,6 +12,8 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public interface OrderService {
 	Order placeNewOrder(Customer customer, Integer... pizzasID);
+	
+	boolean removeOrder(Order order);
 
 	boolean changeOrderStatus(Order order, OrderState state);
 
@@ -20,5 +22,7 @@ public interface OrderService {
 	boolean cancelOrder(Order order);
 
 	boolean accomplishOrder(Order order);
+	
+	Order gerOrderById(Integer id);
 
 }

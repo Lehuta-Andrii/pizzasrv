@@ -1,43 +1,58 @@
 package org.study.pizzaservice.repository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.customer.Customer;
 
+/**
+ * Dummy implementation of Customer repository entity
+ * 
+ * @author Andrii Lehuta
+ *
+ */
 @Repository
 public class InMemCustomerRepository implements CustomerRepository {
 
     private List<Customer> customers = new ArrayList<Customer>();
-    
+
     {
-    	customers.add(new Customer("Abel"));
-    	customers.add(new Customer("Albert"));
-    	customers.add(new Customer("Nikola"));
+	customers.add(new Customer("Abel"));
+	customers.add(new Customer("Albert"));
+	customers.add(new Customer("Nikola"));
     }
-    
-    
+
     @Override
-    public Customer getCostumerById(Integer id) {
+    public Optional<Customer> getCostumerById(Integer id) {
 	for (Customer customer : customers) {
 	    if (id.equals(customer.getId())) {
-		return customer;
+		return Optional.<Customer>of(customer);
 	    }
 	}
-	
-	return null;
+
+	return Optional.<Customer>empty();
     }
 
     @Override
     public List<Customer> getCostumers() {
-	return Collections.unmodifiableList(customers);
+	return customers;
     }
 
     @Override
     public boolean addCostumer(Customer customer) {
 	return customers.add(customer);
+    }
+
+    @Override
+    public boolean updateCostumer(Customer customer) {
+	return true;
+    }
+
+    @Override
+    public boolean removeCostumer(Customer customer) {
+	return customers.remove(customer);
     }
 
 }

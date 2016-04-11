@@ -1,8 +1,6 @@
 package org.study.pizzaservice.domain.order.state;
 
-import java.util.Collections;
 import java.util.List;
-
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.OrderContext;
@@ -55,7 +53,7 @@ public class DoneState implements OrderState {
 
     @Override
     public List<Pizza> getPizzas() {
-	return Collections.unmodifiableList(order.getPizzas());
+	return order.getPizzas();
     }
 
     @Override
@@ -67,4 +65,13 @@ public class DoneState implements OrderState {
 	return false;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+	return "DoneState";
+    }
+
+    
 }

@@ -1,6 +1,7 @@
 package org.study.pizzaservice.domain.customer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class Customer {
      * @return the adresses
      */
     public List<Address> getAddresses() {
-	return addresses;
+	return Collections.unmodifiableList(addresses);
     }
 
     /**

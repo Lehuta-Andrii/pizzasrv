@@ -1,12 +1,24 @@
 package org.study.pizzaservice.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.customer.Customer;
 
+/**
+ * Interface that represents repository of accumulative cards entity
+ * 
+ * @author Andrii Lehuta
+ *
+ */
 public interface AccumulativeCardRepository {
 
-    AccumulativeCard getCard(Customer customer);
+    Optional<AccumulativeCard> getCard(Customer customer);
 
     AccumulativeCard addCard(Customer customer);
 
+    List<AccumulativeCard> getCards();
+    
+    boolean removeCustomerCard(Customer customer);
 }

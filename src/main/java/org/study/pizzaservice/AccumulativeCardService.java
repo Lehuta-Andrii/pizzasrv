@@ -1,5 +1,7 @@
 package org.study.pizzaservice;
 
+import java.util.Optional;
+
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.customer.Customer;
 
@@ -11,9 +13,11 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public interface AccumulativeCardService {
 
-	AccumulativeCard getCard(Customer customer);
+	Optional<AccumulativeCard> getCard(Customer customer);
 
 	AccumulativeCard setCard(Customer customer);
 
 	boolean addSumToCard(Customer customer, double sum);
+	
+	boolean removeCard(Customer customer);
 }

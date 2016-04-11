@@ -2,12 +2,14 @@ package org.study.pizzaservice.simpleservice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.domain.order.OrderState;
 import org.study.pizzaservice.domain.order.state.CanceledState;
 import org.study.pizzaservice.domain.order.state.DoneState;
 import org.study.pizzaservice.domain.order.state.InProgressState;
+import org.study.pizzaservice.exceptions.OrderWithSpecificIdIsAbsentException;
 import org.study.pizzaservice.exceptions.TooManyPizzasException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
@@ -46,7 +48,7 @@ public class SimpleOrderService implements OrderService {
 
 		if (pizzasID.length <= MAX_NUMBER_OF_PIZZAS && pizzasID.length > 0) {
 			List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-			Order newOrder = createOrder();//(customer, pizzas);
+			Order newOrder = createOrder();
 			newOrder.setCustomer(customer);
 			newOrder.setPizzas(pizzas);
 			
@@ -84,12 +86,25 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Lookup
-	public Order createOrder() {//Customer customer, List<Pizza> pizzas) {
-		//Order newOrder = new Order(customer, pizzas);
-		//return newOrder;
-		return null;
+	public Order createOrder() {
+		return new Order();
 	}
 
+	@Override
+	public boolean removeOrder(Order order) {
+	    return orderRepository.removeOrder(order);
+	}
+
+	@Override
+	public Order gerOrderById(Integer id) {
+	    Optional<Order> order = orderRepository.getOrderById(id);
+	    if(order.isPresent()){
+		return order.get();
+	    }
+	    
+	    throw new OrderWithSpecificIdIsAbsentException();
+	}
+	
 	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) {
 		List<Pizza> pizzas = new ArrayList<Pizza>();
 
@@ -98,5 +113,7 @@ public class SimpleOrderService implements OrderService {
 		}
 		return pizzas;
 	}
+
+
 
 }

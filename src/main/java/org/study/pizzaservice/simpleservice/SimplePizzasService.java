@@ -1,11 +1,13 @@
 package org.study.pizzaservice.simpleservice;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.study.pizzaservice.PizzasService;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.exceptions.PizzaWithSpecificIdIsAbsentException;
 import org.study.pizzaservice.repository.PizzaRepository;
 
 /**
@@ -46,7 +48,13 @@ public class SimplePizzasService implements PizzasService {
 
 	@Override
 	public Pizza getPizzaById(Integer id) {
-		return pizzaRepository.getPizzaByID(id);
+		Optional<Pizza> pizza = pizzaRepository.getPizzaByID(id);
+		
+		if(pizza.isPresent()){
+		    return pizza.get();
+		}else{
+		    throw new PizzaWithSpecificIdIsAbsentException();
+		}
 	}
 
 }

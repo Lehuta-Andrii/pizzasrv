@@ -14,6 +14,12 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+/**
+ * Just tried to mimic spring behavior will be removed in further commits
+ * 
+ * @author Lehuta Andrii
+ *
+ */
 public final class XMLBasedApplicationContext implements ApplicationContext {
 
     private Map<String, Class<?>> beanTypes;

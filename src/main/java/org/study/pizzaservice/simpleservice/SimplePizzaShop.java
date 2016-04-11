@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.study.pizzaservice.AccumulativeCardService;
-import org.study.pizzaservice.CustomerService;
 import org.study.pizzaservice.DiscountService;
 import org.study.pizzaservice.OrderService;
 import org.study.pizzaservice.PizzaShopTemplate;
@@ -23,16 +22,14 @@ import org.study.pizzaservice.domain.order.Order;
 @Service
 public class SimplePizzaShop extends PizzaShopTemplate {
 
-	private CustomerService customerService;
 	private OrderService orderService;
 	private DiscountService discountService;
 	private AccumulativeCardService cardService;
 	private PizzasService pizzasService;
 
 	@Autowired
-	public SimplePizzaShop(CustomerService customerService, OrderService orderService, DiscountService discountService,
+	public SimplePizzaShop(OrderService orderService, DiscountService discountService,
 			AccumulativeCardService cardService, PizzasService pizzasService) {
-		this.customerService = customerService;
 		this.orderService = orderService;
 		this.discountService = discountService;
 		this.cardService = cardService;
