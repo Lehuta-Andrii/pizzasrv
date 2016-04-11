@@ -21,6 +21,10 @@ public class Order {
     private double mostExpensivePizza = 0;
     private Status orderStatus = Status.NEW;
 
+    public Order(){
+	
+    }
+    
     public Order(Customer customer, List<Pizza> pizzas) {
 	id = GID++;
 	this.customer = customer;

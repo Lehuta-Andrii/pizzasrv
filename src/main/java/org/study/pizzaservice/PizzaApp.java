@@ -26,6 +26,8 @@ public class PizzaApp {
 	
 	
 	OrderService orderService = (OrderService) ac.getBean("orderService");
+	//((SimpleOrderService)orderService).setAppContext(ac);
+	System.out.println(orderService.getClass());
 	order = orderService.placeNewOrder(customer, 0, 1, 2);
 
 	System.out.println(order);

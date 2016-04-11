@@ -7,17 +7,22 @@
 
 
 
+	<bean name="order" class="org.study.pizzaservice.domain.Order"
+		scope="prototype" />
 
 
-
-	<bean name="orderService" class="org.study.pizzaservice.SimpleOrderService">
+	<bean name="orderService" class="org.study.pizzaservice.SimpleOrderService"
+		autowire="byType">
 		<constructor-arg ref="pizzaRepository" />
 		<constructor-arg ref="orderRepository" />
+		<!-- <property name="order" ref="order" /> -->
+		<lookup-method name="createOrder" bean="order" />
 	</bean>
 
-	<bean id="customer" class="org.study.pizzaservice.domain.Customer">
+<!--  	<bean id="customer" class="org.study.pizzaservice.domain.Customer" autowire-candidate = "false">
 		<constructor-arg value="hh;" />
-	</bean>
+	</bean> -->
+
 	<bean id="name" class="java.lang.String">
 		<constructor-arg value="Some name" />
 	</bean>

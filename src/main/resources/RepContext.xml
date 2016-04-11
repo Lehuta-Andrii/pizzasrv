@@ -41,8 +41,8 @@
 		<constructor-arg value="Other name" />
 	</bean>
 
-	<bean id="customer" class="org.study.pizzaservice.domain.Customer">
-		<constructor-arg value="hh;" />
+	<bean id="customer" class="org.study.pizzaservice.domain.Customer" primary="true">
+		<constructor-arg value="hhlll1" />
 	</bean>
 
 
