@@ -2,6 +2,8 @@ package org.study.pizzaservice.simpleservice;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.study.pizzaservice.AccumulativeCardService;
 import org.study.pizzaservice.CustomerService;
 import org.study.pizzaservice.DiscountService;
@@ -18,6 +20,7 @@ import org.study.pizzaservice.domain.order.Order;
  * @author Andrii_Lehuta
  *
  */
+@Service
 public class SimplePizzaShop extends PizzaShopTemplate {
 
 	private CustomerService customerService;
@@ -26,6 +29,7 @@ public class SimplePizzaShop extends PizzaShopTemplate {
 	private AccumulativeCardService cardService;
 	private PizzasService pizzasService;
 
+	@Autowired
 	public SimplePizzaShop(CustomerService customerService, OrderService orderService, DiscountService discountService,
 			AccumulativeCardService cardService, PizzasService pizzasService) {
 		this.customerService = customerService;

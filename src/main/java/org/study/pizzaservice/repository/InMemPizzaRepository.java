@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.Pizza;
 
+@Repository
 public class InMemPizzaRepository implements PizzaRepository {
 
 	List<Pizza> pizzas = new ArrayList<Pizza>();

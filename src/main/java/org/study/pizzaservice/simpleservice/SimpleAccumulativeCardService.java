@@ -1,5 +1,7 @@
 package org.study.pizzaservice.simpleservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.study.pizzaservice.AccumulativeCardService;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.customer.Customer;
@@ -11,10 +13,16 @@ import org.study.pizzaservice.repository.AccumulativeCardRepository;
  * @author Andrii_Lehuta
  *
  */
+@Service
 public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
 	private AccumulativeCardRepository cardRepository;
 
+	public SimpleAccumulativeCardService(){
+		
+	}
+
+	@Autowired
 	public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository) {
 		this.cardRepository = cardRepository;
 	}

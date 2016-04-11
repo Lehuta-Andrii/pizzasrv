@@ -27,6 +27,10 @@ public class OrderContext {
 		this.pizzas = new ArrayList<Pizza>(pizzas);
 
 	}
+	
+	public OrderContext(){
+		id = GID++;
+	}
 
 	/**
 	 * @return the amount of pizza objects in order

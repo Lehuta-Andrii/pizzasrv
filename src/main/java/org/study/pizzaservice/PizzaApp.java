@@ -14,14 +14,15 @@ public class PizzaApp {
 		AccumulativeCard accumulativeCard = null;
 		Order order;
 
-		ApplicationContext ac = new ClassPathXmlApplicationContext("Config.xml");
-		PizzaShopTemplate pizzaShop = (PizzaShopTemplate) ac.getBean("pizzaShop");
+		ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("Config.xml");
+		PizzaShopTemplate pizzaShop = (PizzaShopTemplate) ac.getBean(PizzaShopTemplate.class);
+		
 		order = pizzaShop.makeOrder(null, 0, 1, 2, 0);
-
+		ac.getBean(AccumulativeCardService.class);
 		System.out.println(order);
 		System.out.println(pizzaShop.getDiscount(order));
 
-		((ConfigurableApplicationContext) ac).close();
+		ac.close();
 	}
 
 }

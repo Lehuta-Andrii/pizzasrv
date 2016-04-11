@@ -2,6 +2,8 @@ package org.study.pizzaservice.simpleservice;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.study.pizzaservice.PizzasService;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.repository.PizzaRepository;
@@ -12,10 +14,12 @@ import org.study.pizzaservice.repository.PizzaRepository;
  * @author Andrii_Lehuta
  *
  */
+@Service
 public class SimplePizzasService implements PizzasService {
 
 	private PizzaRepository pizzaRepository;
 
+	@Autowired
 	public SimplePizzasService(PizzaRepository pizzaRepository) {
 		this.pizzaRepository = pizzaRepository;
 	}

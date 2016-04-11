@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 import org.study.pizzaservice.DiscountService;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.discount.Discount;
@@ -16,6 +17,7 @@ import org.study.pizzaservice.domain.order.Order;
  * @author Andrii_Lehuta
  *
  */
+@Service
 public class SimpleDiscountService implements DiscountService {
 
 	List<Discount> discounts = new ArrayList<Discount>();
