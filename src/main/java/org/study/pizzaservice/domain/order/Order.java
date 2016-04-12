@@ -2,6 +2,7 @@ package org.study.pizzaservice.domain.order;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
@@ -16,6 +17,7 @@ import org.study.pizzaservice.domain.order.state.NewState;
  *
  */
 @Component
+@Scope("prototype")
 public class Order {
 
 	private OrderContext order;

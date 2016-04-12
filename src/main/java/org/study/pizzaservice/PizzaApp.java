@@ -24,8 +24,7 @@ public class PizzaApp {
 	System.out.println(order.getPrice());
 	
 	System.out.println(pizzaShop.getDiscount(order));
-
-	
+		
 	pizzaShop.accomplishOrder(order);
 	System.out.println(order.getState());
 
