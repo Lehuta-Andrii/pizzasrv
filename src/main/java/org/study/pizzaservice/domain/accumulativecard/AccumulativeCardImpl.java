@@ -1,11 +1,16 @@
 package org.study.pizzaservice.domain.accumulativecard;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 /**
  * Class that represents accumulative card entity in pizza service
  * 
  * @author Andrii_Lehuta
  *
  */
+@Component
+@Scope("prototype")
 public class AccumulativeCardImpl implements AccumulativeCard {
 
 	private static int GID = 0;

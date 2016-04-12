@@ -14,7 +14,8 @@ import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.exceptions.TooManyPizzasException;
 import org.study.pizzaservice.repository.OrderRepository;
-import org.study.pizzaservice.simpleservice.SimpleOrderService;
+import org.study.pizzaservice.service.PizzasService;
+import org.study.pizzaservice.service.simpleservice.SimpleOrderService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleOrderServiceTest {

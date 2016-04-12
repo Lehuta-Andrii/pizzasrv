@@ -1,4 +1,4 @@
-package org.study.pizzaservice;
+package org.study.pizzaservice.service;
 
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.domain.order.OrderState;

@@ -1,13 +1,15 @@
-package org.study.pizzaservice.simpleservice;
+package org.study.pizzaservice.service.simpleservice;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
-import org.study.pizzaservice.AccumulativeCardService;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.AccumulativeCardRepository;
+import org.study.pizzaservice.service.AccumulativeCardService;
 
 /**
  * Class represent accumulative cards service entity o of pizza service
@@ -35,8 +37,8 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	}
 
 	@Override
-	public AccumulativeCard setCard(Customer customer) {
-		return cardRepository.addCard(customer);
+	public boolean setNewCard(Customer customer) {
+		return cardRepository.addCard(customer, createEmptyCard());
 	}
 
 	@Override
@@ -55,6 +57,17 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	@Override
 	public boolean removeCard(Customer customer) {
 	    return cardRepository.removeCustomerCard(customer);
+	}
+
+	@Override
+	public boolean setCard(Customer customer, AccumulativeCard card) {
+	    return cardRepository.addCard(customer, card);
+	}
+
+	@Override
+	@Lookup
+	public AccumulativeCard createEmptyCard() {
+	    return new AccumulativeCardImpl();
 	}
 
 }

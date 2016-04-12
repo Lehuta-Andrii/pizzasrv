@@ -10,6 +10,6 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<context:component-scan base-package="org.study" />
+	<context:component-scan base-package="org.study.pizzaservice.domain, org.study.pizzaservice.service, org.study.pizzaservice.exceptions" />
 
 </beans>

@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
-import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Customer;
 
 /**
@@ -36,13 +35,12 @@ public class InMemAccumulativeCardRepository implements AccumulativeCardReposito
     }
 
     @Override
-    public AccumulativeCard addCard(Customer customer) {
+    public boolean addCard(Customer customer, AccumulativeCard card) {
 	if (cards.containsKey(customer)) {
-	    return cards.get(customer);
+	    return false;
 	} else {
-	    AccumulativeCard card = new AccumulativeCardImpl();
 	    cards.put(customer, card);
-	    return card;
+	    return true;
 	}
     }
 

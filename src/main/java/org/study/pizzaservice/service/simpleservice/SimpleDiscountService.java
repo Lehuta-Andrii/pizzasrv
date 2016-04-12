@@ -1,4 +1,4 @@
-package org.study.pizzaservice.simpleservice;
+package org.study.pizzaservice.service.simpleservice;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.study.pizzaservice.DiscountService;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.discount.DiscountImpl;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.service.DiscountService;
 
 /**
  * Class represent discount service entity o of pizza service

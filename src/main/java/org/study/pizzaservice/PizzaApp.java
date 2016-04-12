@@ -3,6 +3,9 @@ package org.study.pizzaservice;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.service.AccumulativeCardService;
+import org.study.pizzaservice.service.CustomerService;
+import org.study.pizzaservice.service.PizzaShopTemplate;
 
 public class PizzaApp {
 
@@ -10,25 +13,34 @@ public class PizzaApp {
 
 	Order order;
 
-	ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("Config.xml");
-	
-	PizzaShopTemplate pizzaShop = (PizzaShopTemplate) ac.getBean(PizzaShopTemplate.class);
-	CustomerService customers = (CustomerService) ac.getBean(CustomerService.class);
-	AccumulativeCardService cardService = (AccumulativeCardService) ac.getBean(AccumulativeCardService.class);
-	
-	cardService.setCard(customers.getCostumerById(0)).addToCard(100);
-	
+	ConfigurableApplicationContext repositoryContext = new ClassPathXmlApplicationContext("RepositoryContext.xml");
+	ConfigurableApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+		new String[] { "ApplicationContext.xml" }, false);
+
+	applicationContext.setParent(repositoryContext);
+	applicationContext.refresh();
+
+	PizzaShopTemplate pizzaShop = (PizzaShopTemplate) applicationContext.getBean(PizzaShopTemplate.class);
+	CustomerService customers = (CustomerService) applicationContext.getBean(CustomerService.class);
+	AccumulativeCardService cardService = (AccumulativeCardService) applicationContext
+		.getBean(AccumulativeCardService.class);
+
+	if(cardService.setNewCard(customers.getCostumerById(0))){
+	    cardService.addSumToCard(customers.getCostumerById(0), 100);
+	}
+
 	order = pizzaShop.makeOrder(customers.getCostumerById(0), 0, 1, 2, 0);
 
 	System.out.println(order);
 	System.out.println(order.getPrice());
-	
+
 	System.out.println(pizzaShop.getDiscount(order));
-		
+
 	pizzaShop.accomplishOrder(order);
 	System.out.println(order.getState());
 
-	ac.close();
+	repositoryContext.close();
+	applicationContext.close();
     }
 
 }

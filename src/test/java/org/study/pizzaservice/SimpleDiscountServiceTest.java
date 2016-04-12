@@ -11,7 +11,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.study.pizzaservice.domain.discount.Discount;
 import org.study.pizzaservice.domain.order.Order;
-import org.study.pizzaservice.simpleservice.SimpleDiscountService;
+import org.study.pizzaservice.service.DiscountService;
+import org.study.pizzaservice.service.simpleservice.SimpleDiscountService;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;

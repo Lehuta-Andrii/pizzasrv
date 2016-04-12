@@ -16,7 +16,7 @@ public interface AccumulativeCardRepository {
 
     Optional<AccumulativeCard> getCard(Customer customer);
 
-    AccumulativeCard addCard(Customer customer);
+    boolean addCard(Customer customer, AccumulativeCard card);
 
     List<AccumulativeCard> getCards();
     

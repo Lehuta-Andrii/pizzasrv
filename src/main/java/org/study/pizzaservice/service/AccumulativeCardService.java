@@ -1,4 +1,4 @@
-package org.study.pizzaservice;
+package org.study.pizzaservice.service;
 
 import java.util.Optional;
 
@@ -15,9 +15,13 @@ public interface AccumulativeCardService {
 
 	Optional<AccumulativeCard> getCard(Customer customer);
 
-	AccumulativeCard setCard(Customer customer);
+	boolean setNewCard(Customer customer);
+	
+	boolean setCard(Customer customer, AccumulativeCard card);
 
 	boolean addSumToCard(Customer customer, double sum);
 	
 	boolean removeCard(Customer customer);
+	
+	AccumulativeCard createEmptyCard();
 }

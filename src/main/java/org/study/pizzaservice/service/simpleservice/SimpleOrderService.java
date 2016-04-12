@@ -1,4 +1,4 @@
-package org.study.pizzaservice.simpleservice;
+package org.study.pizzaservice.service.simpleservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import org.study.pizzaservice.exceptions.TooManyPizzasException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
-import org.study.pizzaservice.OrderService;
-import org.study.pizzaservice.PizzasService;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.OrderRepository;
+import org.study.pizzaservice.service.OrderService;
+import org.study.pizzaservice.service.PizzasService;
 
 /**
  * Class represent order service entity o of pizza service

@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.repository.InMemAccumulativeCardRepository;
-import org.study.pizzaservice.simpleservice.SimpleAccumulativeCardService;
+import org.study.pizzaservice.service.simpleservice.SimpleAccumulativeCardService;
 
 import static org.mockito.Mockito.when;
 

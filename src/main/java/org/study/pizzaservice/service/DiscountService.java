@@ -1,4 +1,4 @@
-package org.study.pizzaservice;
+package org.study.pizzaservice.service;
 
 import java.util.List;
 import java.util.Optional;

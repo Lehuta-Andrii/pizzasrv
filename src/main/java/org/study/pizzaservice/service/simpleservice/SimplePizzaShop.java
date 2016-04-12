@@ -1,17 +1,17 @@
-package org.study.pizzaservice.simpleservice;
+package org.study.pizzaservice.service.simpleservice;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.study.pizzaservice.AccumulativeCardService;
-import org.study.pizzaservice.DiscountService;
-import org.study.pizzaservice.OrderService;
-import org.study.pizzaservice.PizzaShopTemplate;
-import org.study.pizzaservice.PizzasService;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.service.AccumulativeCardService;
+import org.study.pizzaservice.service.DiscountService;
+import org.study.pizzaservice.service.OrderService;
+import org.study.pizzaservice.service.PizzaShopTemplate;
+import org.study.pizzaservice.service.PizzasService;
 
 /**
  * Implementation of pizza shop template pattern
