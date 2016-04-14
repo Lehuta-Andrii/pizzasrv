@@ -3,16 +3,14 @@ package org.study.pizzaservice;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Order;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.infrastructure.BeanchMark;
 import org.study.pizzaservice.repository.OrderRepository;
 import org.study.pizzaservice.repository.PizzaRepository;
 
-public abstract class SimpleOrderService implements OrderService//, ApplicationContextAware
+public class SimpleOrderService implements OrderService//, ApplicationContextAware
 {
 
 //    private ServiceLocator locator = ServiceLocator.getInstance();
@@ -51,9 +49,10 @@ public abstract class SimpleOrderService implements OrderService//, ApplicationC
 	this.orderRepository = orderRepository;
     }
 
+    @BeanchMark
     public Order placeNewOrder(Customer customer, Integer... pizzasID) {
 	List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-	Order newOrder = createOrder(customer, pizzas);
+	Order newOrder = createOrder();
 	newOrder.setCustomer(customer);
 	newOrder.setPizzas(pizzas);
 
@@ -62,7 +61,10 @@ public abstract class SimpleOrderService implements OrderService//, ApplicationC
 	return newOrder;
     }
 
-    protected abstract Order createOrder(Customer customer, List<Pizza> pizzas); 
+    @BeanchMark
+    public Order createOrder(){
+	return new Order();
+    }
 	//Order newOrder = new Order(customer, pizzas);
 	//return newOrder;
 //	Order order = (Order) appContext.getBean("order");
@@ -71,10 +73,7 @@ public abstract class SimpleOrderService implements OrderService//, ApplicationC
 	List<Pizza> pizzas = new ArrayList<Pizza>();
 
 	for (Integer id : pizzasID) {
-	    pizzas.add(pizzaRepository.getPizzaByID(id)); // get Pizza from
-							  // predifined
-							  // in-memory
-	    // list
+	    pizzas.add(pizzaRepository.getPizzaByID(id)); 						  // in-memory
 	}
 	return pizzas;
     }

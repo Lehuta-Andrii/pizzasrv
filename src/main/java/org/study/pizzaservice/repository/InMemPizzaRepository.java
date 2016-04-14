@@ -39,8 +39,8 @@ public class InMemPizzaRepository implements PizzaRepository {
 	System.out.println("init called by ioc");
     }
     
-    @BeanchMark(active = true)
     @Override
+    @BeanchMark
     public Pizza getPizzaByID(Integer id) {
 	for (Pizza pizza : pizzas) {
 	    if (id.equals(pizza.getId())) {

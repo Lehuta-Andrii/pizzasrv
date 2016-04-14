@@ -18,25 +18,24 @@ public class PizzaApp {
 	ac.setParent(repAc);
 	ac.refresh();
 	
+//	System.out.println(ac.getBean(Order.class));
 	
 	PizzaRepository pizzaRepository = (PizzaRepository) ac.getBean("pizzaRepository");
 
 	
-	System.out.println(pizzaRepository.getPizzaByID(0));
+//	System.out.println(pizzaRepository.getPizzaByID(0));
 	
 	
 	OrderService orderService = (OrderService) ac.getBean("orderService");
-	//((SimpleOrderService)orderService).setAppContext(ac);
-	System.out.println(orderService.getClass());
 	order = orderService.placeNewOrder(customer, 0, 1, 2);
 
 	System.out.println(order);
 
-	Pizza pizza = ac.getBean(Pizza.class);
-	System.out.println(pizza);
+//	Pizza pizza = ac.getBean(Pizza.class);
+//	System.out.println(pizza);
 	
-	System.out.println(ac.getParent());
-	System.out.println(ac.getParent().getBean(Customer.class));
+//	System.out.println(ac.getParent());
+//	System.out.println(ac.getBean(Customer.class));
 	
 	repAc.close();
 	ac.close();

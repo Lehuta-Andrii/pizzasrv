@@ -3,7 +3,9 @@ package org.study.pizzaservice.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer {
+import org.springframework.beans.factory.FactoryBean;
+
+public class Customer implements FactoryBean<Customer>{
 
     private static int GID = 0;
     private int id;
@@ -16,6 +18,9 @@ public class Customer {
 	this.name = name;
     }
 
+    public Customer(){
+	
+    }
     /**
      * @return the adresses
      */
@@ -102,6 +107,21 @@ public class Customer {
      */
     public void setName(String name) {
 	this.name = name;
+    }
+
+    @Override
+    public Customer getObject() throws Exception {
+	return new Customer("nulll");
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+	return this.getClass();
+    }
+
+    @Override
+    public boolean isSingleton() {
+	return false;
     }
 
 }

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.study.pizzaservice.infrastructure.Domain;
+
+@Domain
 public class Order {
 
     private static Long GID = new Long(0);
@@ -16,19 +19,19 @@ public class Order {
 
     private Long id;
     private Customer customer;
-    private Map<Pizza, Integer> pizzas;
+    private Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
     private int pizzasNumber = 0;
     private double mostExpensivePizza = 0;
     private Status orderStatus = Status.NEW;
 
     public Order(){
-	
+	id = GID++;
+
     }
     
     public Order(Customer customer, List<Pizza> pizzas) {
 	id = GID++;
 	this.customer = customer;
-	this.pizzas = new HashMap<Pizza, Integer>();
 
 	for (Pizza pizza : pizzas) {
 	    add(pizza, 1);
@@ -163,7 +166,9 @@ public class Order {
      *            the pizzas to set
      */
     public void setPizzas(List<Pizza> pizzas) {
-	// this.pizzas = pizzas;
+	for (Pizza pizza : pizzas) {
+	    add(pizza, 1);
+	}
     }
 
     public double getDiscount() {

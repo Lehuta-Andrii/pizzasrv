@@ -5,8 +5,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<bean class = "org.study.pizzaservice.infrastructure.BeanchMarkProxyBeanPostProcessor" />
+
+
 	<bean name="orderRepository"
 		class="org.study.pizzaservice.repository.InMemOrderRepository" />
+
 
 
 	<bean name="pizzaRepository"
@@ -41,9 +45,9 @@
 		<constructor-arg value="Other name" />
 	</bean>
 
-	<bean id="customer" class="org.study.pizzaservice.domain.Customer" primary="true">
-		<constructor-arg value="hhlll1" />
-	</bean>
+<!-- 	<bean id="customer" class="org.study.pizzaservice.domain.Customer" primary="true"> -->
+<!-- 		<constructor-arg value="hhlll1" /> -->
+<!-- 	</bean> -->
 
 
 
