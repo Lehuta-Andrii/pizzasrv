@@ -13,7 +13,7 @@ import org.study.pizzaservice.domain.Pizza;
  * @author Andrii Lehuta
  *
  */
-@Repository
+//@Repository
 public class InMemPizzaRepository implements PizzaRepository {
 
     List<Pizza> pizzas = new ArrayList<Pizza>();
@@ -69,5 +69,12 @@ public class InMemPizzaRepository implements PizzaRepository {
 	    return false;
 	}
     }
+
+	@Override
+	public boolean updatePizza(Pizza pizza) {
+		return true;
+	}
+    
+    
 
 }

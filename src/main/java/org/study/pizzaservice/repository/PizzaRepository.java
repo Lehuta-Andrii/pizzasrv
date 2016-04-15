@@ -21,5 +21,7 @@ public interface PizzaRepository {
 
     boolean deletePizza(Pizza pizza);
 
+    boolean updatePizza(Pizza pizza);
+    
     Optional<Pizza> getPizzaByID(Integer id);
 }

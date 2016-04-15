@@ -29,7 +29,7 @@ public class PizzaApp {
 	    cardService.addSumToCard(customers.getCostumerById(0), 100);
 	}
 
-	order = pizzaShop.makeOrder(customers.getCostumerById(0), 0, 1, 2, 0);
+	order = pizzaShop.makeOrder(customers.getCostumerById(0), 1, 2, 3, 1);
 
 	System.out.println(order);
 	System.out.println(order.getPrice());
