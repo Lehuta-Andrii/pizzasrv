@@ -20,8 +20,7 @@
 		class="org.study.pizzaservice.infrastructure.CreateOrderReplacement">
 	</bean>
 
-	<bean name="orderService" class="org.study.pizzaservice.SimpleOrderService"
-		autowire="byType">
+	<bean name="orderService" class="org.study.pizzaservice.SimpleOrderService" autowire="byType">
 		<constructor-arg ref="pizzaRepository" />
 		<constructor-arg ref="orderRepository" />
 		<lookup-method name="createOrder" bean="order" />
@@ -46,9 +45,7 @@
 	</bean>
 
 	<bean factory-bean="createPizzaService" factory-method="createPizza">
-		<constructor-arg index="0">
-			<ref parent="name" />
-		</constructor-arg>
+		<constructor-arg index="0" ref = "name" />
 		<constructor-arg index="1" value="34.5" />
 		<constructor-arg index="2" value="MEAT" />
 	</bean>

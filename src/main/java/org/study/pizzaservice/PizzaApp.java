@@ -2,6 +2,7 @@ package org.study.pizzaservice;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Order;
 import org.study.pizzaservice.domain.Pizza;
@@ -14,6 +15,9 @@ public class PizzaApp {
 	Order order;
 
 	ConfigurableApplicationContext repAc =  new ClassPathXmlApplicationContext("RepContext.xml");
+	repAc.getEnvironment().setActiveProfiles("dev");
+	repAc.refresh();
+	
 	ConfigurableApplicationContext ac =  new ClassPathXmlApplicationContext(new String[]{"AppContext.xml"}, false);
 	ac.setParent(repAc);
 	ac.refresh();
