@@ -21,7 +21,7 @@ public class SimpleOrderServiceTest extends RepositoryTestConfig {
     public void testPlaceNewOrder() {
 	System.out.println("placeNewOrder");
 	Customer customer = null;
-	Integer[] pizzaId = new Integer[]{1};
+	Integer[] pizzaId = new Integer[]{0};
 	Order expResult = null;
 	Order result = orderService.placeNewOrder(customer, pizzaId);
 	System.out.println(result);

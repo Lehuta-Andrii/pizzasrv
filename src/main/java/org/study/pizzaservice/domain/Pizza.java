@@ -1,5 +1,13 @@
 package org.study.pizzaservice.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+
+
+@Entity
 public class Pizza {
 
     private static int GID = 0;
@@ -8,9 +16,12 @@ public class Pizza {
 	VEGETARIAN, SEA, MEAT;
     }
 
+    @Id
     private int id;
     private String name;
     private Double price;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pizza_type")
     private type pizzaType;
 
     public Pizza(String name, double price, type pizzaType) {
@@ -22,6 +33,11 @@ public class Pizza {
     }
     
     
+
+    public Pizza() {
+    }
+
+
 
     /*
      * (non-Javadoc)
