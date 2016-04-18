@@ -13,22 +13,22 @@ import org.study.pizzaservice.domain.Pizza;
  * @author Andrii Lehuta
  *
  */
-//@Repository
+// @Repository
 public class InMemPizzaRepository implements PizzaRepository {
 
     List<Pizza> pizzas = new ArrayList<Pizza>();
 
     public InMemPizzaRepository() {
-	this.pizzas.add(new Pizza("Margarita", 50, Pizza.Type.MEAT));
-	this.pizzas.add(new Pizza("Americana", 76, Pizza.Type.SEA));
-	this.pizzas.add(new Pizza("Chilly", 50, Pizza.Type.VEGETARIAN));
+	this.pizzas.add(new Pizza(1, "Margarita", 50, Pizza.Type.MEAT));
+	this.pizzas.add(new Pizza(2, "Americana", 76, Pizza.Type.SEA));
+	this.pizzas.add(new Pizza(3, "Chilly", 50, Pizza.Type.VEGETARIAN));
     }
 
     @Override
     public Optional<Pizza> getPizzaByID(Integer id) {
 	for (Pizza pizza : pizzas) {
 	    if (id.equals(pizza.getId())) {
-		return Optional.<Pizza>of(pizza);
+		return Optional.<Pizza> of(pizza);
 	    }
 	}
 
@@ -70,11 +70,9 @@ public class InMemPizzaRepository implements PizzaRepository {
 	}
     }
 
-	@Override
-	public boolean updatePizza(Pizza pizza) {
-		return true;
-	}
-    
-    
+    @Override
+    public boolean updatePizza(Pizza pizza) {
+	return true;
+    }
 
 }

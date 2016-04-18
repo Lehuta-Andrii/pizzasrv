@@ -2,7 +2,9 @@ package org.study.pizzaservice;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.repository.PizzaRepository;
 import org.study.pizzaservice.service.AccumulativeCardService;
 import org.study.pizzaservice.service.CustomerService;
 import org.study.pizzaservice.service.PizzaShopTemplate;
@@ -39,6 +41,14 @@ public class PizzaApp {
 	pizzaShop.accomplishOrder(order);
 	System.out.println(order.getState());
 
+	
+	//System.out.println(repositoryContext.getBean(PizzaRepository.class).getPizzas());
+	//repositoryContext.getBean(PizzaRepository.class).addPizza(new Pizza(0, "Bavaria", 105, Pizza.Type.MEAT));
+		
+	System.out.println(repositoryContext.getBean(PizzaRepository.class).getPizzas());
+	
+	
+	
 	repositoryContext.close();
 	applicationContext.close();
     }

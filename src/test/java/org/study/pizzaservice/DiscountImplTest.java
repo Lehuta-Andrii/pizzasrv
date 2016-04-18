@@ -21,115 +21,124 @@ import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DiscountImplTest {
-	
-	@Mock
-	private AccumulativeCardImpl mockAccumulativeCard;
 
-	private Discount discount;
+    @Mock
+    private AccumulativeCardImpl mockAccumulativeCard;
 
-	@Before
-	public void setUp() {
-		discount = new DiscountImpl();
-	}
+    private Discount discount;
 
-	@Test
-	public void getDiscountWithPizzasLessThenFourWithoutAccumCardTest() {
+    @Before
+    public void setUp() {
+	discount = new DiscountImpl();
+    }
 
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
+    @Test
+    public void getDiscountWithPizzasLessThenFourWithoutAccumCardTest() {
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
+	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard>empty()), 0) == 0);
-	}
+	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 
-	@Test
-	public void getDiscountWithFourPizzasWithoutAccumCardTest() {
+	assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> empty()), 0) == 0);
+    }
 
-		double priceOfMostExpensivePizza = 100;
-		double expectedDiscount = priceOfMostExpensivePizza * 0.3;
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
+    @Test
+    public void getDiscountWithFourPizzasWithoutAccumCardTest() {
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	double priceOfMostExpensivePizza = 100;
+	double expectedDiscount = priceOfMostExpensivePizza * 0.3;
+	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard>empty()), expectedDiscount) == 0);
-	}
+	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(3,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
-	@Test
-	public void getDiscountWithPizzasLessThanFourWithSmallAccumCardSumTest() {
+	assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> empty()),
+		expectedDiscount) == 0);
+    }
 
-		double sumOnAccumulativeCard = 100;
-		double expectedDiscount = sumOnAccumulativeCard * 0.1;
+    @Test
+    public void getDiscountWithPizzasLessThanFourWithSmallAccumCardSumTest() {
 
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
+	double sumOnAccumulativeCard = 100;
+	double expectedDiscount = sumOnAccumulativeCard * 0.1;
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
+	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
+	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
 
-		assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard>of(mockAccumulativeCard)), expectedDiscount) == 0);
-	}
+	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
-	@Test
-	public void getDiscountWithPizzasLessThanFourWithLargeAccumCardSumTest() {
+	assertTrue(
+		Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> of(mockAccumulativeCard)),
+			expectedDiscount) == 0);
+    }
 
-		double pizzasPrice = 135;
-		double sumOnAccumulativeCard = 100000;
-		double expectedDiscount = pizzasPrice * 0.3;
+    @Test
+    public void getDiscountWithPizzasLessThanFourWithLargeAccumCardSumTest() {
 
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
+	double pizzasPrice = 135;
+	double sumOnAccumulativeCard = 100000;
+	double expectedDiscount = pizzasPrice * 0.3;
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
+	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
+	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
 
-		assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard>of(mockAccumulativeCard)), expectedDiscount) == 0);
-	}
-	
-	@Test
-	public void getDiscountWithPizzasMoreThanFourWithSmallAccumCardSumTest() {
+	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
-		double sumOnAccumulativeCard = 100;
-		double priceOfMostExpensivePizza = 100;
-		double expectedDiscount = (0.3 * priceOfMostExpensivePizza) + sumOnAccumulativeCard * 0.1;
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
+	assertTrue(
+		Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> of(mockAccumulativeCard)),
+			expectedDiscount) == 0);
+    }
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+    @Test
+    public void getDiscountWithPizzasMoreThanFourWithSmallAccumCardSumTest() {
 
-		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
+	double sumOnAccumulativeCard = 100;
+	double priceOfMostExpensivePizza = 100;
+	double expectedDiscount = (0.3 * priceOfMostExpensivePizza) + sumOnAccumulativeCard * 0.1;
+	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard>of(mockAccumulativeCard)), expectedDiscount) == 0);
-	}
+	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(3,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
-	@Test
-	public void getDiscountWithPizzasMoreThanFourWithLargeAccumCardSumTest() {
+	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
-		double pizzasPrice = 235;
-		double sumOnAccumulativeCard = 1000000;
-		double priceOfMostExpensivePizza = 100;
-		double expectedDiscount = (0.3 * priceOfMostExpensivePizza)
-				+ (pizzasPrice - (0.3 * priceOfMostExpensivePizza)) * 0.30;
-		List<Pizza> pizzasList = new ArrayList<Pizza>();
+	assertTrue(
+		Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> of(mockAccumulativeCard)),
+			expectedDiscount) == 0);
+    }
 
-		pizzasList.add(new Pizza("Pizza1", 45, Pizza.Type.MEAT));
-		pizzasList.add(new Pizza("Pizza2", 45, Pizza.Type.SEA));
-		pizzasList.add(new Pizza("Pizza3", 45, Pizza.Type.VEGETARIAN));
-		pizzasList.add(new Pizza("Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+    @Test
+    public void getDiscountWithPizzasMoreThanFourWithLargeAccumCardSumTest() {
 
-		when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
+	double pizzasPrice = 235;
+	double sumOnAccumulativeCard = 1000000;
+	double priceOfMostExpensivePizza = 100;
+	double expectedDiscount = (0.3 * priceOfMostExpensivePizza)
+		+ (pizzasPrice - (0.3 * priceOfMostExpensivePizza)) * 0.30;
+	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-		assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard>of(mockAccumulativeCard)), expectedDiscount) == 0);
-	}
+	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(3,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+
+	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
+
+	assertTrue(
+		Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> of(mockAccumulativeCard)),
+			expectedDiscount) == 0);
+    }
 
 }

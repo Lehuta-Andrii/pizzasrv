@@ -8,7 +8,6 @@ package org.study.pizzaservice.domain;
  */
 public class Pizza {
 
-	private static int GID = 0;
 
 	public enum Type {
 		VEGETARIAN, SEA, MEAT;
@@ -19,9 +18,9 @@ public class Pizza {
 	private Double price;
 	private Type pizzaType;
 
-	public Pizza(String name, double price, Type pizzaType) {
+	public Pizza(Integer id, String name, double price, Type pizzaType) {
 
-		this.id = GID++;
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.pizzaType = pizzaType;
