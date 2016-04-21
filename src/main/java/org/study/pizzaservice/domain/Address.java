@@ -1,16 +1,45 @@
 package org.study.pizzaservice.domain;
 
-public class Address {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class Address implements Serializable {
+
+    @Column(name = "ADDR_ID")
+    private Integer id;
+
+    public Address() {
+    }
+
     private String city;
     private String street;
     private String house;
     private String room;
 
-    public Address(String city, String street, String house, String room) {
+    public Address(Integer id, String city, String street, String house, String room) {
+	this.id = id;
 	this.city = city;
 	this.street = street;
 	this.house = house;
 	this.room = room;
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+	return id;
+    }
+
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(Integer id) {
+	this.id = id;
     }
 
     /**

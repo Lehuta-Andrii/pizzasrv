@@ -1,17 +1,37 @@
 package org.study.pizzaservice.domain;
 
 import java.util.ArrayList;
+
 import java.util.List;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.TableGenerator;
 
 import org.springframework.beans.factory.FactoryBean;
 
+@Entity
 public class Customer implements FactoryBean<Customer>{
 
     private static int GID = 0;
+    
+    @Id
+    //@TableGenerator(name = "CUST", table = "hibernate_sequences")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    //@GeneratedValue(strategy = GenerationType.TABLE, generator = "CUST")
     private int id;
     private String name;
     private double accumulativeCard = -1;
-    List<Address> addresses = new ArrayList<Address>();
+    
+    @ElementCollection
+    private List<Address> addresses;
+    
+    @ElementCollection
+    private List<String> phones;
 
     public Customer(String name) {
 	this.id = GID++;
@@ -21,33 +41,19 @@ public class Customer implements FactoryBean<Customer>{
     public Customer(){
 	
     }
-    /**
-     * @return the adresses
-     */
-    public List<Address> getAddresses() {
-	return addresses;
-    }
 
-    /**
-     * @param adresses
-     *            the adresses to set
-     */
-    public void setAdresses(List<Address> adresses) {
-	this.addresses = adresses;
-    }
-
-    public boolean addAddress(Address address) {
-	if (addresses.contains(address)) {
-	    return false;
-	} else {
-	    addresses.add(address);
-	    return true;
-	}
-    }
-
-    public boolean removeAddress(Address address) {
-	return addresses.remove(address);
-    }
+//    public boolean addAddress(Address address) {
+//	if (addresses.contains(address)) {
+//	    return false;
+//	} else {
+//	    addresses.add(address);
+//	    return true;
+//	}
+//    }
+//
+//    public boolean removeAddress(Address address) {
+//	return addresses.remove(address);
+//    }
 
     /*
      * (non-Javadoc)
@@ -122,6 +128,28 @@ public class Customer implements FactoryBean<Customer>{
     @Override
     public boolean isSingleton() {
 	return false;
+    }
+
+    /**
+     * @return the phones
+     */
+    public List<String> getPhones() {
+        return phones;
+    }
+
+    /**
+     * @param phones the phones to set
+     */
+    public void setPhones(List<String> phones) {
+        this.phones = phones;
+    }
+
+    public List<Address> getAddresses() {
+	return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+	this.addresses = addresses;
     }
 
 }
