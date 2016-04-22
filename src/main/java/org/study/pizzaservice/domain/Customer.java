@@ -4,37 +4,47 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
+import javax.persistence.Version;
 
 import org.springframework.beans.factory.FactoryBean;
 
+import com.sun.prism.impl.Disposer.Target;
+
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Customer implements FactoryBean<Customer>{
 
     private static int GID = 0;
     
     @Id
-    //@TableGenerator(name = "CUST", table = "hibernate_sequences")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    //@GeneratedValue(strategy = GenerationType.TABLE, generator = "CUST")
     private int id;
     private String name;
     private double accumulativeCard = -1;
     
-    @ElementCollection
-    private List<Address> addresses;
+   // @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE)
+    private List<Address> address;
+
+    @Version
+    private Integer version;
     
     @ElementCollection
     private List<String> phones;
 
     public Customer(String name) {
-	this.id = GID++;
 	this.name = name;
     }
 
@@ -144,12 +154,19 @@ public class Customer implements FactoryBean<Customer>{
         this.phones = phones;
     }
 
-    public List<Address> getAddresses() {
-	return addresses;
+    /**
+     * @return the address
+     */
+    public List<Address> getAddress() {
+	return address;
     }
 
-    public void setAddresses(List<Address> addresses) {
-	this.addresses = addresses;
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(List<Address> address) {
+	this.address = address;
     }
 
+    
 }

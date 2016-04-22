@@ -1,14 +1,18 @@
 package org.study.pizzaservice;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.study.pizzaservice.domain.Address;
+import org.study.pizzaservice.domain.CheckCustomer;
 import org.study.pizzaservice.domain.Customer;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.RegistratedCustomer;
+import org.study.pizzaservice.domain.State;
 
 public class JpaWithoutSpringApp {
 
@@ -23,24 +27,29 @@ public class JpaWithoutSpringApp {
 	pizza.setPizzaType(Pizza.type.MEAT);
 	//pizza.setId(2);
 	
-	Address address = new Address(1, "df", "fdsa", "fdsa", "fdsa");
+	Address address = new Address("fads", "fdsa23", "4r4", "324");
+	address.setState(new State("active"));
 
-	Address address1 = new Address(2, "df2", "fdsa", "fdsa", "fdsa");
+	Address address1 = new Address();
+	address.setState(new State("active"));
 	
 	
 	Customer customer = new Customer();
-	//customer.setId(1);
 	customer.setName("john connor");
-	customer.setAddresses(Arrays.asList(address, address1));
+	customer.setAddress(Arrays.asList(address, address1));
 	customer.setPhones(Arrays.asList("fdsa", "dfas", "fdsa4"));
 
+	
+	
+	address.setCustomer(customer);
+	address1.setCustomer(customer);
 	try {
-//	    Pizza res = em.find(Pizza.class, 2);
-//	   System.out.println(res);
 	    em.getTransaction().begin();
 	    em.persist(customer);
-	    em.persist(pizza);
+	    em.flush();
 	    em.getTransaction().commit();
+	    em.clear();
+	    
 	} finally {
 
 	    em.close();

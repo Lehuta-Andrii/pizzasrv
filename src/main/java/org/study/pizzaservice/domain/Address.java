@@ -2,12 +2,24 @@ package org.study.pizzaservice.domain;
 
 import java.io.Serializable;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-@Embeddable
-public class Address implements Serializable {
+import org.hibernate.annotations.Type;
 
+@Entity
+public class Address  {
+
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ADDR_ID")
     private Integer id;
 
@@ -18,9 +30,16 @@ public class Address implements Serializable {
     private String street;
     private String house;
     private String room;
-
-    public Address(Integer id, String city, String street, String house, String room) {
-	this.id = id;
+    
+    @ManyToOne(optional = false)
+    @JoinTable(name = "CUST_ADDR")
+    private Customer customer;
+    
+    @Column(name = "ADDR_STATE")
+    @Convert(converter = StateConvertor.class)
+    private State state;
+    
+    public Address( String city, String street, String house, String room) {
 	this.city = city;
 	this.street = street;
 	this.house = house;
@@ -121,6 +140,34 @@ public class Address implements Serializable {
 	} else if (!street.equals(other.street))
 	    return false;
 	return true;
+    }
+
+    /**
+     * @return the state
+     */
+    public State getState() {
+	return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(State state) {
+	this.state = state;
+    }
+
+    /**
+     * @return the customer
+     */
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
 }
