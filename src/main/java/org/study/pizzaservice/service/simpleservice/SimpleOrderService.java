@@ -44,7 +44,7 @@ public class SimpleOrderService implements OrderService {
 		this.pizzasService = pizzasService;
 	}
 
-	public Order placeNewOrder(Customer customer, Integer... pizzasID) {
+	public Order placeNewOrder(Customer customer, Long... pizzasID) {
 
 		if (pizzasID.length <= MAX_NUMBER_OF_PIZZAS && pizzasID.length > 0) {
 			List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
@@ -105,10 +105,10 @@ public class SimpleOrderService implements OrderService {
 	    throw new OrderWithSpecificIdIsAbsentException();
 	}
 	
-	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) {
+	private List<Pizza> pizzasByArrOfId(Long... pizzasID) {
 		List<Pizza> pizzas = new ArrayList<Pizza>();
 
-		for (Integer id : pizzasID) {
+		for (Long id : pizzasID) {
 			pizzas.add(pizzasService.getPizzaById(id));
 		}
 		return pizzas;

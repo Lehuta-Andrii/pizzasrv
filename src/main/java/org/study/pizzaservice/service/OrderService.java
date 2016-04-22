@@ -11,7 +11,7 @@ import org.study.pizzaservice.domain.customer.Customer;
  *
  */
 public interface OrderService {
-	Order placeNewOrder(Customer customer, Integer... pizzasID);
+	Order placeNewOrder(Customer customer, Long... pizzasID);
 	
 	boolean removeOrder(Order order);
 

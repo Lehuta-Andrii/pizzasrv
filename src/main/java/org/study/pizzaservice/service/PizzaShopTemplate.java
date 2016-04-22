@@ -16,7 +16,7 @@ public abstract class PizzaShopTemplate {
 
 	public abstract List<Pizza> showMenu();
 
-	public abstract Order makeOrder(Customer customer, Integer... pizzaIds);
+	public abstract Order makeOrder(Customer customer, Long... pizzaIds);
 
 	public abstract boolean confirmOrder(Order order);
 

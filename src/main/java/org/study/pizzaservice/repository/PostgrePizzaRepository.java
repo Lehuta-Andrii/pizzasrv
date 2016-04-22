@@ -10,7 +10,6 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,7 +18,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.Pizza;
 
-@Repository
+//@Repository
 public class PostgrePizzaRepository implements PizzaRepository {
 
     private JdbcTemplate jdbcTemplate;
@@ -57,7 +56,7 @@ public class PostgrePizzaRepository implements PizzaRepository {
 	}, keyHolder);
 
 	if (result != 0) {
-	    pizza.setId(keyHolder.getKey().intValue());
+	    pizza.setId(keyHolder.getKey().longValue());
 
 	    return true;
 	}
@@ -84,7 +83,7 @@ public class PostgrePizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public Optional<Pizza> getPizzaByID(Integer id) {
+    public Optional<Pizza> getPizzaByID(Long id) {
 	try {
 	    return Optional.<Pizza> of(jdbcTemplate.queryForObject("select * from pizzas where id = ?",
 		    new Object[] { id }, new PizzaRowMapper()));
@@ -97,7 +96,7 @@ public class PostgrePizzaRepository implements PizzaRepository {
 
     private static final class PizzaRowMapper implements RowMapper<Pizza> {
 	public Pizza mapRow(ResultSet rs, int rowNum) throws SQLException {
-	    Pizza result = new Pizza(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+	    Pizza result = new Pizza(rs.getLong("id"), rs.getString("name"), rs.getDouble("price"),
 		    Pizza.Type.valueOf(rs.getString("pizzatype").toUpperCase()));
 
 	    return result;

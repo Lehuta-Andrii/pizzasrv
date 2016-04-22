@@ -13,15 +13,15 @@ import org.study.pizzaservice.domain.customer.Customer;
  * @author Andrii Lehuta
  *
  */
-@Repository
+//@Repository
 public class InMemCustomerRepository implements CustomerRepository {
 
     private List<Customer> customers = new ArrayList<Customer>();
 
     {
-	customers.add(new Customer("Abel"));
-	customers.add(new Customer("Albert"));
-	customers.add(new Customer("Nikola"));
+	customers.add(new Customer(1l,"Abel"));
+	customers.add(new Customer(2l,"Albert"));
+	customers.add(new Customer(3l,"Nikola"));
     }
 
     @Override

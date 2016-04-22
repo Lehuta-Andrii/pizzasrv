@@ -19,13 +19,13 @@ public class InMemPizzaRepository implements PizzaRepository {
     List<Pizza> pizzas = new ArrayList<Pizza>();
 
     public InMemPizzaRepository() {
-	this.pizzas.add(new Pizza(1, "Margarita", 50, Pizza.Type.MEAT));
-	this.pizzas.add(new Pizza(2, "Americana", 76, Pizza.Type.SEA));
-	this.pizzas.add(new Pizza(3, "Chilly", 50, Pizza.Type.VEGETARIAN));
+	this.pizzas.add(new Pizza(1l, "Margarita", 50, Pizza.Type.MEAT));
+	this.pizzas.add(new Pizza(2l, "Americana", 76, Pizza.Type.SEA));
+	this.pizzas.add(new Pizza(3l, "Chilly", 50, Pizza.Type.VEGETARIAN));
     }
 
     @Override
-    public Optional<Pizza> getPizzaByID(Integer id) {
+    public Optional<Pizza> getPizzaByID(Long id) {
 	for (Pizza pizza : pizzas) {
 	    if (id.equals(pizza.getId())) {
 		return Optional.<Pizza> of(pizza);

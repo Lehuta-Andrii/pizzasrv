@@ -45,7 +45,7 @@ public class SimpleOrderServiceTest {
 	public void placeNewOrderTestOnMoreThanTenPizzas() {
 		orderService = new SimpleOrderService(mockPizzaService, mockOrderRepository);
 
-		orderService.placeNewOrder(mockCustomer, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+		orderService.placeNewOrder(mockCustomer, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l);
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class SimpleOrderServiceTest {
 
 		when(mockPizzaService.getPizzaById(anyObject())).thenReturn(mockPizza);
 
-		assertTrue(orderService.placeNewOrder(mockCustomer, 1, 1, 1, 1) != null);
+		assertTrue(orderService.placeNewOrder(mockCustomer, 1l, 1l, 1l, 1l) != null);
 	}
 
 }

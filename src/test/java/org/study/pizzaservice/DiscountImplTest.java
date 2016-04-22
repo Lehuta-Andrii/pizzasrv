@@ -37,9 +37,9 @@ public class DiscountImplTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> empty()), 0) == 0);
     }
@@ -51,10 +51,10 @@ public class DiscountImplTest {
 	double expectedDiscount = priceOfMostExpensivePizza * 0.3;
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
-	pizzasList.add(new Pizza(3,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
 	assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> empty()),
 		expectedDiscount) == 0);
@@ -68,9 +68,9 @@ public class DiscountImplTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -88,9 +88,9 @@ public class DiscountImplTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -107,10 +107,10 @@ public class DiscountImplTest {
 	double expectedDiscount = (0.3 * priceOfMostExpensivePizza) + sumOnAccumulativeCard * 0.1;
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
-	pizzasList.add(new Pizza(3,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -129,10 +129,10 @@ public class DiscountImplTest {
 		+ (pizzasPrice - (0.3 * priceOfMostExpensivePizza)) * 0.30;
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2,"Pizza3", 45, Pizza.Type.VEGETARIAN));
-	pizzasList.add(new Pizza(3,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 

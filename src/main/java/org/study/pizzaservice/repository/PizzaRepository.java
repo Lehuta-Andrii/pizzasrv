@@ -23,5 +23,5 @@ public interface PizzaRepository {
 
     boolean updatePizza(Pizza pizza);
     
-    Optional<Pizza> getPizzaByID(Integer id);
+    Optional<Pizza> getPizzaByID(Long id);
 }

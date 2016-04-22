@@ -19,6 +19,6 @@ public interface PizzasService {
 
 	boolean deletePizza(Pizza pizza);
 
-	Pizza getPizzaById(Integer id);
+	Pizza getPizzaById(Long id);
 
 }

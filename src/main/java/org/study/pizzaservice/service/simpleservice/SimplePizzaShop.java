@@ -42,7 +42,7 @@ public class SimplePizzaShop extends PizzaShopTemplate {
 	}
 
 	@Override
-	public Order makeOrder(Customer customer, Integer... pizzaIds) {
+	public Order makeOrder(Customer customer, Long... pizzaIds) {
 		return orderService.placeNewOrder(customer, pizzaIds);
 	}
 

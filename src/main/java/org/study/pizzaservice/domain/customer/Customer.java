@@ -4,23 +4,47 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 /**
  * Customer class represents customer entity of pizza service
  * 
  * @author Lehuta Andrii
  *
  */
+@Entity
+@Table(name = "customers")
 public class Customer {
 
-    private static int GID = 0;
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     private String name;
 
+    @OneToMany(mappedBy="customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<Address>();
 
-    public Customer(String name) {
-	this.id = GID++;
+    public Customer() {
+    }
+
+    public Customer(Long id, String name) {
+	this.id = id;
 	this.name = name;
+    }
+
+    public Customer(Long id, String name, List<Address> addresses) {
+	this.id = id;
+	this.name = name;
+	this.addresses = addresses;
     }
 
     /**
@@ -68,7 +92,7 @@ public class Customer {
     /**
      * @return the id
      */
-    public int getId() {
+    public Long getId() {
 	return id;
     }
 
@@ -76,7 +100,7 @@ public class Customer {
      * @param id
      *            the id to set
      */
-    public void setId(int id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 

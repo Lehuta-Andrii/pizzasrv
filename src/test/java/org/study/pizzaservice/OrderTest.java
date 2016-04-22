@@ -39,9 +39,9 @@ public class OrderTest {
 	double expectedPrice = 135;
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	order = new Order(mockCustomer, pizzasList);
 	assertTrue(Double.compare(order.getPrice(), expectedPrice) == 0);
@@ -52,7 +52,7 @@ public class OrderTest {
 
 	order = new Order(mockCustomer, Collections.<Pizza> emptyList());
 
-	assertTrue(order.addPizza(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT)));
+	assertTrue(order.addPizza(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT)));
 	assertTrue(order.getPizzasAmount() == 1);
 
     }
@@ -62,16 +62,16 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	order = new Order(mockCustomer, pizzasList);
 	int expectedPizzasAmount = order.getPizzasAmount();
 
 	order.setState(new InProgressState());
 
-	assertFalse(order.addPizza(new Pizza(0, "Pizza11", 45, Pizza.Type.MEAT)));
+	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT)));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -81,16 +81,16 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	order = new Order(mockCustomer, pizzasList);
 	int expectedPizzasAmount = order.getPizzasAmount();
 
 	order.setState(new CanceledState());
 
-	assertFalse(order.addPizza(new Pizza(0, "Pizza11", 45, Pizza.Type.MEAT)));
+	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT)));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -100,16 +100,16 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 
 	order = new Order(mockCustomer, pizzasList);
 	int expectedPizzasAmount = order.getPizzasAmount();
 
 	order.setState(new DoneState());
 
-	assertFalse(order.addPizza(new Pizza(0, "Pizza11", 45, Pizza.Type.MEAT)));
+	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT)));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -119,7 +119,7 @@ public class OrderTest {
 
 	order = new Order(mockCustomer, Collections.<Pizza> emptyList());
 
-	assertFalse(order.removePizza(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT)));
+	assertFalse(order.removePizza(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT)));
 	assertTrue(order.getPizzasAmount() == 0);
 
     }
@@ -129,11 +129,11 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	Pizza specific = new Pizza(4, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
+	Pizza specific = new Pizza(4l, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 	pizzasList.add(specific);
 
 	order = new Order(mockCustomer, pizzasList);
@@ -148,11 +148,11 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	Pizza specific = new Pizza(4, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
+	Pizza specific = new Pizza(4l, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 	pizzasList.add(specific);
 
 	order = new Order(mockCustomer, pizzasList);
@@ -169,11 +169,11 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	Pizza specific = new Pizza(4, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
+	Pizza specific = new Pizza(4l, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 	pizzasList.add(specific);
 
 	order = new Order(mockCustomer, pizzasList);
@@ -190,11 +190,11 @@ public class OrderTest {
 
 	List<Pizza> pizzasList = new ArrayList<Pizza>();
 
-	Pizza specific = new Pizza(4, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
+	Pizza specific = new Pizza(4l, "Specific Pizza", 45, Pizza.Type.VEGETARIAN);
 
-	pizzasList.add(new Pizza(0, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
+	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
+	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
 	pizzasList.add(specific);
 
 	order = new Order(mockCustomer, pizzasList);

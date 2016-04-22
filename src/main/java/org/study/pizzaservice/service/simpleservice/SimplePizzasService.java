@@ -47,7 +47,7 @@ public class SimplePizzasService implements PizzasService {
 	}
 
 	@Override
-	public Pizza getPizzaById(Integer id) {
+	public Pizza getPizzaById(Long id) {
 		Optional<Pizza> pizza = pizzaRepository.getPizzaByID(id);
 		
 		if(pizza.isPresent()){
