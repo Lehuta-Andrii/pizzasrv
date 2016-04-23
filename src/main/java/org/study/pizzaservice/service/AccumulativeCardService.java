@@ -17,7 +17,7 @@ public interface AccumulativeCardService {
 
 	boolean setNewCard(Customer customer);
 	
-	boolean setCard(Customer customer, AccumulativeCard card);
+	boolean setCard(AccumulativeCard card);
 
 	boolean addSumToCard(Customer customer, double sum);
 	

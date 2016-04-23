@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.repository.AccumulativeCardRepository;
 import org.study.pizzaservice.repository.CustomerRepository;
 import org.study.pizzaservice.repository.PizzaRepository;
 import org.study.pizzaservice.service.AccumulativeCardService;
@@ -32,16 +35,22 @@ public class PizzaApp {
 //	CustomerService customers = (CustomerService) applicationContext.getBean(CustomerService.class);
 
 	CustomerRepository customers = applicationContext.getBean(CustomerRepository.class);
+	AccumulativeCardRepository accrep = applicationContext.getBean(AccumulativeCardRepository.class);
 	
-	Customer customer = new Customer();
-	List<Address> addr = new ArrayList<Address>();
-	addr.add(new Address(customer, "Kiev", "Mura", "17","6", "555322"));
-	addr.add(new Address(customer, "Kiev", "Bandera", "18","6", "555644"));
-	customer.setAdresses(addr);
-	customer.setName("Petro");
-	
-	customers.addCostumer(customer);
-	
+//	Customer customer = new Customer();
+//	
+//	List<Address> addr = new ArrayList<Address>();
+//	addr.add(new Address("Kiev", "Mura", "17","6", "555322"));
+//	addr.add(new Address("Kiev", "Bandera", "18","6", "555644"));
+//	customer.setAdresses(addr);
+//	
+//	customer.setName("Petro");
+//	
+//	AccumulativeCard aCard = new AccumulativeCardImpl();
+//	aCard.setCustomer(customers.getCostumerById(12l).get());
+//	
+//	accrep.addCard(aCard);
+//	
 //	AccumulativeCardService cardService = (AccumulativeCardService) applicationContext
 //		.getBean(AccumulativeCardService.class);
 //
@@ -61,9 +70,9 @@ public class PizzaApp {
 //
 //	
 //	//System.out.println(repositoryContext.getBean(PizzaRepository.class).getPizzas());
-//	//repositoryContext.getBean(PizzaRepository.class).addPizza(new Pizza(0, "Bavaria", 105, Pizza.Type.MEAT));
+//	repositoryContext.getBean(PizzaRepository.class).addPizza(new Pizza(null, "Bavaria", 105, Pizza.Type.MEAT));
 //		
-//	System.out.println(repositoryContext.getBean(PizzaRepository.class).getPizzas());
+	System.out.println(repositoryContext.getBean(PizzaRepository.class).getPizzas());
 //	
 	
 	

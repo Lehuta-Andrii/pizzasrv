@@ -96,7 +96,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public Order gerOrderById(Integer id) {
+	public Order gerOrderById(Long id) {
 	    Optional<Order> order = orderRepository.getOrderById(id);
 	    if(order.isPresent()){
 		return order.get();

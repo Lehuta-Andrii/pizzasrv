@@ -3,6 +3,11 @@ package org.study.pizzaservice.domain.order;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 
@@ -13,23 +18,21 @@ import org.study.pizzaservice.domain.customer.Customer;
  * @author Andrii Lehuta
  *
  */
+@Embeddable
 public class OrderContext {
 
-	private static int GID = 0;
-
-	private Integer id;
+    	@OneToOne
 	private Customer customer;
+	
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Pizza> pizzas;
-
+	
 	public OrderContext(Customer customer, List<Pizza> pizzas) {
-		id = GID++;
 		this.customer = customer;
 		this.pizzas = new ArrayList<Pizza>(pizzas);
-
 	}
 	
 	public OrderContext(){
-		id = GID++;
 	}
 
 	/**
@@ -62,14 +65,7 @@ public class OrderContext {
 		return pizzas.remove(pizza);
 
 	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
+	
 	/**
 	 * @return the customer
 	 */
@@ -102,6 +98,6 @@ public class OrderContext {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", pizzas=" + pizzas + "]";
+		return "Order [customer=" + customer + ", pizzas=" + pizzas + "]";
 	}
 }

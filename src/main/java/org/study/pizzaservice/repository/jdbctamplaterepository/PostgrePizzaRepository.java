@@ -1,4 +1,4 @@
-package org.study.pizzaservice.repository;
+package org.study.pizzaservice.repository.jdbctamplaterepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.repository.PizzaRepository;
 
 //@Repository
 public class PostgrePizzaRepository implements PizzaRepository {

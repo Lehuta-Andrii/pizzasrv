@@ -1,4 +1,4 @@
-package org.study.pizzaservice.repository;
+package org.study.pizzaservice.repository.inmemrepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.repository.PizzaRepository;
 
 /**
  * Dummy implementation of Pizza repository entity

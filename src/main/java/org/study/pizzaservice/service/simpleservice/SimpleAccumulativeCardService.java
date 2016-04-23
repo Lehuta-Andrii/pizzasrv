@@ -20,54 +20,56 @@ import org.study.pizzaservice.service.AccumulativeCardService;
 @Service
 public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
-	private AccumulativeCardRepository cardRepository;
+    private AccumulativeCardRepository cardRepository;
 
-	public SimpleAccumulativeCardService(){
-		
+    public SimpleAccumulativeCardService() {
+
+    }
+
+    @Autowired
+    public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository) {
+	this.cardRepository = cardRepository;
+    }
+
+    @Override
+    public Optional<AccumulativeCard> getCard(Customer customer) {
+	return cardRepository.getCard(customer);
+    }
+
+    @Override
+    public boolean setNewCard(Customer customer) {
+	AccumulativeCard card = createEmptyCard();
+	card.setCustomer(customer);
+	return cardRepository.addCard(card);
+    }
+
+    @Override
+    public boolean addSumToCard(Customer customer, double sum) {
+	boolean result = false;
+	Optional<AccumulativeCard> card = cardRepository.getCard(customer);
+
+	if (card.isPresent()) {
+	    card.get().addToCard(sum);
+	    result = true;
 	}
 
-	@Autowired
-	public SimpleAccumulativeCardService(AccumulativeCardRepository cardRepository) {
-		this.cardRepository = cardRepository;
-	}
+	return result;
+    }
 
-	@Override
-	public Optional<AccumulativeCard> getCard(Customer customer) {
-		return cardRepository.getCard(customer);
-	}
+    @Override
+    public boolean removeCard(Customer customer) {
+	return cardRepository.removeCustomerCard(customer);
+    }
 
-	@Override
-	public boolean setNewCard(Customer customer) {
-		return cardRepository.addCard(customer, createEmptyCard());
-	}
+    @Override
+    public boolean setCard(AccumulativeCard card) {
+	return cardRepository.addCard(card);
+    }
 
-	@Override
-	public boolean addSumToCard(Customer customer, double sum) {
-		boolean result = false;
-		Optional<AccumulativeCard> card = cardRepository.getCard(customer);
-
-		if (card.isPresent()) {
-			card.get().addToCard(sum);
-			result = true;
-		}
-
-		return result;
-	}
-
-	@Override
-	public boolean removeCard(Customer customer) {
-	    return cardRepository.removeCustomerCard(customer);
-	}
-
-	@Override
-	public boolean setCard(Customer customer, AccumulativeCard card) {
-	    return cardRepository.addCard(customer, card);
-	}
-
-	@Override
-	@Lookup
-	public AccumulativeCard createEmptyCard() {
-	    return new AccumulativeCardImpl();
-	}
+    @Override
+    @Lookup
+    public AccumulativeCard createEmptyCard() {
+	return new AccumulativeCardImpl();
+    }
 
 }

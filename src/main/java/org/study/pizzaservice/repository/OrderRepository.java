@@ -17,7 +17,7 @@ public interface OrderRepository {
 
     boolean update(Order order);
     
-    Optional<Order> getOrderById(Integer id);
+    Optional<Order> getOrderById(Long id);
     
     List<Order> getOrders();
     

@@ -30,14 +30,9 @@ public class Address {
     private String flat;
     private String phoneNumber;
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "costumer_id")
-    private Customer customer;
-
     protected Address(){}
     
-    public Address(Customer customer, String city, String street, String house, String flat, String phone) {
-	this.customer = customer;
+    public Address(String city, String street, String house, String flat, String phone) {
 	this.city = city;
 	this.street = street;
 	this.house = house;
@@ -155,5 +150,15 @@ public class Address {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+	return "Address [id=" + id + ", city=" + city + ", street=" + street + ", house=" + house + ", flat=" + flat
+		+ ", phoneNumber=" + phoneNumber + "]";
+    }
+    
 
 }

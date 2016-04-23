@@ -28,7 +28,7 @@ public class SimpleCustomerService implements CustomerService {
 	}
 
 	@Override
-	public Customer getCostumerById(Integer id) {
+	public Customer getCostumerById(Long id) {
 		Optional<Customer> customer = customers.getCostumerById(id);
 		if(customer.isPresent()){
 		    return customer.get();
@@ -44,13 +44,13 @@ public class SimpleCustomerService implements CustomerService {
 
 	@Override
 	public boolean addCostumer(Customer costumer) {
-		return customers.addCostumer(costumer);
+		return customers.addCustomer(costumer);
 	}
 
 	@Override
 	public boolean addAddress(Customer customer, Address address) {
 	    if(customer.addAddress(address)){
-		return customers.updateCostumer(customer);
+		return customers.updateCustomer(customer);
 	    }else{
 		return false;
 	    }
@@ -59,7 +59,7 @@ public class SimpleCustomerService implements CustomerService {
 	@Override
 	public boolean removeAddress(Customer customer, Address address) {
 	    if(customer.removeAddress(address)){
-		return customers.updateCostumer(customer);
+		return customers.updateCustomer(customer);
 	    }else{
 		return false;
 	    }
@@ -67,7 +67,7 @@ public class SimpleCustomerService implements CustomerService {
 
 	@Override
 	public boolean removeCustomer(Customer customer) {
-	    return customers.removeCostumer(customer);
+	    return customers.removeCustomer(customer);
 	}
 
 }

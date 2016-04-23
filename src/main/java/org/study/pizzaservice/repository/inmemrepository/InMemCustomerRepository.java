@@ -1,4 +1,4 @@
-package org.study.pizzaservice.repository;
+package org.study.pizzaservice.repository.inmemrepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.repository.CustomerRepository;
 
 /**
  * Dummy implementation of Customer repository entity
@@ -25,7 +26,7 @@ public class InMemCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> getCostumerById(Integer id) {
+    public Optional<Customer> getCostumerById(Long id) {
 	for (Customer customer : customers) {
 	    if (id.equals(customer.getId())) {
 		return Optional.<Customer>of(customer);
@@ -41,17 +42,17 @@ public class InMemCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public boolean addCostumer(Customer customer) {
+    public boolean addCustomer(Customer customer) {
 	return customers.add(customer);
     }
 
     @Override
-    public boolean updateCostumer(Customer customer) {
+    public boolean updateCustomer(Customer customer) {
 	return true;
     }
 
     @Override
-    public boolean removeCostumer(Customer customer) {
+    public boolean removeCustomer(Customer customer) {
 	return customers.remove(customer);
     }
 

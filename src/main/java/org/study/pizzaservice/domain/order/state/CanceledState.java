@@ -38,11 +38,6 @@ public class CanceledState implements OrderState {
     }
 
     @Override
-    public int getId() {
-	return order.getId();
-    }
-
-    @Override
     public Customer getCustomer() {
 	return order.getCustomer();
     }

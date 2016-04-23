@@ -1,4 +1,4 @@
-package org.study.pizzaservice.repository;
+package org.study.pizzaservice.repository.inmemrepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.customer.Customer;
+import org.study.pizzaservice.repository.AccumulativeCardRepository;
 
 /**
  * Dummy implementation of Accumulative card repository entity
@@ -16,7 +17,7 @@ import org.study.pizzaservice.domain.customer.Customer;
  * @author Andrii Lehuta
  *
  */
-@Repository
+//@Repository
 public class InMemAccumulativeCardRepository implements AccumulativeCardRepository {
 
     private Map<Customer, AccumulativeCard> cards = new HashMap<Customer, AccumulativeCard>();
@@ -35,11 +36,11 @@ public class InMemAccumulativeCardRepository implements AccumulativeCardReposito
     }
 
     @Override
-    public boolean addCard(Customer customer, AccumulativeCard card) {
-	if (cards.containsKey(customer)) {
+    public boolean addCard(AccumulativeCard card) {
+	if (cards.containsKey(card.getCustomer())) {
 	    return false;
 	} else {
-	    cards.put(customer, card);
+	    cards.put(card.getCustomer(), card);
 	    return true;
 	}
     }

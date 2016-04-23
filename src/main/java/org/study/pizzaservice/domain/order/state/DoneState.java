@@ -36,12 +36,7 @@ public class DoneState implements OrderState {
     public boolean removePizza(Pizza pizza) {
 	return false;
     }
-
-    @Override
-    public int getId() {
-	return order.getId();
-    }
-
+    
     @Override
     public Customer getCustomer() {
 	return order.getCustomer();

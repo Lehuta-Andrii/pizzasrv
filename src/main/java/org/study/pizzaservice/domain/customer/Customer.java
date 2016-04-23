@@ -7,9 +7,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,8 +32,8 @@ public class Customer {
 
     private String name;
 
-    @OneToMany(mappedBy="customer", cascade = CascadeType.ALL)
-    private List<Address> addresses = new ArrayList<Address>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Address> addresses;// = new ArrayList<Address>();
 
     public Customer() {
     }
@@ -51,7 +53,8 @@ public class Customer {
      * @return the adresses
      */
     public List<Address> getAddresses() {
-	return Collections.unmodifiableList(addresses);
+	return addresses;
+	//return Collections.unmodifiableList(addresses);
     }
 
     /**
@@ -119,9 +122,13 @@ public class Customer {
 	this.name = name;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-	return "Customer [id=" + id + ", name=" + name + "]";
+	return "Customer [id=" + id + ", name=" + name + ", addresses=" + addresses + "]";
     }
+
 
 }

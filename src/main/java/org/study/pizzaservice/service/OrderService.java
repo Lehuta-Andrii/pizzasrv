@@ -23,6 +23,6 @@ public interface OrderService {
 
 	boolean accomplishOrder(Order order);
 	
-	Order gerOrderById(Integer id);
+	Order gerOrderById(Long id);
 
 }

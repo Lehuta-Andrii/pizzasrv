@@ -1,4 +1,4 @@
-package org.study.pizzaservice.repository;
+package org.study.pizzaservice.repository.inmemrepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.repository.OrderRepository;
 
 /**
  * Dummy implementation of Order repository entity
@@ -13,7 +14,7 @@ import org.study.pizzaservice.domain.order.Order;
  * @author Andrii Lehuta
  *
  */
-@Repository
+//@Repository
 public class InMemOrderRepository implements OrderRepository {
 
     private List<Order> orders = new ArrayList<Order>();
@@ -29,7 +30,7 @@ public class InMemOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> getOrderById(Integer id) {
+    public Optional<Order> getOrderById(Long id) {
 
 	for (Order order : orders) {
 	    if (id.compareTo(order.getId()) == 0) {

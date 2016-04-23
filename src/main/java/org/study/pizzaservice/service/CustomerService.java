@@ -13,7 +13,7 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public interface CustomerService {
 
-    Customer getCostumerById(Integer id);
+    Customer getCostumerById(Long id);
 
     List<Customer> getCostumers();
 

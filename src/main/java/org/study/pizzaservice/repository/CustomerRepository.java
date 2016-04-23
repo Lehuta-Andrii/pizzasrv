@@ -13,14 +13,14 @@ import org.study.pizzaservice.domain.customer.Customer;
  */
 public interface CustomerRepository {
 
-    Optional<Customer> getCostumerById(Integer id);
+    Optional<Customer> getCostumerById(Long id);
 
     List<Customer> getCostumers();
 
-    boolean addCostumer(Customer customer);
+    boolean addCustomer(Customer customer);
     
-    boolean updateCostumer(Customer customer);
+    boolean updateCustomer(Customer customer);
     
-    boolean removeCostumer(Customer customer);
+    boolean removeCustomer(Customer customer);
 
 }

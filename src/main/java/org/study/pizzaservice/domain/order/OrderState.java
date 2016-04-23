@@ -21,8 +21,6 @@ public interface OrderState {
 
     boolean removePizza(Pizza pizza);
 
-    int getId();
-
     Customer getCustomer();
 
     void setCustomer(Customer customer);

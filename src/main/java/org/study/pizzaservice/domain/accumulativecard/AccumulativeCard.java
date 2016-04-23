@@ -1,5 +1,7 @@
 package org.study.pizzaservice.domain.accumulativecard;
 
+import org.study.pizzaservice.domain.customer.Customer;
+
 /**
  * Interface for definition of accumulative card entity in pizza service
  * 
@@ -8,12 +10,16 @@ package org.study.pizzaservice.domain.accumulativecard;
  */
 public interface AccumulativeCard {
 
-	int getId();
+	Long getId();
 
 	double getSum();
 
 	void setSum(double sum);
 
 	void addToCard(double sum);
+	
+	void setCustomer(Customer customer);
+	
+	Customer getCustomer();
 
 }
