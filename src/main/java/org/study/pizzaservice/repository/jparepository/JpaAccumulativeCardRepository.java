@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Override
     public Optional<AccumulativeCard> getCard(Customer customer) {
 	return null;
@@ -26,19 +28,24 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 
     @Override
     public boolean addCard(AccumulativeCard card) {
-	entityManager.persist(card);
+	try {
+	    entityManager.persist(card);
+	} catch (PersistenceException ex) {
+	    System.err.println(ex);
+	    return false;
+	}
 	return true;
     }
 
     @Override
     public List<AccumulativeCard> getCards() {
-	// TODO Auto-generated method stub
-	return null;
+	TypedQuery<AccumulativeCard> query = entityManager.createQuery("SELECT a FROM AccumulativeCard a", AccumulativeCard.class);
+	return query.getResultList();
     }
 
     @Override
     public boolean removeCustomerCard(Customer customer) {
-	// TODO Auto-generated method stub
+
 	return false;
     }
 
