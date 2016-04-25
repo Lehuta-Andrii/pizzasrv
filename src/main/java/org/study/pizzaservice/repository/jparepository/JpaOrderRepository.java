@@ -29,25 +29,36 @@ public class JpaOrderRepository implements OrderRepository {
 
     @Override
     public boolean update(Order order) {
-	// TODO Auto-generated method stub
+	Order dbOrder = entityManager.find(Order.class, order.getId());
+	if (dbOrder != null) {
+	    dbOrder.setCustomer(order.getCustomer());
+	    dbOrder.setPizzas(order.getPizzas());
+	    dbOrder.setState(order.getState());
+	    return true;
+	}
 	return false;
+
     }
 
     @Override
     public Optional<Order> getOrderById(Long id) {
-	// TODO Auto-generated method stub
-	return null;
+	return Optional.of(entityManager.find(Order.class, id));
     }
 
     @Override
     public List<Order> getOrders() {
-	// TODO Auto-generated method stub
-	return null;
+	TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o", Order.class);
+	return query.getResultList();
     }
 
     @Override
     public boolean removeOrder(Order order) {
-	// TODO Auto-generated method stub
+	Order dbOrder = entityManager.find(Order.class, order.getId());
+	if (dbOrder != null) {
+	    entityManager.remove(dbOrder);
+	    return true;
+	}
+
 	return false;
     }
 

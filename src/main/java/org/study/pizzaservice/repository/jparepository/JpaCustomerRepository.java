@@ -3,9 +3,7 @@ package org.study.pizzaservice.repository.jparepository;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import javax.persistence.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.customer.Address;
@@ -26,33 +24,59 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> getCostumers() {
-	// TODO Auto-generated method stub
-	return null;
+	TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
+	return query.getResultList();
     }
 
     @Override
     public boolean addCustomer(Customer customer) {
-	persistAddresses(customer);
-	entityManager.persist(customer);
+
+	if (persistAddresses(customer)) {
+
+	    try {
+		entityManager.persist(customer);
+	    } catch (PersistenceException ex) {
+		System.err.println(ex);
+		return false;
+	    }
+	}
 	return true;
     }
 
-    private void persistAddresses(Customer customer) {
+    private boolean persistAddresses(Customer customer) {
 	for (Address address : customer.getAddresses()) {
-	    entityManager.persist(address);
+	    try {
+		entityManager.persist(address);
+	    } catch (PersistenceException ex) {
+		System.err.println(ex);
+		return false;
+	    }
 	}
+
+	return true;
     }
 
     @Override
     public boolean updateCustomer(Customer customer) {
-	// TODO Auto-generated method stub
+	Customer dbCustomer = entityManager.find(Customer.class, customer.getId());
+	if (dbCustomer != null) {
+	    dbCustomer.setAdresses(customer.getAddresses());
+	    dbCustomer.setName(customer.getName());
+	    return true;
+	}
 	return false;
     }
 
     @Override
     public boolean removeCustomer(Customer customer) {
-	// TODO Auto-generated method stub
+	Customer dbCustomer = entityManager.find(Customer.class, customer.getId());
+	if (dbCustomer != null) {
+	    entityManager.remove(dbCustomer);
+	    return true;
+	}
+
 	return false;
+
     }
 
 }

@@ -2,18 +2,13 @@ package org.study.pizzaservice.domain.order;
 
 import java.util.List;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.state.NewState;
+import org.study.pizzaservice.repository.jparepository.OrderStateConverter;
 
 /**
  * Order class represents order with states object of service. Dispatches all
@@ -26,6 +21,7 @@ import org.study.pizzaservice.domain.order.state.NewState;
 @Component
 @Scope("prototype")
 @Entity
+@Access(AccessType.FIELD)
 @Table(name = "orders")
 public class Order {
 
@@ -35,7 +31,9 @@ public class Order {
     
     @Embedded
     private OrderContext order;
-    private transient OrderState state;
+    
+    @Transient
+    private OrderState state;
 
     public Order(Customer customer, List<Pizza> pizzas) {
 	this.order = new OrderContext(customer, pizzas);
@@ -52,6 +50,9 @@ public class Order {
     /**
      * @return the state of order
      */
+    @Access(AccessType.PROPERTY)
+    @Column(name = "state")
+    @Convert(converter = OrderStateConverter.class)
     public OrderState getState() {
 	return state;
     }
