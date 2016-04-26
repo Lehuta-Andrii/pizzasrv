@@ -50,6 +50,7 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
 	if (card.isPresent()) {
 	    card.get().addToCard(sum);
+	    cardRepository.updateCard(card.get());
 	    result = true;
 	}
 

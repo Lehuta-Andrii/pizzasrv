@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
+import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.AccumulativeCardRepository;
 
@@ -40,7 +41,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 		}
 		return true;
 	}
-
+	
 	@Override
 	public List<AccumulativeCard> getCards() {
 		TypedQuery<AccumulativeCard> query = entityManager.createQuery("SELECT a FROM AccumulativeCardImpl a",
@@ -54,6 +55,14 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 				.createQuery("DELETE FROM AccumulativeCardImpl a WHERE a.customer = :cust")
 				.setParameter("cust", customer);
 		return query.executeUpdate() > 0;
+	}
+
+	@Override
+	public boolean updateCard(AccumulativeCard card) {
+		AccumulativeCard dbCard = entityManager.find(AccumulativeCardImpl.class, card.getId());
+		dbCard.setCustomer(card.getCustomer());
+		dbCard.setSum(card.getSum());
+		return true;
 	}
 
 }

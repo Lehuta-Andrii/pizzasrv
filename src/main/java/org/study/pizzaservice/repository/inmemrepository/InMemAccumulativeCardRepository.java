@@ -55,4 +55,9 @@ public class InMemAccumulativeCardRepository implements AccumulativeCardReposito
 	return cards.remove(customer) != null;
     }
 
+	@Override
+	public boolean updateCard(AccumulativeCard card) {
+		return true;
+	}
+
 }

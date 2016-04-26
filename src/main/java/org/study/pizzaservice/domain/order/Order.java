@@ -37,6 +37,12 @@ public class Order {
 	@Transient
 	private OrderState state;
 
+	public Order(Customer customer, List<Pizza> pizzas, Address address) {
+		this.order = new OrderContext(customer, pizzas, address);
+		this.state = new NewState();
+		state.setContext(order);
+	}
+
 	public Order(Customer customer, List<Pizza> pizzas) {
 		this.order = new OrderContext(customer, pizzas);
 		this.state = new NewState();
@@ -121,6 +127,10 @@ public class Order {
 	public void setAddress(Address address) {
 		state.setAddress(address);
 	}
+	
+	public OrderContext getOrderContext(){
+		return order;
+	}
 
 	/**
 	 * @return the price of order
@@ -135,8 +145,14 @@ public class Order {
 		return price;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return order.toString();
+		return "Order [id=" + id + ", order=" + order + ", state=" + state + "]";
 	}
+
 }

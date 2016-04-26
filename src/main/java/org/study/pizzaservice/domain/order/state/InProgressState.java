@@ -60,7 +60,7 @@ public class InProgressState implements OrderState {
 
     @Override
     public boolean canSetState(OrderState state) {
-	if (state.getClass().equals(this.getClass()) || state.getClass().equals(NewState.class)) {
+	if (state.getClass().equals(NewState.class)) {
 	    return false;
 	} else {
 	    return true;

@@ -16,6 +16,7 @@ import org.study.pizzaservice.repository.jparepository.LocalDateConverter;
  *
  */
 @Embeddable
+@Access(AccessType.FIELD)
 public class OrderContext {
 
 	@OneToOne
@@ -31,8 +32,9 @@ public class OrderContext {
 	@OneToOne
 	private Address address;
 
-	@ElementCollection
-	private Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+	//@ElementCollection(fetch = FetchType.EAGER)
+	@Transient
+	private Map<Pizza, Integer> pizzasMap = new HashMap<Pizza, Integer>();
 
 	public OrderContext(Customer customer, List<Pizza> pizzas) {
 		this.date = LocalDate.now();
@@ -40,6 +42,11 @@ public class OrderContext {
 		for (Pizza pizza : pizzas) {
 			addPizzaHelper(pizza);
 		}
+	}
+	
+	public OrderContext(Customer customer, List<Pizza> pizzas, Address address) {
+		this(customer, pizzas);
+		this.address = address;
 	}
 
 	public OrderContext() {
@@ -103,11 +110,11 @@ public class OrderContext {
 	 */
 
 	public boolean removePizza(Pizza pizza) {
-		if (pizzas.containsKey(pizza)) {
-			if (pizzas.get(pizza) == 1) {
-				pizzas.remove(pizza);
+		if (pizzasMap.containsKey(pizza)) {
+			if (pizzasMap.get(pizza) == 1) {
+				pizzasMap.remove(pizza);
 			} else {
-				pizzas.put(pizza, pizzas.get(pizza) - 1);
+				pizzasMap.put(pizza, pizzasMap.get(pizza) - 1);
 			}
 		} else {
 			return false;
@@ -138,13 +145,27 @@ public class OrderContext {
 	public List<Pizza> getPizzas() {
 		List<Pizza> result = new ArrayList<Pizza>();
 
-		for (Pizza key : pizzas.keySet()) {
-			for (int i = 0; i < pizzas.get(key); i++) {
+		for (Pizza key : pizzasMap.keySet()) {
+			for (int i = 0; i < pizzasMap.get(key); i++) {
 				result.add(key);
 			}
 		}
 
 		return result;
+	}
+	
+	@Access(AccessType.PROPERTY)
+	@ElementCollection(fetch = FetchType.EAGER)
+	public Map<Pizza, Integer> getPizzasMap(){
+		return pizzasMap;
+	}
+	
+	public void setPizzasMap(Map<Pizza, Integer> pizzaMap){
+		this.pizzasMap = pizzaMap;
+	
+		for(int amount : pizzasMap.values()){
+			this.pizzasAmmount += amount;
+		}
 	}
 
 	/**
@@ -152,7 +173,7 @@ public class OrderContext {
 	 *            the pizzas to set
 	 */
 	public void setPizzas(List<Pizza> pizzas) {
-		pizzas.clear();
+		pizzasMap.clear();
 		pizzasAmmount = 0;
 
 		for (Pizza pizza : pizzas) {
@@ -160,17 +181,23 @@ public class OrderContext {
 		}
 	}
 
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "Order [customer=" + customer + ", pizzas=" + pizzas.keySet() + "]";
+		return "OrderContext [customer=" + customer + ", pizzasAmmount=" + pizzasAmmount + ", date=" + date
+				+ ", address=" + address + ", pizzas=" + pizzasMap + "]";
 	}
 
 	private boolean addPizzaHelper(Pizza pizza) {
 
-		if (pizzas.containsKey(pizza)) {
-			pizzas.put(pizza, pizzas.get(pizza) + 1);
+		if (pizzasMap.containsKey(pizza)) {
+			pizzasMap.put(pizza, pizzasMap.get(pizza) + 1);
 		} else {
-			pizzas.put(pizza, 1);
+			pizzasMap.put(pizza, 1);
 		}
 
 		pizzasAmmount++;

@@ -1,5 +1,6 @@
 package org.study.pizzaservice;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,11 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
+import org.study.pizzaservice.domain.order.OrderState;
+import org.study.pizzaservice.domain.order.state.CanceledState;
 import org.study.pizzaservice.repository.AccumulativeCardRepository;
 import org.study.pizzaservice.repository.CustomerRepository;
+import org.study.pizzaservice.repository.OrderRepository;
 import org.study.pizzaservice.repository.PizzaRepository;
 import org.study.pizzaservice.service.AccumulativeCardService;
 import org.study.pizzaservice.service.CustomerService;
@@ -20,7 +24,8 @@ import org.study.pizzaservice.service.PizzaShopTemplate;
 
 public class PizzaApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 
 		Order order;
 
@@ -30,49 +35,30 @@ public class PizzaApp {
 
 		applicationContext.setParent(repositoryContext);
 		applicationContext.refresh();
+		
+//		addPizzas(applicationContext.getBean(PizzaRepository.class));
+//		addCustomer(applicationContext.getBean(CustomerRepository.class));
+		
 
-		// PizzaShopTemplate pizzaShop = (PizzaShopTemplate)
-		// applicationContext.getBean(PizzaShopTemplate.class);
-		// CustomerService customers = (CustomerService)
-		// applicationContext.getBean(CustomerService.class);
+		PizzaShopTemplate pizzaShop = (PizzaShopTemplate) applicationContext.getBean(PizzaShopTemplate.class);
+		CustomerService customers = (CustomerService) applicationContext.getBean(CustomerService.class);
 
-		CustomerRepository customerRepository = applicationContext.getBean(CustomerRepository.class);
-		AccumulativeCardRepository accRepository = applicationContext.getBean(AccumulativeCardRepository.class);
-		PizzaRepository pizzaRepository = applicationContext.getBean(PizzaRepository.class);
+		AccumulativeCardService cardService = (AccumulativeCardService) applicationContext
+				.getBean(AccumulativeCardService.class);
 
-		// addPizzas(pizzaRepository);
-		// addCostumer(customerRepository);
+	//	if (cardService.setNewCard(customers.getCostumerById(7l))) {
+			cardService.addSumToCard(customers.getCostumerById(7l), 100);
+	//	}
 
-		System.out.println(customerRepository.getCostumers());
+		order = pizzaShop.makeOrder(customers.getCostumerById(7l), 1l, 2l, 3l, 4l);
 
-		System.out.println(accRepository.getCards());
-		accRepository.removeCustomerCard(customerRepository.getCostumerById(25L).get());
-		System.out.println(accRepository.getCards());
+		System.out.println(order);
+		System.out.println(order.getPrice());
 
-		// AccumulativeCardService cardService = (AccumulativeCardService)
-		// applicationContext
-		// .getBean(AccumulativeCardService.class);
-		//
-		// if(cardService.setNewCard(customers.getCostumerById(0))){
-		// cardService.addSumToCard(customers.getCostumerById(0), 100);
-		// }
-		//
-		// order = pizzaShop.makeOrder(customers.getCostumerById(0), 1l, 2l, 3l,
-		// 1l);
-		//
-		// System.out.println(order);
-		// System.out.println(order.getPrice());
-		//
-		// System.out.println(pizzaShop.getDiscount(order));
-		//
-		// pizzaShop.accomplishOrder(order);
-		// System.out.println(order.getState());
-		//
-		//
-		// //System.out.println(repositoryContext.getBean(PizzaRepository.class).getPizzas());
-		// repositoryContext.getBean(PizzaRepository.class).addPizza(new
-		// Pizza(null, "Bavaria", 105, Pizza.Type.MEAT));
-		//
+		System.out.println(pizzaShop.getDiscount(order));
+
+		pizzaShop.accomplishOrder(order);
+		System.out.println(order.getState());
 
 		repositoryContext.close();
 		applicationContext.close();
@@ -92,7 +78,7 @@ public class PizzaApp {
 		pizzaRepository.addPizza(new Pizza("Bavaria", 105, Pizza.Type.MEAT));
 	}
 
-	static void addCostumer(CustomerRepository customerRepository) {
+	static Customer addCustomer(CustomerRepository customerRepository) {
 		Customer customer = new Customer();
 
 		List<Address> addr = new ArrayList<Address>();
@@ -102,6 +88,7 @@ public class PizzaApp {
 		customer.setName("Petro");
 
 		customerRepository.addCustomer(customer);
+		return customer;
 
 	}
 

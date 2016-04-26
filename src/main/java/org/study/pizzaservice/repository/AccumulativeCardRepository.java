@@ -21,4 +21,6 @@ public interface AccumulativeCardRepository {
     List<AccumulativeCard> getCards();
     
     boolean removeCustomerCard(Customer customer);
+    
+    boolean updateCard(AccumulativeCard card);
 }

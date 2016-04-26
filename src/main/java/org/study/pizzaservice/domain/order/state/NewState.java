@@ -61,11 +61,7 @@ public class NewState implements OrderState {
 
     @Override
     public boolean canSetState(OrderState state) {
-	if (state.getClass().equals(this.getClass())) {
-	    return false;
-	} else {
 	    return true;
-	}
     }
 
     @Override
