@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import org.study.pizzaservice.domain.customer.Customer;
 @Component
 @Scope("prototype")
 @Entity
-@Table(name = "AccumulativeCards")
+@Table(name = "AccumulativeCards",  uniqueConstraints = @UniqueConstraint(columnNames = "customer_id"))
 public class AccumulativeCardImpl implements AccumulativeCard {
 
     @Id
@@ -80,4 +81,14 @@ public class AccumulativeCardImpl implements AccumulativeCard {
 	return customer;
     }
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AccumulativeCardImpl [id=" + id + ", sum=" + sum + ", customer=" + customer + "]";
+	}
+
+    
+    
 }

@@ -31,32 +31,24 @@ public class PizzaApp {
 		applicationContext.setParent(repositoryContext);
 		applicationContext.refresh();
 
-
-		
-		
-		
 		// PizzaShopTemplate pizzaShop = (PizzaShopTemplate)
 		// applicationContext.getBean(PizzaShopTemplate.class);
 		// CustomerService customers = (CustomerService)
 		// applicationContext.getBean(CustomerService.class);
 
-		//CustomerRepository customers = applicationContext.getBean(CustomerRepository.class);
-		//AccumulativeCardRepository accrep = applicationContext.getBean(AccumulativeCardRepository.class);
+		CustomerRepository customerRepository = applicationContext.getBean(CustomerRepository.class);
+		AccumulativeCardRepository accRepository = applicationContext.getBean(AccumulativeCardRepository.class);
+		PizzaRepository pizzaRepository = applicationContext.getBean(PizzaRepository.class);
 
-		// Customer customer = new Customer();
-		//
-		// List<Address> addr = new ArrayList<Address>();
-		// addr.add(new Address("Kiev", "Mura", "17","6", "555322"));
-		// addr.add(new Address("Kiev", "Bandera", "18","6", "555644"));
-		// customer.setAdresses(addr);
-		//
-		// customer.setName("Petro");
-		//
-		// AccumulativeCard aCard = new AccumulativeCardImpl();
-		// aCard.setCustomer(customers.getCostumerById(12l).get());
-		//
-		// accrep.addCard(aCard);
-		//
+		// addPizzas(pizzaRepository);
+		// addCostumer(customerRepository);
+
+		System.out.println(customerRepository.getCostumers());
+
+		System.out.println(accRepository.getCards());
+		accRepository.removeCustomerCard(customerRepository.getCostumerById(25L).get());
+		System.out.println(accRepository.getCards());
+
 		// AccumulativeCardService cardService = (AccumulativeCardService)
 		// applicationContext
 		// .getBean(AccumulativeCardService.class);
@@ -81,28 +73,16 @@ public class PizzaApp {
 		// repositoryContext.getBean(PizzaRepository.class).addPizza(new
 		// Pizza(null, "Bavaria", 105, Pizza.Type.MEAT));
 		//
-		
-		PizzaRepository pizzaRepository = applicationContext.getBean(PizzaRepository.class);
-		
-		
-		//addPizzas(pizzaRepository);
-		
-		
-		System.out.println(pizzaRepository.getPizzas());
-		
-		
-		Pizza somePizza = pizzaRepository.getPizzaByID(8l).get();
-		somePizza.setPrice(400);
-		pizzaRepository.updatePizza(somePizza);
-		
-		System.out.println(pizzaRepository.getPizzas());
-		
-		
-		//pizzaRepository.deletePizza(pizzaRepository.getPizzaByID(4l).get());
-		
 
 		repositoryContext.close();
 		applicationContext.close();
+	}
+
+	private static void addAccumulativeCard(Customer customer, AccumulativeCardRepository accRepository) {
+		AccumulativeCard aCard = new AccumulativeCardImpl();
+		aCard.setCustomer(customer);
+
+		accRepository.addCard(aCard);
 	}
 
 	public static void addPizzas(PizzaRepository pizzaRepository) {
@@ -112,7 +92,16 @@ public class PizzaApp {
 		pizzaRepository.addPizza(new Pizza("Bavaria", 105, Pizza.Type.MEAT));
 	}
 
-	static void addCostumer(CustomerRepository rep) {
+	static void addCostumer(CustomerRepository customerRepository) {
+		Customer customer = new Customer();
+
+		List<Address> addr = new ArrayList<Address>();
+		addr.add(new Address("Kiev", "Mura", "17", "6", "555322"));
+		addr.add(new Address("Kiev", "Bandera", "18", "6", "555644"));
+		customer.setAdresses(addr);
+		customer.setName("Petro");
+
+		customerRepository.addCustomer(customer);
 
 	}
 

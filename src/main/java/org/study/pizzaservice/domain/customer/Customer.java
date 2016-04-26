@@ -1,5 +1,6 @@
 package org.study.pizzaservice.domain.customer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class Customer {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Address> addresses;// = new ArrayList<Address>();
+    private List<Address> addresses = new ArrayList<Address>();
 
     public Customer() {
     }
@@ -43,7 +44,6 @@ public class Customer {
      */
     public List<Address> getAddresses() {
 	return addresses;
-	//return Collections.unmodifiableList(addresses);
     }
 
     /**

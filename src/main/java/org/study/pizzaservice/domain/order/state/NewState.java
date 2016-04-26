@@ -1,8 +1,10 @@
 package org.study.pizzaservice.domain.order.state;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.OrderContext;
 import org.study.pizzaservice.domain.order.OrderState;
@@ -66,6 +68,27 @@ public class NewState implements OrderState {
 	}
     }
 
+    @Override
+    public LocalDate getDate() {
+    	return order.getDate();
+    }
+    
+    @Override
+    public void setDate(LocalDate date) {
+    	order.setDate(date);
+    }
+    
+    @Override
+    public Address getAddress() {
+    	return order.getAddress();
+    }
+    
+    @Override
+    public void setAddress(Address address) {
+    	order.setAddress(address);
+    }
+    
+    
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
