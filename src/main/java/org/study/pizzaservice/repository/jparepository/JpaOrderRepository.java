@@ -37,8 +37,9 @@ public class JpaOrderRepository implements OrderRepository {
 		
 		if (dbOrder != null) {
 			dbOrder.setCustomer(order.getCustomer());
-			System.out.println(order.getPizzas());
-			dbOrder.getOrderContext().setPizzasMap(order.getOrderContext().getPizzasMap());
+//			System.out.println(order.getPizzas());
+//			dbOrder.getOrderContext().setPizzasMap(order.getOrderContext().getPizzasMap());
+			dbOrder.setPizzas(order.getPizzas());
 			dbOrder.setState(order.getState());
 			dbOrder.setAddress(order.getAddress());
 			dbOrder.setDate(order.getDate());

@@ -46,11 +46,11 @@ public class PizzaApp {
 		AccumulativeCardService cardService = (AccumulativeCardService) applicationContext
 				.getBean(AccumulativeCardService.class);
 
-	//	if (cardService.setNewCard(customers.getCostumerById(7l))) {
-			cardService.addSumToCard(customers.getCostumerById(7l), 100);
-	//	}
+//		if (cardService.setNewCard(customers.getCostumerById(21l))) {
+			cardService.addSumToCard(customers.getCostumerById(21l), 100);
+//		}
 
-		order = pizzaShop.makeOrder(customers.getCostumerById(7l), 1l, 2l, 3l, 4l);
+		order = pizzaShop.makeOrder(customers.getCostumerById(21l), 15l, 16l, 17l, 18l);
 
 		System.out.println(order);
 		System.out.println(order.getPrice());
