@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.study.pizzaservice.domain.customer.Address;
+import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.repository.OrderRepository;
 
@@ -33,16 +35,12 @@ public class JpaOrderRepository implements OrderRepository {
 		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o WHERE o.id = :order_id", Order.class)
 				.setParameter("order_id", order.getId());
 
-		Order dbOrder = query.getSingleResult();
 		
+		Order dbOrder = query.getSingleResult();
 		if (dbOrder != null) {
-			dbOrder.setCustomer(order.getCustomer());
-//			System.out.println(order.getPizzas());
-//			dbOrder.getOrderContext().setPizzasMap(order.getOrderContext().getPizzasMap());
-			dbOrder.setPizzas(order.getPizzas());
-			dbOrder.setState(order.getState());
-			dbOrder.setAddress(order.getAddress());
-			dbOrder.setDate(order.getDate());
+			
+			entityManager.merge(order);
+	
 			return true;
 		}
 		return false;

@@ -16,13 +16,11 @@ import org.study.pizzaservice.repository.jparepository.LocalDateConverter;
  *
  */
 @Embeddable
-//@Access(AccessType.FIELD)
 public class OrderContext {
 
 	@OneToOne
 	private Customer customer;
 
-//	@Transient
 	private int pizzasAmmount;
 
 	@Column(name = "date")
@@ -33,7 +31,7 @@ public class OrderContext {
 	private Address address;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-//	@Transient
+	@Column(name = "pizzas_ammount")
 	private Map<Pizza, Integer> pizzasMap = new HashMap<Pizza, Integer>();
 
 	public OrderContext(Customer customer, List<Pizza> pizzas) {
@@ -153,9 +151,7 @@ public class OrderContext {
 
 		return result;
 	}
-	
-	//@Access(AccessType.PROPERTY)
-	//@ElementCollection(fetch = FetchType.EAGER)
+
 	public Map<Pizza, Integer> getPizzasMap(){
 		return pizzasMap;
 	}

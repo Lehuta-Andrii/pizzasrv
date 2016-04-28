@@ -32,52 +32,20 @@ public class JpaCustomerRepository implements CustomerRepository {
 	@Override
 	public boolean addCustomer(Customer customer) {
 
-		if (persistAddresses(customer)) {
-
-			try {
-				entityManager.persist(customer);
-			} catch (PersistenceException ex) {
-				System.err.println(ex);
-				return false;
-			}
+		try {
+			entityManager.persist(customer);
+		} catch (PersistenceException ex) {
+			System.err.println(ex);
+			return false;
 		}
-		return true;
-	}
-
-	private boolean persistAddresses(Customer customer) {
-		for (Address address : customer.getAddresses()) {
-			try {
-				entityManager.persist(address);
-			} catch (PersistenceException ex) {
-				System.err.println(ex);
-				return false;
-			}
-		}
-
 		return true;
 	}
 
 	@Override
 	public boolean updateCustomer(Customer customer) {
 		Customer dbCustomer = entityManager.find(Customer.class, customer.getId());
-		if (dbCustomer != null) {
-
-			List<Address> newAddresses = new ArrayList<Address>();
-
-			for (Address address : customer.getAddresses()) {
-
-				if (address.getId() == null) {
-					entityManager.persist(address);
-				}
-
-				Address dbAddress = entityManager.find(Address.class, address.getId());
-
-				newAddresses.add(dbAddress);
-
-			}
-
-			dbCustomer.setAdresses(newAddresses);
-			dbCustomer.setName(customer.getName());
+		if (dbCustomer != null) {			
+			entityManager.merge(customer);
 			return true;
 		}
 

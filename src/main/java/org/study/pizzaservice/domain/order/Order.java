@@ -62,7 +62,14 @@ public class Order {
 	@Column(name = "state")
 	@Convert(converter = OrderStateConverter.class)
 	public OrderState getState() {
-		return state;
+		try {
+			return (OrderState)state.getClass().newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		throw new RuntimeException();
 	}
 
 	/**

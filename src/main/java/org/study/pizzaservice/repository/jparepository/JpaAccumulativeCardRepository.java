@@ -60,9 +60,14 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 	@Override
 	public boolean updateCard(AccumulativeCard card) {
 		AccumulativeCard dbCard = entityManager.find(AccumulativeCardImpl.class, card.getId());
-		dbCard.setCustomer(card.getCustomer());
-		dbCard.setSum(card.getSum());
-		return true;
+		if(dbCard != null){
+			
+			entityManager.merge(card);
+			return true;
+			
+		}
+		
+		return false;
 	}
 
 }
