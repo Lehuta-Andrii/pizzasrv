@@ -9,16 +9,16 @@
          http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
-	<!-- <context:component-scan base-package="org.study.pizzaservice.domain"> -->
+<!-- 	<context:component-scan base-package="org.study" /> -->
 	<!-- <context:include-filter type="annotation" expression="org.study.pizzaservice.infrastructure.Domain"/> -->
 	<!-- </context:component-scan> -->
 
 	<bean name="order" class="org.study.pizzaservice.domain.Order"
 		scope="prototype" />
 
-	<bean name="createOrderReplacer"
-		class="org.study.pizzaservice.infrastructure.CreateOrderReplacement">
-	</bean>
+<!-- 	<bean name="createOrderReplacer" -->
+<!-- 		class="org.study.pizzaservice.infrastructure.CreateOrderReplacement"> -->
+<!-- 	</bean> -->
 
 	<bean name="orderService" class="org.study.pizzaservice.SimpleOrderService" autowire="byType">
 		<constructor-arg ref="pizzaRepository" />
@@ -40,19 +40,19 @@
 	<!-- <constructor-arg value="hh;" /> -->
 	<!-- </bean> -->
 
-	<bean id="name" class="java.lang.String">
-		<constructor-arg value="Some name" />
-	</bean>
+<!-- 	<bean id="name" class="java.lang.String"> -->
+<!-- 		<constructor-arg value="Some name" /> -->
+<!-- 	</bean> -->
 
-	<bean factory-bean="createPizzaService" factory-method="createPizza">
-		<constructor-arg index="0" ref = "name" />
-		<constructor-arg index="1" value="34.5" />
-		<constructor-arg index="2" value="MEAT" />
-	</bean>
+<!-- 	<bean factory-bean="createPizzaService" factory-method="createPizza"> -->
+<!-- 		<constructor-arg index="0" ref = "name" /> -->
+<!-- 		<constructor-arg index="1" value="34.5" /> -->
+<!-- 		<constructor-arg index="2" value="MEAT" /> -->
+<!-- 	</bean> -->
 
-	<bean class="org.study.pizzaservice.domain.Customer" />
-	<bean
-		class="org.study.pizzaservice.infrastructure.BeanchMarkProxyBeanPostProcessor" />
+<!-- 	<bean class="org.study.pizzaservice.domain.Customer" /> -->
+<!-- 	<bean -->
+<!-- 		class="org.study.pizzaservice.infrastructure.BeanchMarkProxyBeanPostProcessor" /> -->
 
 
 </beans>

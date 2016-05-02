@@ -47,6 +47,7 @@ public class JpaWithoutSpringApp {
 	    em.getTransaction().begin();
 	    em.persist(customer);
 	    em.flush();
+	    
 	    em.getTransaction().commit();
 	    em.clear();
 	    

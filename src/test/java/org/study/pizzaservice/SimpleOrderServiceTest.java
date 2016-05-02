@@ -23,8 +23,8 @@ public class SimpleOrderServiceTest extends RepositoryTestConfig {
 	Customer customer = null;
 	Integer[] pizzaId = new Integer[]{0};
 	Order expResult = null;
-	Order result = orderService.placeNewOrder(customer, pizzaId);
-	System.out.println(result);
+	//Order result = orderService.placeNewOrder(customer, pizzaId);
+	//System.out.println(result);
 //	fail("The test case is a prototype");
 	
     }
