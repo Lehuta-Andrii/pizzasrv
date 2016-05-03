@@ -59,6 +59,12 @@ public class PizzaApp {
 
 //		pizzaShop.accomplishOrder(order);
 //		System.out.println(order.getState());
+
+		PizzaRepository pizzas = applicationContext.getBean(PizzaRepository.class);
+		Pizza pizza  = pizzas.getPizzaByID(18l).get();
+		pizzas.deletePizza(pizza);
+		
+		
 		
 		repositoryContext.close();
 		applicationContext.close();

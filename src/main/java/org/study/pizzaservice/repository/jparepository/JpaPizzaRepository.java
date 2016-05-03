@@ -52,7 +52,8 @@ public class JpaPizzaRepository implements PizzaRepository {
 	public boolean deletePizza(Pizza pizza) {
 		Pizza dbPizza = entityManager.find(Pizza.class, pizza.getId());
 		if (dbPizza != null) {
-			entityManager.remove(dbPizza);
+			entityManager.remove(dbPizza);	
+			entityManager.flush();
 			return true;
 		}
 
