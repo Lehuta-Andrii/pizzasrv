@@ -26,7 +26,9 @@ import org.study.pizzaservice.domain.customer.Customer;
 public class AccumulativeCardImpl implements AccumulativeCard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+   // @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     private double sum;
@@ -88,6 +90,12 @@ public class AccumulativeCardImpl implements AccumulativeCard {
 	public String toString() {
 		return "AccumulativeCardImpl [id=" + id + ", sum=" + sum + ", customer=" + customer + "]";
 	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
     
     

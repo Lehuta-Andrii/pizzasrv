@@ -63,6 +63,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 		if(dbCard != null){
 			
 			entityManager.merge(card);
+			entityManager.flush();
 			return true;
 			
 		}

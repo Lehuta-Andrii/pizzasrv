@@ -11,6 +11,8 @@ import org.study.pizzaservice.domain.customer.Customer;
 public interface AccumulativeCard {
 
 	Long getId();
+	
+	void setId(Long id);
 
 	double getSum();
 

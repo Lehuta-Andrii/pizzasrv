@@ -63,11 +63,6 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
     }
 
     @Override
-    public boolean setCard(AccumulativeCard card) {
-	return cardRepository.addCard(card);
-    }
-
-    @Override
     @Lookup
     public AccumulativeCard createEmptyCard() {
 	return new AccumulativeCardImpl();
