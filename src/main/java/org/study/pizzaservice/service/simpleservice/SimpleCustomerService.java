@@ -28,7 +28,7 @@ public class SimpleCustomerService implements CustomerService {
 	}
 
 	@Override
-	public Customer getCostumerById(Long id) {
+	public Customer getCustomerById(Long id) {
 		Optional<Customer> customer = customers.getCostumerById(id);
 		if(customer.isPresent()){
 		    return customer.get();
@@ -38,12 +38,12 @@ public class SimpleCustomerService implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> getCostumers() {
+	public List<Customer> getCustomers() {
 		return customers.getCostumers();
 	}
 
 	@Override
-	public boolean addCostumer(Customer costumer) {
+	public boolean addCustomer(Customer costumer) {
 		return customers.addCustomer(costumer);
 	}
 
