@@ -1,7 +1,8 @@
 package org.study.pizzaservice.domain.order.state;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
+
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
@@ -30,12 +31,12 @@ public class DoneState implements OrderState {
 	}
 
 	@Override
-	public boolean addPizza(Pizza pizza) {
+	public boolean addPizza(Pizza pizza, int amount) {
 		return false;
 	}
 
 	@Override
-	public boolean removePizza(Pizza pizza) {
+	public boolean removePizza(Pizza pizza, int amount) {
 		return false;
 	}
 
@@ -49,12 +50,12 @@ public class DoneState implements OrderState {
 	}
 
 	@Override
-	public List<Pizza> getPizzas() {
-		return order.getPizzas();
+	public Map<Pizza, Integer> getPizzasMap() {
+		return order.getPizzasMap();
 	}
 
 	@Override
-	public void setPizzas(List<Pizza> pizzas) {
+	public void setPizzasMap(Map<Pizza, Integer> pizzas) {
 	}
 
 	@Override
@@ -83,6 +84,11 @@ public class DoneState implements OrderState {
 	@Override
 	public void setAddress(Address address) {
 	}
+	
+	@Override
+	public int getAmountOfPizza(Pizza pizza) {
+		return order.getAmountOfPizza(pizza);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -93,5 +99,7 @@ public class DoneState implements OrderState {
 	public String toString() {
 		return "DoneState";
 	}
+
+
 
 }

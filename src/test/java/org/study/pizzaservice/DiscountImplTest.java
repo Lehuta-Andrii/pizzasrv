@@ -16,7 +16,9 @@ import org.study.pizzaservice.domain.discount.DiscountImpl;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,11 +37,11 @@ public class DiscountImplTest {
     @Test
     public void getDiscountWithPizzasLessThenFourWithoutAccumCardTest() {
 
-	List<Pizza> pizzasList = new ArrayList<Pizza>();
+	Map<Pizza,Integer> pizzasList = new HashMap<Pizza, Integer>();
 
-	pizzasList.add(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.put(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT), 1);
+	pizzasList.put(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA), 1);
+	pizzasList.put(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN), 1);
 
 	assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> empty()), 0) == 0);
     }
@@ -49,12 +51,12 @@ public class DiscountImplTest {
 
 	double priceOfMostExpensivePizza = 100;
 	double expectedDiscount = priceOfMostExpensivePizza * 0.3;
-	List<Pizza> pizzasList = new ArrayList<Pizza>();
+	Map<Pizza,Integer> pizzasList = new HashMap<Pizza, Integer>();
 
-	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
-	pizzasList.add(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	pizzasList.put(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT), 1);
+	pizzasList.put(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA), 1);
+	pizzasList.put(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN), 1);
+	pizzasList.put(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN), 1);
 
 	assertTrue(Double.compare(discount.getDiscount(pizzasList, Optional.<AccumulativeCard> empty()),
 		expectedDiscount) == 0);
@@ -66,11 +68,11 @@ public class DiscountImplTest {
 	double sumOnAccumulativeCard = 100;
 	double expectedDiscount = sumOnAccumulativeCard * 0.1;
 
-	List<Pizza> pizzasList = new ArrayList<Pizza>();
+	Map<Pizza,Integer> pizzasList = new HashMap<Pizza, Integer>();
 
-	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.put(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT), 1);
+	pizzasList.put(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA), 1);
+	pizzasList.put(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN), 1);
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -86,11 +88,11 @@ public class DiscountImplTest {
 	double sumOnAccumulativeCard = 100000;
 	double expectedDiscount = pizzasPrice * 0.3;
 
-	List<Pizza> pizzasList = new ArrayList<Pizza>();
+	Map<Pizza,Integer> pizzasList = new HashMap<Pizza, Integer>();
 
-	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
+	pizzasList.put(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT), 1);
+	pizzasList.put(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA), 1);
+	pizzasList.put(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN), 1);
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -105,12 +107,12 @@ public class DiscountImplTest {
 	double sumOnAccumulativeCard = 100;
 	double priceOfMostExpensivePizza = 100;
 	double expectedDiscount = (0.3 * priceOfMostExpensivePizza) + sumOnAccumulativeCard * 0.1;
-	List<Pizza> pizzasList = new ArrayList<Pizza>();
+	Map<Pizza,Integer> pizzasList = new HashMap<Pizza, Integer>();
 
-	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
-	pizzasList.add(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	pizzasList.put(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT), 1);
+	pizzasList.put(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA), 1);
+	pizzasList.put(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN), 1);
+	pizzasList.put(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN), 1);
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 
@@ -127,12 +129,12 @@ public class DiscountImplTest {
 	double priceOfMostExpensivePizza = 100;
 	double expectedDiscount = (0.3 * priceOfMostExpensivePizza)
 		+ (pizzasPrice - (0.3 * priceOfMostExpensivePizza)) * 0.30;
-	List<Pizza> pizzasList = new ArrayList<Pizza>();
+	Map<Pizza,Integer> pizzasList = new HashMap<Pizza, Integer>();
 
-	pizzasList.add(new Pizza(0l,"Pizza1", 45, Pizza.Type.MEAT));
-	pizzasList.add(new Pizza(1l,"Pizza2", 45, Pizza.Type.SEA));
-	pizzasList.add(new Pizza(2l,"Pizza3", 45, Pizza.Type.VEGETARIAN));
-	pizzasList.add(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN));
+	pizzasList.put(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT), 1);
+	pizzasList.put(new Pizza(1l, "Pizza2", 45, Pizza.Type.SEA), 1);
+	pizzasList.put(new Pizza(2l, "Pizza3", 45, Pizza.Type.VEGETARIAN), 1);
+	pizzasList.put(new Pizza(3l,"Pizza4", priceOfMostExpensivePizza, Pizza.Type.VEGETARIAN), 1);
 
 	when(mockAccumulativeCard.getSum()).thenReturn(sumOnAccumulativeCard);
 

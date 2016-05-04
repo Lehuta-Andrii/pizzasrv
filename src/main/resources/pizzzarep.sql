@@ -2,6 +2,6 @@
 create table Pizzas(
  id SERIAL PRIMARY KEY NOT NULL,
  name TEXT NOT NULL,
- price REAL NOT NULL,
+ price REAL NOT NULL CHECK (price > 0),
  pizzaType PizzaType 
 )

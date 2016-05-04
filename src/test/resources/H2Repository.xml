@@ -24,6 +24,8 @@
     </jdbc:embedded-database>
 
     <bean class="org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl" scope ="prototype"/>
+    <bean class="org.study.pizzaservice.domain.order.Order" scope ="prototype"/>
+    
     
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

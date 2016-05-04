@@ -38,10 +38,10 @@ public class OrderContext {
 		this.date = LocalDate.now();
 		this.customer = customer;
 		for (Pizza pizza : pizzas) {
-			addPizzaHelper(pizza);
+			addPizzaHelper(pizza, 1);
 		}
 	}
-	
+
 	public OrderContext(Customer customer, List<Pizza> pizzas, Address address) {
 		this(customer, pizzas);
 		this.address = address;
@@ -56,6 +56,17 @@ public class OrderContext {
 	 */
 	public int getPizzasAmount() {
 		return pizzasAmmount;
+	}
+
+	/**
+	 * @return the amount of certain pizza objects in order
+	 */
+	public int getAmountOfPizza(Pizza pizza) {
+		if (pizzasMap.get(pizza) != null) {
+			return pizzasMap.get(pizza);
+		}
+
+		return 0;
 	}
 
 	/**
@@ -89,37 +100,41 @@ public class OrderContext {
 	}
 
 	/**
-	 * Add one pizza object to order
+	 * Add number of pizzas object to order
 	 * 
 	 * @param pizza
 	 *            pizza object to add
 	 * @return true if pizza object was added
 	 */
-	public boolean addPizza(Pizza pizza) {
-		return addPizzaHelper(pizza);
+	public boolean addPizza(Pizza pizza, int amount) {
+		return addPizzaHelper(pizza, amount);
 	}
 
 	/**
-	 * Remove one pizza object to order
+	 * Remove number pizzas object to order
 	 * 
 	 * @param pizza
 	 *            pizza object to add
 	 * @return true if pizza object was removed
 	 */
 
-	public boolean removePizza(Pizza pizza) {
+	public boolean removePizza(Pizza pizza, int amount) {
 		if (pizzasMap.containsKey(pizza)) {
-			if (pizzasMap.get(pizza) == 1) {
+			if (pizzasMap.get(pizza) == amount) {
 				pizzasMap.remove(pizza);
-			} else {
-				pizzasMap.put(pizza, pizzasMap.get(pizza) - 1);
+				pizzasAmmount -= amount;
+				return true;
+			} else if (pizzasMap.get(pizza) < amount) {
+				pizzasMap.put(pizza, pizzasMap.get(pizza) - amount);
+				pizzasAmmount -= amount;
+				return true;
+			} else if (pizzasMap.get(pizza) > amount) {
+				return false;
 			}
-		} else {
-			return false;
 		}
 
-		pizzasAmmount--;
-		return true;
+		return false;
+
 	}
 
 	/**
@@ -137,49 +152,21 @@ public class OrderContext {
 		this.customer = customer;
 	}
 
-	/**
-	 * @return the pizzas
-	 */
-	public List<Pizza> getPizzas() {
-		List<Pizza> result = new ArrayList<Pizza>();
-
-		for (Pizza key : pizzasMap.keySet()) {
-			for (int i = 0; i < pizzasMap.get(key); i++) {
-				result.add(key);
-			}
-		}
-
-		return result;
-	}
-
-	public Map<Pizza, Integer> getPizzasMap(){
+	public Map<Pizza, Integer> getPizzasMap() {
 		return pizzasMap;
 	}
-	
-	public void setPizzasMap(Map<Pizza, Integer> pizzaMap){
+
+	public void setPizzasMap(Map<Pizza, Integer> pizzaMap) {
 		this.pizzasMap = pizzaMap;
-	
-		for(int amount : pizzasMap.values()){
+
+		for (int amount : pizzasMap.values()) {
 			this.pizzasAmmount += amount;
 		}
 	}
 
-	/**
-	 * @param pizzas
-	 *            the pizzas to set
-	 */
-	public void setPizzas(List<Pizza> pizzas) {
-		pizzasMap.clear();
-		pizzasAmmount = 0;
-
-		for (Pizza pizza : pizzas) {
-			addPizzaHelper(pizza);
-		}
-	}
-
-	
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -188,15 +175,15 @@ public class OrderContext {
 				+ ", address=" + address + ", pizzas=" + pizzasMap + "]";
 	}
 
-	private boolean addPizzaHelper(Pizza pizza) {
+	private boolean addPizzaHelper(Pizza pizza, int amount) {
 
 		if (pizzasMap.containsKey(pizza)) {
-			pizzasMap.put(pizza, pizzasMap.get(pizza) + 1);
+			pizzasMap.put(pizza, pizzasMap.get(pizza) + amount);
 		} else {
-			pizzasMap.put(pizza, 1);
+			pizzasMap.put(pizza, amount);
 		}
 
-		pizzasAmmount++;
+		pizzasAmmount += amount;
 
 		return true;
 	}

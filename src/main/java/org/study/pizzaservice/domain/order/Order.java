@@ -2,6 +2,7 @@ package org.study.pizzaservice.domain.order;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 import org.springframework.context.annotation.Scope;
@@ -28,7 +29,8 @@ import org.study.pizzaservice.repository.jparepository.OrderStateConverter;
 public class Order {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Embedded
@@ -91,16 +93,20 @@ public class Order {
 		return state.getPizzasAmount();
 	}
 
-	public boolean addPizza(Pizza pizza) {
-		return state.addPizza(pizza);
+	public boolean addPizza(Pizza pizza, int amount) {
+		return state.addPizza(pizza, amount);
 	}
 
-	public boolean removePizza(Pizza pizza) {
-		return state.removePizza(pizza);
+	public boolean removePizza(Pizza pizza, int amount) {
+		return state.removePizza(pizza, amount);
 	}
 
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Customer getCustomer() {
@@ -111,12 +117,12 @@ public class Order {
 		state.setCustomer(customer);
 	}
 
-	public List<Pizza> getPizzas() {
-		return state.getPizzas();
+	public Map<Pizza, Integer> getPizzasMap() {
+		return state.getPizzasMap();
 	}
 
-	public void setPizzas(List<Pizza> pizzas) {
-		state.setPizzas(pizzas);
+	public void setPizzasMap(Map<Pizza,Integer> map) {
+		state.setPizzasMap(map);
 	}
 
 	public LocalDate getDate() {
@@ -145,8 +151,8 @@ public class Order {
 	public double getPrice() {
 		double price = 0;
 
-		for (Pizza pizza : order.getPizzas()) {
-			price += pizza.getPrice();
+		for (Map.Entry<Pizza, Integer> pizza : order.getPizzasMap().entrySet()) {
+			price += pizza.getValue()*pizza.getKey().getPrice();
 		}
 
 		return price;

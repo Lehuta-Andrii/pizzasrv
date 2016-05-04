@@ -1,7 +1,7 @@
 package org.study.pizzaservice.domain.order.state;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Address;
@@ -30,13 +30,13 @@ public class NewState implements OrderState {
     }
 
     @Override
-    public boolean addPizza(Pizza pizza) {
-	return order.addPizza(pizza);
+    public boolean addPizza(Pizza pizza, int amount) {
+	return order.addPizza(pizza, amount);
     }
 
     @Override
-    public boolean removePizza(Pizza pizza) {
-	return order.removePizza(pizza);
+    public boolean removePizza(Pizza pizza, int amount) {
+	return order.removePizza(pizza, amount);
     }
 
     @Override
@@ -47,16 +47,6 @@ public class NewState implements OrderState {
     @Override
     public void setCustomer(Customer customer) {
 	order.setCustomer(customer);
-    }
-
-    @Override
-    public List<Pizza> getPizzas() {
-	return order.getPizzas();
-    }
-
-    @Override
-    public void setPizzas(List<Pizza> pizzas) {
-	order.setPizzas(pizzas);
     }
 
     @Override
@@ -84,6 +74,20 @@ public class NewState implements OrderState {
     	order.setAddress(address);
     }
     
+	@Override
+	public Map<Pizza, Integer> getPizzasMap() {
+		return order.getPizzasMap();
+	}
+
+	@Override
+	public void setPizzasMap(Map<Pizza, Integer> pizzaMap) {
+		order.setPizzasMap(pizzaMap);
+	}
+
+	@Override
+	public int getAmountOfPizza(Pizza pizza) {
+		return order.getAmountOfPizza(pizza);
+	}
     
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
@@ -92,6 +96,9 @@ public class NewState implements OrderState {
     public String toString() {
 	return "NewState";
     }
+
+
+
 
     
 }

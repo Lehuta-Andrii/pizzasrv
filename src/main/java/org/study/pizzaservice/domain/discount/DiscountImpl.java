@@ -1,6 +1,6 @@
 package org.study.pizzaservice.domain.discount;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.study.pizzaservice.domain.Pizza;
@@ -23,19 +23,24 @@ public class DiscountImpl implements Discount {
     private static final double AFTER_FOURTH_PIZZA_DISCOUNT = 0.30;
 
     @Override
-    public double getDiscount(List<Pizza> pizzas, Optional<AccumulativeCard> accumulativeCard) {
+    public double getDiscount(Map<Pizza, Integer> pizzas, Optional<AccumulativeCard> accumulativeCard) {
 	double result = 0;
 	double mostExpensivePizza = 0;
 	double price = 0;
 
-	for (Pizza pizza : pizzas) {
+	for (Pizza pizza : pizzas.keySet()) {
 	    if (pizza.getPrice() > mostExpensivePizza) {
 		mostExpensivePizza = pizza.getPrice();
 	    }
 	    price += pizza.getPrice();
 	}
+	
+	int pizzasAmmount = 0;
+	for (int amount : pizzas.values()) {
+		pizzasAmmount += amount;
+	}
 
-	if (pizzas.size() >= PIZZAS_NUMBER_FOR_DISCOUNT) {
+	if (pizzasAmmount >= PIZZAS_NUMBER_FOR_DISCOUNT) {
 	    result += mostExpensivePizza * AFTER_FOURTH_PIZZA_DISCOUNT;
 	    price -= result;
 	}

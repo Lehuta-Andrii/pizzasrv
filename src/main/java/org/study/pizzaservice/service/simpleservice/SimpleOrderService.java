@@ -34,10 +34,10 @@ public class SimpleOrderService implements OrderService {
 	private OrderRepository orderRepository;
 	private PizzasService pizzasService;
 
-	public SimpleOrderService(){
-		
+	public SimpleOrderService() {
+
 	}
-	
+
 	@Autowired
 	public SimpleOrderService(PizzasService pizzasService, OrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
@@ -50,8 +50,11 @@ public class SimpleOrderService implements OrderService {
 			List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
 			Order newOrder = createOrder();
 			newOrder.setCustomer(customer);
-			newOrder.setPizzas(pizzas);
-			
+
+			for (Pizza pizza : pizzas) {
+				newOrder.addPizza(pizza, 1);
+			}
+
 			orderRepository.saveOrder(newOrder);
 			return newOrder;
 		}
@@ -92,19 +95,19 @@ public class SimpleOrderService implements OrderService {
 
 	@Override
 	public boolean removeOrder(Order order) {
-	    return orderRepository.removeOrder(order);
+		return orderRepository.removeOrder(order);
 	}
 
 	@Override
 	public Order gerOrderById(Long id) {
-	    Optional<Order> order = orderRepository.getOrderById(id);
-	    if(order.isPresent()){
-		return order.get();
-	    }
-	    
-	    throw new OrderWithSpecificIdIsAbsentException();
+		Optional<Order> order = orderRepository.getOrderById(id);
+		if (order.isPresent()) {
+			return order.get();
+		}
+
+		throw new OrderWithSpecificIdIsAbsentException();
 	}
-	
+
 	private List<Pizza> pizzasByArrOfId(Long... pizzasID) {
 		List<Pizza> pizzas = new ArrayList<Pizza>();
 
@@ -113,7 +116,5 @@ public class SimpleOrderService implements OrderService {
 		}
 		return pizzas;
 	}
-
-
 
 }

@@ -52,7 +52,7 @@ public class OrderTest {
 
 	order = new Order(mockCustomer, Collections.<Pizza> emptyList());
 
-	assertTrue(order.addPizza(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT)));
+	assertTrue(order.addPizza(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT),1));
 	assertTrue(order.getPizzasAmount() == 1);
 
     }
@@ -71,7 +71,7 @@ public class OrderTest {
 
 	order.setState(new InProgressState());
 
-	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT)));
+	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT),1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -90,7 +90,7 @@ public class OrderTest {
 
 	order.setState(new CanceledState());
 
-	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT)));
+	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT),1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -109,7 +109,7 @@ public class OrderTest {
 
 	order.setState(new DoneState());
 
-	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT)));
+	assertFalse(order.addPizza(new Pizza(0l, "Pizza11", 45, Pizza.Type.MEAT),1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -119,7 +119,7 @@ public class OrderTest {
 
 	order = new Order(mockCustomer, Collections.<Pizza> emptyList());
 
-	assertFalse(order.removePizza(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT)));
+	assertFalse(order.removePizza(new Pizza(0l, "Pizza1", 45, Pizza.Type.MEAT),1));
 	assertTrue(order.getPizzasAmount() == 0);
 
     }
@@ -139,7 +139,7 @@ public class OrderTest {
 	order = new Order(mockCustomer, pizzasList);
 	int expectedPizzasAmount = order.getPizzasAmount() - 1;
 
-	assertTrue(order.removePizza(specific));
+	assertTrue(order.removePizza(specific,1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
     }
 
@@ -159,7 +159,7 @@ public class OrderTest {
 	order.setState(new InProgressState());
 	int expectedPizzasAmount = order.getPizzasAmount();
 
-	assertFalse(order.removePizza(specific));
+	assertFalse(order.removePizza(specific,1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -180,7 +180,7 @@ public class OrderTest {
 	assertTrue(order.setState(new CanceledState()));
 	int expectedPizzasAmount = order.getPizzasAmount();
 
-	assertFalse(order.removePizza(specific));
+	assertFalse(order.removePizza(specific,1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }
@@ -201,7 +201,7 @@ public class OrderTest {
 	order.setState(new DoneState());
 	int expectedPizzasAmount = order.getPizzasAmount();
 
-	assertFalse(order.removePizza(specific));
+	assertFalse(order.removePizza(specific,1));
 	assertTrue(order.getPizzasAmount() == expectedPizzasAmount);
 
     }

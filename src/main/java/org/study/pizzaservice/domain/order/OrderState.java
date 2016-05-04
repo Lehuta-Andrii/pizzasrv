@@ -1,7 +1,7 @@
 package org.study.pizzaservice.domain.order;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Address;
@@ -17,29 +17,31 @@ public interface OrderState {
 
     void setContext(OrderContext order);
 
-    int getPizzasAmount();
+    int getPizzasAmount(); 
 
-    boolean addPizza(Pizza pizza);
+    boolean addPizza(Pizza pizza, int amount);
+    
+    boolean removePizza(Pizza pizza, int amount);
+    
+    int getAmountOfPizza(Pizza pizza); 
 
-    boolean removePizza(Pizza pizza);
+    Customer getCustomer(); 
 
-    Customer getCustomer();
+    void setCustomer(Customer customer); 
 
-    void setCustomer(Customer customer);
-
-    List<Pizza> getPizzas();
-
-    void setPizzas(List<Pizza> pizzas);
+    Map<Pizza, Integer> getPizzasMap(); 
+    
+    void setPizzasMap(Map<Pizza, Integer> pizzaMap);
     
     boolean canSetState(OrderState state);
 
-    public LocalDate getDate();
+    public LocalDate getDate(); 
 
-  	public void setDate(LocalDate date);
+  	public void setDate(LocalDate date); 
 
-	public Address getAddress();
+	public Address getAddress(); 
 
-	public void setAddress(Address address);
+	public void setAddress(Address address); 
 	
   	
 }

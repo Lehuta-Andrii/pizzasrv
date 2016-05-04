@@ -1,6 +1,6 @@
 package org.study.pizzaservice.domain.discount;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.study.pizzaservice.domain.Pizza;
@@ -13,5 +13,5 @@ import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
  *
  */
 public interface Discount {
-	double getDiscount(List<Pizza> pizzas, Optional<AccumulativeCard> accumulativeCard);
+	double getDiscount(Map<Pizza, Integer> pizzas, Optional<AccumulativeCard> accumulativeCard);
 }

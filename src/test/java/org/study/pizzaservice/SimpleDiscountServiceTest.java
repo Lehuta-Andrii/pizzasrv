@@ -65,7 +65,7 @@ public class SimpleDiscountServiceTest {
 	
 	discountService.setDiscounts(Collections.singletonList(mockDiscount));
 	
-	when(mockOrder.getPizzas()).thenReturn(null);
+	when(mockOrder.getPizzasMap()).thenReturn(null);
 	when(mockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 
 	assertTrue(Double.compare(discountService.countDiscount(mockOrder, null), resultingDiscount) == 0);
@@ -81,7 +81,7 @@ public class SimpleDiscountServiceTest {
 	discountService.setDiscounts(Collections.singletonList(mockDiscount));
 	discountService.addDiscount(otherMockDiscount);
 	
-	when(mockOrder.getPizzas()).thenReturn(null);
+	when(mockOrder.getPizzasMap()).thenReturn(null);
 	when(mockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 	when(otherMockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 	
@@ -98,7 +98,7 @@ public class SimpleDiscountServiceTest {
 	discountService.setDiscounts(Collections.singletonList(mockDiscount));
 	discountService.addDiscount(otherMockDiscount);
 	
-	when(mockOrder.getPizzas()).thenReturn(null);
+	when(mockOrder.getPizzasMap()).thenReturn(null);
 	when(mockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 	when(otherMockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 	
@@ -115,7 +115,7 @@ public class SimpleDiscountServiceTest {
 	discountService.setDiscounts(Collections.singletonList(mockDiscount));
 	discountService.addDiscount(otherMockDiscount);
 	
-	when(mockOrder.getPizzas()).thenReturn(null);
+	when(mockOrder.getPizzasMap()).thenReturn(null);
 	when(mockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 	when(otherMockDiscount.getDiscount(any(), any())).thenReturn(resultingDiscount);
 	

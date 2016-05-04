@@ -51,7 +51,7 @@ public class SimpleDiscountService implements DiscountService {
 		double result = 0;
 
 		for (Discount discount : discounts) {
-			result += discount.getDiscount(order.getPizzas(), accumulativeCard);
+			result += discount.getDiscount(order.getPizzasMap(), accumulativeCard);
 		}
 
 		return result;
@@ -63,7 +63,7 @@ public class SimpleDiscountService implements DiscountService {
 
 		for (Discount discount : this.discounts) {
 			if (discounts.contains(discount)) {
-				result += discount.getDiscount(order.getPizzas(), accumulativeCard);
+				result += discount.getDiscount(order.getPizzasMap(), accumulativeCard);
 			}
 		}
 

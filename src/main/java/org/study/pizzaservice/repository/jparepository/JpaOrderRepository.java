@@ -40,6 +40,7 @@ public class JpaOrderRepository implements OrderRepository {
 		if (dbOrder != null) {
 			
 			entityManager.merge(order);
+			entityManager.flush();
 	
 			return true;
 		}
