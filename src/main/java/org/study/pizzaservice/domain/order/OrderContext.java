@@ -30,7 +30,7 @@ public class OrderContext {
 	@OneToOne
 	private Address address;
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@Column(name = "pizzas_ammount")
 	private Map<Pizza, Integer> pizzasMap = new HashMap<Pizza, Integer>();
 

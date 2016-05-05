@@ -3,6 +3,7 @@ package org.study.pizzaservice.service;
 import java.util.List;
 
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
 
@@ -16,7 +17,7 @@ public abstract class PizzaShopTemplate {
 
 	public abstract List<Pizza> showMenu();
 
-	public abstract Order makeOrder(Customer customer, Long... pizzaIds);
+	public abstract Order makeOrder(Customer customer, Address address, Long... pizzaIds);
 
 	public abstract boolean confirmOrder(Order order);
 

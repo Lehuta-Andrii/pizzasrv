@@ -40,31 +40,29 @@ public class PizzaApp {
 //		addCustomer(applicationContext.getBean(CustomerRepository.class));
 		
 
-//		PizzaShopTemplate pizzaShop = (PizzaShopTemplate) applicationContext.getBean(PizzaShopTemplate.class);
-//		CustomerService customers = (CustomerService) applicationContext.getBean(CustomerService.class);
-//
-//		AccumulativeCardService cardService = (AccumulativeCardService) applicationContext
-//				.getBean(AccumulativeCardService.class);
-//
-//		if (cardService.setNewCard(customers.getCustomerById(1l))) {
-//			cardService.addSumToCard(customers.getCustomerById(1l), 100);
-//		}
-//
-//		order = pizzaShop.makeOrder(customers.getCustomerById(1l), 1l, 2l, 3l, 4l);
-//
-//		System.out.println(order);
-//		System.out.println(order.getPrice());
-//
-//		System.out.println(pizzaShop.getDiscount(order));
+		PizzaShopTemplate pizzaShop = (PizzaShopTemplate) applicationContext.getBean(PizzaShopTemplate.class);
+		CustomerService customers = (CustomerService) applicationContext.getBean(CustomerService.class);
 
-//		pizzaShop.accomplishOrder(order);
-//		System.out.println(order.getState());
+		AccumulativeCardService cardService = (AccumulativeCardService) applicationContext
+				.getBean(AccumulativeCardService.class);
+
+//		if (cardService.setNewCard(customers.getCustomerById(5l))) {
+//			cardService.addSumToCard(customers.getCustomerById(5l), 100);
+//		}
+
+		order = pizzaShop.makeOrder(customers.getCustomerById(5l),customers.getCustomerById(5l).getAddresses().get(0), 1l, 2l, 3l, 4l);
+
+		System.out.println(order);
+		System.out.println(order.getPrice());
+
+		System.out.println(pizzaShop.getDiscount(order));
+		pizzaShop.accomplishOrder(order);
+		System.out.println(order.getState());
 
 //		PizzaRepository pizzas = applicationContext.getBean(PizzaRepository.class);
 //		Pizza pizza  = pizzas.getPizzaByID(18l).get();
 //		pizzas.deletePizza(pizza);
-//		
-//		
+				
 		
 		repositoryContext.close();
 		applicationContext.close();

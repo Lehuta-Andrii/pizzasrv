@@ -25,6 +25,7 @@
 
     <bean class="org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl" scope ="prototype"/>
     <bean class="org.study.pizzaservice.domain.order.Order" scope ="prototype"/>
+    <bean class="org.study.pizzaservice.domain.order.OrderContext" scope ="prototype"/>
     
     
     <bean id="entityManagerFactory"

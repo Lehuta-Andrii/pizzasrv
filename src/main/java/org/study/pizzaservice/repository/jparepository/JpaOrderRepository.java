@@ -7,8 +7,6 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.study.pizzaservice.domain.customer.Address;
-import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.repository.OrderRepository;
 
@@ -23,6 +21,7 @@ public class JpaOrderRepository implements OrderRepository {
 	public boolean saveOrder(Order order) {
 		try {
 			entityManager.persist(order);
+			entityManager.flush();
 		} catch (PersistenceException ex) {
 			System.err.println(ex);
 			return false;
@@ -51,7 +50,7 @@ public class JpaOrderRepository implements OrderRepository {
 	@Override
 	public Optional<Order> getOrderById(Long id) {
 
-		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o WHERE o.id = :order_id", Order.class)
+		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o JOIN FETCH o.order WHERE o.id = :order_id", Order.class)
 				.setParameter("order_id", id);
 
 		return Optional.of(query.getSingleResult());
@@ -72,6 +71,7 @@ public class JpaOrderRepository implements OrderRepository {
 		Order dbOrder = query.getSingleResult();
 		if (dbOrder != null) {
 			entityManager.remove(dbOrder);
+			entityManager.flush();
 			return true;
 		}
 

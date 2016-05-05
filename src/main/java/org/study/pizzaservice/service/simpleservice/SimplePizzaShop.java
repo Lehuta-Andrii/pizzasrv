@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.service.AccumulativeCardService;
@@ -42,8 +43,8 @@ public class SimplePizzaShop extends PizzaShopTemplate {
 	}
 
 	@Override
-	public Order makeOrder(Customer customer, Long... pizzaIds) {
-		return orderService.placeNewOrder(customer, pizzaIds);
+	public Order makeOrder(Customer customer, Address address, Long... pizzaIds) {
+		return orderService.placeNewOrder(customer, address, pizzaIds);
 	}
 
 	@Override

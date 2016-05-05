@@ -37,7 +37,7 @@ public class InMemCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> getCostumers() {
+    public List<Customer> getCustomers() {
 	return customers;
     }
 

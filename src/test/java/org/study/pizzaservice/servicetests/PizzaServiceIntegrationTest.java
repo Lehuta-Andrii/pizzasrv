@@ -29,7 +29,8 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 	@Test
 	public void testGetPizzaByID() {
-		final String sql = "INSERT INTO pizzas (name, pizzaType, price) VALUES ('Vegan', " + "'MEAT', 130.0)";
+		final String sql = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'Vegan', "
+				+ "'MEAT', 130.0)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -52,8 +53,10 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 	@Test
 	public void testGetPizzas() {
-		final String pizzaOne = "INSERT INTO pizzas (name, pizzaType, price) VALUES ('OnePizza', " + "'MEAT', 130.0)";
-		final String pizzaTwo = "INSERT INTO pizzas (name, pizzaType, price) VALUES ('TwoPizza', " + "'SEA', 150.0)";
+		final String pizzaOne = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'OnePizza', "
+				+ "'MEAT', 130.0)";
+		final String pizzaTwo = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'TwoPizza', "
+				+ "'SEA', 150.0)";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -91,7 +94,8 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 	@Test(expected = IncorrectResultSizeDataAccessException.class)
 	public void testDeletePizza() {
 
-		final String sql = "INSERT INTO pizzas (name, pizzaType, price) VALUES ('OtherPizza', " + "'SEA', 130.0)";
+		final String sql = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'OtherPizza', "
+				+ "'SEA', 130.0)";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -109,7 +113,7 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 		assertTrue(pizzasService.deletePizza(pizza));
 
-		Pizza inDbPizza = jdbcTemplate.queryForObject("select * from pizzas where id = ?",
+		jdbcTemplate.queryForObject("select * from pizzas where id = ?",
 				new Object[] { pizza.getId() }, new PizzaRowMapper());
 
 	}
@@ -118,7 +122,6 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 	public void testAddPizza() {
 
 		Pizza pizza = new Pizza("Pizza", 159, Pizza.Type.SEA);
-
 		assertTrue(pizzasService.addPizza(pizza));
 
 		Pizza inDbPizza = jdbcTemplate.queryForObject("select * from pizzas where id = ?",
@@ -137,27 +140,27 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		Pizza firstPizza = new Pizza("OneSetPizza", 130.0, Pizza.Type.MEAT);
 		Pizza secondPizza = new Pizza("TwoSetPizza", 150.0, Pizza.Type.SEA);
 
-		assertTrue(pizzasService.setPizzas(new ArrayList<Pizza>(){
-			{add(firstPizza);
-			add(secondPizza);}
+		assertTrue(pizzasService.setPizzas(new ArrayList<Pizza>() {
+			private static final long serialVersionUID = 1L;
+
+			{
+				add(firstPizza);
+				add(secondPizza);
+			}
 		}));
 
-		
 		Pizza inDbFirstPizza = jdbcTemplate.queryForObject("select * from pizzas where id = ?",
 				new Object[] { firstPizza.getId() }, new PizzaRowMapper());
-		
+
 		assertTrue(inDbFirstPizza.equals(firstPizza));
 
-		
 		Pizza inDbSecondPizza = jdbcTemplate.queryForObject("select * from pizzas where id = ?",
 				new Object[] { secondPizza.getId() }, new PizzaRowMapper());
-		
+
 		assertTrue(inDbSecondPizza.equals(secondPizza));
 
-		
-
 	}
-	
+
 	private static final class PizzaRowMapper implements RowMapper<Pizza> {
 		public Pizza mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Pizza result = new Pizza(rs.getLong("id"), rs.getString("name"), rs.getDouble("price"),
@@ -166,5 +169,5 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 			return result;
 		}
 	}
-	
+
 }

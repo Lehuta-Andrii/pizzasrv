@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.OrderRepository;
 import org.study.pizzaservice.service.OrderService;
@@ -44,12 +45,13 @@ public class SimpleOrderService implements OrderService {
 		this.pizzasService = pizzasService;
 	}
 
-	public Order placeNewOrder(Customer customer, Long... pizzasID) {
+	public Order placeNewOrder(Customer customer, Address address, Long... pizzasID) {
 
 		if (pizzasID.length <= MAX_NUMBER_OF_PIZZAS && pizzasID.length > 0) {
 			List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
 			Order newOrder = createOrder();
 			newOrder.setCustomer(customer);
+			newOrder.setAddress(address);
 
 			for (Pizza pizza : pizzas) {
 				newOrder.addPizza(pizza, 1);

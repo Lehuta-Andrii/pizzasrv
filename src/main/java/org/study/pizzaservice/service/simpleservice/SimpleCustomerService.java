@@ -39,7 +39,7 @@ public class SimpleCustomerService implements CustomerService {
 
 	@Override
 	public List<Customer> getCustomers() {
-		return customers.getCostumers();
+		return customers.getCustomers();
 	}
 
 	@Override

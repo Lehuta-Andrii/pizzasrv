@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.anyObject;
 
 import org.study.pizzaservice.domain.Pizza;
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.exceptions.TooManyPizzasException;
 import org.study.pizzaservice.repository.OrderRepository;
@@ -31,6 +32,9 @@ public class SimpleOrderServiceTest {
 
 	@Mock
 	private Pizza mockPizza;
+	
+	@Mock
+	private Address mockAddress;
 
 	private SimpleOrderService orderService;
 
@@ -38,14 +42,14 @@ public class SimpleOrderServiceTest {
 	public void placeNewOrderTestOnEmptyListOfPizzas() {
 		orderService = new SimpleOrderService(mockPizzaService, mockOrderRepository);
 
-		orderService.placeNewOrder(mockCustomer);
+		orderService.placeNewOrder(mockCustomer, mockAddress);
 	}
 
 	@Test(expected = TooManyPizzasException.class)
 	public void placeNewOrderTestOnMoreThanTenPizzas() {
 		orderService = new SimpleOrderService(mockPizzaService, mockOrderRepository);
 
-		orderService.placeNewOrder(mockCustomer, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l);
+		orderService.placeNewOrder(mockCustomer, mockAddress, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l);
 	}
 
 	@Test
@@ -54,7 +58,7 @@ public class SimpleOrderServiceTest {
 
 		when(mockPizzaService.getPizzaById(anyObject())).thenReturn(mockPizza);
 
-		assertTrue(orderService.placeNewOrder(mockCustomer, 1l, 1l, 1l, 1l) != null);
+		assertTrue(orderService.placeNewOrder(mockCustomer, mockAddress, 1l, 1l, 1l, 1l) != null);
 	}
 
 }

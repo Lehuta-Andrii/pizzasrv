@@ -17,14 +17,13 @@ import javax.persistence.*;
 public class Customer {
 
 	@Id
-	// @GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id", nullable = false)
 	private Long id;
 
 	private String name;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Address> addresses = new ArrayList<Address>();
 
 	public Customer() {

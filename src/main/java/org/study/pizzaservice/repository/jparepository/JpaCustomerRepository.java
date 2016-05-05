@@ -1,13 +1,11 @@
 package org.study.pizzaservice.repository.jparepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.CustomerRepository;
 
@@ -20,11 +18,15 @@ public class JpaCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Optional<Customer> getCostumerById(Long id) {
-		return Optional.of(entityManager.find(Customer.class, id));
+		
+		TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c JOIN FETCH c.addresses WHERE c.id = :customer_id", Customer.class)
+				.setParameter("customer_id", id);
+
+		return Optional.of(query.getSingleResult());
 	}
 
 	@Override
-	public List<Customer> getCostumers() {
+	public List<Customer> getCustomers() {
 		TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
 		return query.getResultList();
 	}

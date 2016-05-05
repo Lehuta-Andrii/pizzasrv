@@ -33,7 +33,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 	@Test
 	public void getCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -47,7 +47,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 		Long customerId = keyHolder.getKey().longValue();
 		Customer customer = new Customer(customerId, "Semen");
 
-		final String sqlCard = "INSERT INTO accumulativecards (sum, customer_id) VALUES (100, " + customerId + ")";
+		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 100, " + customerId + ")";
 		jdbcTemplate.update(sqlCard);
 
 		AccumulativeCard card = cardService.getCard(customer).get();
@@ -60,7 +60,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 	@Test
 	public void setNewCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -86,7 +86,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 	@Test
 	public void addSumToCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -100,7 +100,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 		Long customerId = keyHolder.getKey().longValue();
 		Customer customer = new Customer(customerId, "Semen");
 
-		final String sqlCard = "INSERT INTO accumulativecards (sum, customer_id) VALUES (500, " + customerId + ")";
+		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 500, " + customerId + ")";
 		jdbcTemplate.update(sqlCard);
 		
 		assertTrue(cardService.addSumToCard(customer,100));
@@ -115,7 +115,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 	@Test(expected = IncorrectResultSizeDataAccessException.class)
 	public void removeCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -129,7 +129,7 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 		Long customerId = keyHolder.getKey().longValue();
 		Customer customer = new Customer(customerId, "Semen");
 
-		final String sqlCard = "INSERT INTO accumulativecards (sum, customer_id) VALUES (500, " + customerId + ")";
+		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 500, " + customerId + ")";
 		jdbcTemplate.update(sqlCard);
 		
 		assertTrue(cardService.removeCard(customer));

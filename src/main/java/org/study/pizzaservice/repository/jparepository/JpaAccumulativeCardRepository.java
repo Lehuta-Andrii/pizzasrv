@@ -35,6 +35,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 	public boolean addCard(AccumulativeCard card) {
 		try {
 			entityManager.persist(card);
+			entityManager.flush();
 		} catch (PersistenceException ex) {
 			System.err.println(ex);
 			return false;

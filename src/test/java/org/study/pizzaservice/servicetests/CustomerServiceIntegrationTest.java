@@ -34,7 +34,7 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 	@Test
 	public void getCostumerByIdTest() {
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -47,7 +47,7 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlAddress = "INSERT INTO addresses (city, street, house, flat, phoneNumber) VALUES ('1','2','3','4','5')";
+		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
 		keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -95,7 +95,7 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 	@Test(expected = IncorrectResultSizeDataAccessException.class)
 	public void testRemoveCustomer() {
 
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -113,14 +113,14 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 		assertTrue(customerService.removeCustomer(customer));
 
-		Customer inDbCustomer = jdbcTemplate.queryForObject("select * from customers where id = ?",
+		jdbcTemplate.queryForObject("select * from customers where id = ?",
 				new Object[] { customer.getId() }, new CustomerRowMapper());
 
 	}
 
 	@Test
 	public void addAddressTest() {
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -150,7 +150,7 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 	@Test
 	public void removeAddressTest() {
-		final String sqlCustomer = "INSERT INTO customers (name) VALUES ('Semen')";
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -163,7 +163,7 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlAddress = "INSERT INTO addresses (city, street, house, flat, phoneNumber) VALUES ('1','2','3','4','5')";
+		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
 		keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -182,6 +182,8 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 		Address addr = new Address(addressId, "1", "2", "3", "4", "5");
 		Customer customer = new Customer(customerId, "Semen", new ArrayList<Address>() {
+			private static final long serialVersionUID = 1L;
+
 			{
 				add(addr);
 			}
@@ -197,8 +199,8 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 	
 	@Test
 	public void testGetCustomers() {
-		final String customerOne = "INSERT INTO customers (name) VALUES ('Semen')";
-		final String customerTwo = "INSERT INTO customers (name) VALUES ('Petro')";
+		final String customerOne = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
+		final String customerTwo = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Petro')";
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {

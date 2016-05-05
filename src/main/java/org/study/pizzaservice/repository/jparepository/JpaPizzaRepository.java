@@ -33,6 +33,7 @@ public class JpaPizzaRepository implements PizzaRepository {
 				return false;
 			}
 		}
+		entityManager.flush();
 		return true;
 	}
 
@@ -40,6 +41,7 @@ public class JpaPizzaRepository implements PizzaRepository {
 	public boolean addPizza(Pizza pizza) {
 		try {
 			entityManager.persist(pizza);
+			entityManager.flush();
 		} catch (PersistenceException ex) {
 			System.err.println(ex);
 			return false;

@@ -15,7 +15,7 @@ public interface CustomerRepository {
 
     Optional<Customer> getCostumerById(Long id);
 
-    List<Customer> getCostumers();
+    List<Customer> getCustomers();
 
     boolean addCustomer(Customer customer);
     

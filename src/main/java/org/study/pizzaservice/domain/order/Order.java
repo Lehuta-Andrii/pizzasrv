@@ -29,8 +29,7 @@ import org.study.pizzaservice.repository.jparepository.OrderStateConverter;
 public class Order {
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Embedded
@@ -65,7 +64,7 @@ public class Order {
 	@Convert(converter = OrderStateConverter.class)
 	public OrderState getState() {
 		try {
-			return (OrderState)state.getClass().newInstance();
+			return (OrderState) state.getClass().newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -104,7 +103,7 @@ public class Order {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -121,7 +120,7 @@ public class Order {
 		return state.getPizzasMap();
 	}
 
-	public void setPizzasMap(Map<Pizza,Integer> map) {
+	public void setPizzasMap(Map<Pizza, Integer> map) {
 		state.setPizzasMap(map);
 	}
 
@@ -140,9 +139,13 @@ public class Order {
 	public void setAddress(Address address) {
 		state.setAddress(address);
 	}
-	
-	public OrderContext getOrderContext(){
+
+	public OrderContext getOrderContext() {
 		return order;
+	}
+
+	public int getAmountOfPizza(Pizza pizza) {
+		return state.getAmountOfPizza(pizza);
 	}
 
 	/**
@@ -152,7 +155,7 @@ public class Order {
 		double price = 0;
 
 		for (Map.Entry<Pizza, Integer> pizza : order.getPizzasMap().entrySet()) {
-			price += pizza.getValue()*pizza.getKey().getPrice();
+			price += pizza.getValue() * pizza.getKey().getPrice();
 		}
 
 		return price;

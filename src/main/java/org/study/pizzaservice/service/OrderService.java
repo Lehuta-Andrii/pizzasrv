@@ -2,6 +2,7 @@ package org.study.pizzaservice.service;
 
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.domain.order.OrderState;
+import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 
 /**
@@ -11,7 +12,7 @@ import org.study.pizzaservice.domain.customer.Customer;
  *
  */
 public interface OrderService {
-	Order placeNewOrder(Customer customer, Long... pizzasID);
+	Order placeNewOrder(Customer customer, Address address,  Long... pizzasID);
 	
 	boolean removeOrder(Order order);
 

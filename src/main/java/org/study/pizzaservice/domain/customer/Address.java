@@ -13,8 +13,7 @@ import javax.persistence.*;
 public class Address implements Comparable<Address> {
 
 	@Id
-	// @GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id", nullable = false)
 	private Long id;
 
