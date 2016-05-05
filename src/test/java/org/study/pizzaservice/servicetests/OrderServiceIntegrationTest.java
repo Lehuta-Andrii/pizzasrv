@@ -165,7 +165,7 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 		assertTrue(new Customer(customerId, "Semen").equals(dbCustomer));
 	
-		assertEquals(jdbcTemplate.queryForObject("select count(*) from order_pizzasmap where order_Id = " + orderId, Integer.class), 0);
+		assertEquals(jdbcTemplate.queryForObject("select count(*) from order_pizzasmap where order_Id = " + orderId, Integer.class), new Integer(0));
 		
 		jdbcTemplate.queryForObject("select * from orders where id = " + orderId,
 				new OrderRowMapper());
