@@ -14,6 +14,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "customers")
+@NamedQueries({
+	@NamedQuery(name="Customer.getByCustomerId", query = "SELECT c FROM Customer c JOIN FETCH c.addresses WHERE c.id = :customer_id"),
+	@NamedQuery(name="Customer.getCustomers", query = "SELECT c FROM Customer c"),
+})
 public class Customer {
 
 	@Id

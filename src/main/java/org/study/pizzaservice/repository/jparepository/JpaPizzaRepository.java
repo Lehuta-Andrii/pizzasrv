@@ -19,7 +19,7 @@ public class JpaPizzaRepository implements PizzaRepository {
 
 	@Override
 	public List<Pizza> getPizzas() {
-		TypedQuery<Pizza> query = entityManager.createQuery("SELECT p FROM Pizza p", Pizza.class);
+		TypedQuery<Pizza> query = entityManager.createNamedQuery("Pizza.getPizzas", Pizza.class);
 		return query.getResultList();
 	}
 
@@ -54,7 +54,7 @@ public class JpaPizzaRepository implements PizzaRepository {
 	public boolean deletePizza(Pizza pizza) {
 		Pizza dbPizza = entityManager.find(Pizza.class, pizza.getId());
 		if (dbPizza != null) {
-			entityManager.remove(dbPizza);	
+			entityManager.remove(dbPizza);
 			entityManager.flush();
 			return true;
 		}

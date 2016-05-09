@@ -19,7 +19,7 @@ public class JpaCustomerRepository implements CustomerRepository {
 	@Override
 	public Optional<Customer> getCostumerById(Long id) {
 		
-		TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c JOIN FETCH c.addresses WHERE c.id = :customer_id", Customer.class)
+		TypedQuery<Customer> query = entityManager.createNamedQuery("Customer.getByCustomerId", Customer.class)
 				.setParameter("customer_id", id);
 
 		return Optional.of(query.getSingleResult());
@@ -27,7 +27,7 @@ public class JpaCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> getCustomers() {
-		TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
+		TypedQuery<Customer> query = entityManager.createNamedQuery("Customer.getCustomers", Customer.class);
 		return query.getResultList();
 	}
 

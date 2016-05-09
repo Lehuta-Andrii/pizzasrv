@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -22,66 +24,73 @@ import org.study.pizzaservice.domain.customer.Customer;
 @Component
 @Scope("prototype")
 @Entity
-@Table(name = "AccumulativeCards",  uniqueConstraints = @UniqueConstraint(columnNames = "customer_id"))
+@Table(name = "AccumulativeCards", uniqueConstraints = @UniqueConstraint(columnNames = "customer_id"))
+@NamedQueries({ @NamedQuery(name = "AccumCard.getCards", query = "SELECT a FROM AccumulativeCardImpl a"),
+		@NamedQuery(name = "AccumCard.deleteCardByCustomer", query = "DELETE FROM AccumulativeCardImpl a WHERE a.customer = :cust"),
+		@NamedQuery(name = "AccumCard.getCardByCustomer", query = "SELECT a FROM AccumulativeCardImpl a WHERE a.customer = :cust"),
+
+})
 public class AccumulativeCardImpl implements AccumulativeCard {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)  
-    @Column(name = "id", nullable = false)
-    private Long id;
-    private double sum;
-    
-    @OneToOne
-    private Customer customer;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id", nullable = false)
+	private Long id;
+	private double sum;
 
-    public AccumulativeCardImpl() {
-    }
+	@OneToOne
+	private Customer customer;
 
-    /**
-     * @return the id
-     */
-    @Override
-    public Long getId() {
-	return id;
-    }
+	public AccumulativeCardImpl() {
+	}
 
-    /**
-     * @return the sum
-     */
-    @Override
-    public double getSum() {
-	return sum;
-    }
+	/**
+	 * @return the id
+	 */
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @param sum
-     *            the sum to set
-     */
-    @Override
-    public void setSum(double sum) {
-	this.sum = sum;
-    }
+	/**
+	 * @return the sum
+	 */
+	@Override
+	public double getSum() {
+		return sum;
+	}
 
-    /**
-     * @param sum
-     *            the sum to add to card
-     */
-    @Override
-    public void addToCard(double sum) {
-	this.sum += sum;
-    }
+	/**
+	 * @param sum
+	 *            the sum to set
+	 */
+	@Override
+	public void setSum(double sum) {
+		this.sum = sum;
+	}
 
-    @Override
-    public void setCustomer(Customer customer) {
-	this.customer = customer;
-    }
+	/**
+	 * @param sum
+	 *            the sum to add to card
+	 */
+	@Override
+	public void addToCard(double sum) {
+		this.sum += sum;
+	}
 
-    @Override
-    public Customer getCustomer() {
-	return customer;
-    }
+	@Override
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
-	/* (non-Javadoc)
+	@Override
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -94,7 +103,4 @@ public class AccumulativeCardImpl implements AccumulativeCard {
 		this.id = id;
 	}
 
-
-    
-    
 }

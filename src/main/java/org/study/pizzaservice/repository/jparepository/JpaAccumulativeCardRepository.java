@@ -3,11 +3,7 @@ package org.study.pizzaservice.repository.jparepository;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +22,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 	@Override
 	public Optional<AccumulativeCard> getCard(Customer customer) {
 		TypedQuery<AccumulativeCard> query = entityManager
-				.createQuery("SELECT a FROM AccumulativeCardImpl a WHERE a.customer = :cust", AccumulativeCard.class)
+				.createNamedQuery("AccumCard.getCardByCustomer", AccumulativeCard.class)
 				.setParameter("cust", customer);
 		return Optional.of(query.getSingleResult());
 	}
@@ -45,7 +41,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 	
 	@Override
 	public List<AccumulativeCard> getCards() {
-		TypedQuery<AccumulativeCard> query = entityManager.createQuery("SELECT a FROM AccumulativeCardImpl a",
+		TypedQuery<AccumulativeCard> query = entityManager.createNamedQuery("AccumCard.getCards",
 				AccumulativeCard.class);
 		return query.getResultList();
 	}
@@ -53,7 +49,7 @@ public class JpaAccumulativeCardRepository implements AccumulativeCardRepository
 	@Override
 	public boolean removeCustomerCard(Customer customer) {
 		Query query = entityManager
-				.createQuery("DELETE FROM AccumulativeCardImpl a WHERE a.customer = :cust")
+				.createNamedQuery("AccumCard.deleteCardByCustomer")
 				.setParameter("cust", customer);
 		return query.executeUpdate() > 0;
 	}

@@ -31,7 +31,7 @@ public class JpaOrderRepository implements OrderRepository {
 
 	@Override
 	public boolean update(Order order) {
-		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o WHERE o.id = :order_id", Order.class)
+		TypedQuery<Order> query = entityManager.createNamedQuery("Order.getOrderById", Order.class)
 				.setParameter("order_id", order.getId());
 
 		
@@ -50,7 +50,7 @@ public class JpaOrderRepository implements OrderRepository {
 	@Override
 	public Optional<Order> getOrderById(Long id) {
 
-		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o JOIN FETCH o.order WHERE o.id = :order_id", Order.class)
+		TypedQuery<Order> query = entityManager.createNamedQuery("Order.getOrderByIdFetch", Order.class)
 				.setParameter("order_id", id);
 
 		return Optional.of(query.getSingleResult());
@@ -59,13 +59,13 @@ public class JpaOrderRepository implements OrderRepository {
 
 	@Override
 	public List<Order> getOrders() {
-		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o", Order.class);
+		TypedQuery<Order> query = entityManager.createNamedQuery("Order.getOrders", Order.class);
 		return query.getResultList();
 	}
 
 	@Override
 	public boolean removeOrder(Order order) {
-		TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o WHERE o.id = :order_id", Order.class)
+		TypedQuery<Order> query = entityManager.createNamedQuery("Order.getOrderById", Order.class)
 				.setParameter("order_id", order.getId());
 
 		Order dbOrder = query.getSingleResult();

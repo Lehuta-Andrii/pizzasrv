@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -17,6 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "pizzas")
+@NamedQueries({ @NamedQuery(name = "Pizza.getPizzas", query = "SELECT p FROM Pizza p") })
 public class Pizza {
 
 	public enum Type {

@@ -26,6 +26,11 @@ import org.study.pizzaservice.repository.jparepository.OrderStateConverter;
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "orders")
+@NamedQueries({
+	@NamedQuery(name = "Order.getOrders", query = "SELECT o FROM Order o"),
+	@NamedQuery(name = "Order.getOrderById", query = "SELECT o FROM Order o WHERE o.id = :order_id"),
+	@NamedQuery(name = "Order.getOrderByIdFetch", query = "SELECT o FROM Order o JOIN FETCH o.order WHERE o.id = :order_id")
+})
 public class Order {
 
 	@Id
