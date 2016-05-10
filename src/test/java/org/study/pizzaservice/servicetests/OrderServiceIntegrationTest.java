@@ -43,64 +43,39 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 	@Test
 	public void getOrderByIdTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
-		
+		String customerName = "Semen";
+		KeyHolder keyHolder = insertCustomer(customerName);
 		Long customerId = keyHolder.getKey().longValue();
-		
-		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
-		keyHolder = new GeneratedKeyHolder();
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlAddress, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		keyHolder = insertAddress("1", "2", "3", "4", "5");
 		Long addressId = keyHolder.getKey().longValue();
-		
 
-		final String sqlOrder = "INSERT INTO orders (id, date,pizzasammount, state,address_id,customer_id) VALUES (nextval('hibernate_sequence'), '2017-11-11', 10, 'org.study.pizzaservice.domain.order.state.NewState',"
-				+ addressId +"," + customerId + ")";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlOrder, new String[] { "id" });
-			}
-		}, keyHolder);
+		String orderDate = "2017-11-11";
+		int pizzaAmmount = 10;
+		keyHolder = insertOrder(customerId, addressId, orderDate, pizzaAmmount);
 
 		Long orderId = keyHolder.getKey().longValue();
-		
-		List<Pizza> pizzas = generatePizzas();
-		
-		jdbcTemplate.update("INSERT INTO order_pizzasmap(order_id, pizzas_ammount, pizzasmap_key) VALUES ("+ orderId  +","+ 10 +","+ pizzas.get(0).getId() + ")");
-		jdbcTemplate.update("INSERT INTO order_pizzasmap(order_id, pizzas_ammount, pizzasmap_key) VALUES ("+ orderId  +","+ 5 +","+ pizzas.get(1).getId() + ")");
-		
+
+		List<Pizza> pizzas = new ArrayList<Pizza>();
+		pizzas.add(insertPizza(10.0, Pizza.Type.MEAT, "PizzaOne"));
+		pizzas.add(insertPizza(10.0, Pizza.Type.MEAT, "PizzaTwo"));
+
+		jdbcTemplate.update("INSERT INTO order_pizzasmap(order_id, pizzas_ammount, pizzasmap_key) VALUES (" + orderId
+				+ "," + 6 + "," + pizzas.get(0).getId() + ")");
+		jdbcTemplate.update("INSERT INTO order_pizzasmap(order_id, pizzas_ammount, pizzasmap_key) VALUES (" + orderId
+				+ "," + 4 + "," + pizzas.get(1).getId() + ")");
 
 		Order order = orderService.gerOrderById(orderId);
 
 		assertTrue(order.getDate().equals(LocalDate.of(2017, 11, 11)));
-		assertEquals(order.getPizzasAmount(), 10);
+		assertEquals(order.getPizzasAmount(), pizzaAmmount);
 		assertTrue(order.getState().getClass().getName().equals("org.study.pizzaservice.domain.order.state.NewState"));
 		assertTrue(order.getCustomer().getId().equals(customerId));
 		assertEquals(order.getAddress(), new Address(addressId, "1", "2", "3", "4", "5"));
 
-		assertTrue(order.getAmountOfPizza(pizzas.get(0)) == 10);
-		assertTrue(order.getAmountOfPizza(pizzas.get(1)) == 5);
-		
+		assertTrue(order.getAmountOfPizza(pizzas.get(0)) == 6);
+		assertTrue(order.getAmountOfPizza(pizzas.get(1)) == 4);
+
 		assertTrue(order.getPizzasMap().containsKey(pizzas.get(0)));
 		assertTrue(order.getPizzasMap().containsKey(pizzas.get(1)));
 
@@ -108,98 +83,53 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 	@Test(expected = IncorrectResultSizeDataAccessException.class)
 	public void removeOrderTest() {
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String customerName = "Semen";
+		KeyHolder keyHolder = insertCustomer(customerName);
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlAddress, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		keyHolder = insertAddress("1", "2", "3", "4", "5");
 		Long addressId = keyHolder.getKey().longValue();
-		
-		final String sqlOrder = "INSERT INTO orders (id, date, pizzasammount, state, address_id, customer_id) VALUES (nextval('hibernate_sequence'), '2017-11-11', 10, 'org.study.pizzaservice.domain.order.state.NewState',"
-				+ addressId +"," + customerId + ")";
-		keyHolder = new GeneratedKeyHolder();
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlOrder, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String orderDate = "2017-11-11";
+		int pizzaAmmount = 10;
+		keyHolder = insertOrder(customerId, addressId, orderDate, pizzaAmmount);
 		Long orderId = keyHolder.getKey().longValue();
-		
+
 		Order order = new Order();
 		order.setId(orderId);
-		
+
 		assertTrue(orderService.removeOrder(order));
-		
-		Address dbAddress = jdbcTemplate.queryForObject(
-				"select * from addresses where id = " + addressId,
+
+		Address dbAddress = jdbcTemplate.queryForObject("select * from addresses where id = " + addressId,
 				new AddressRowMapper());
-		
+
 		assertEquals(dbAddress, new Address(addressId, "1", "2", "3", "4", "5"));
-		
-		Customer dbCustomer = jdbcTemplate.queryForObject(
-				"select * from customers where id = " + customerId,
+
+		Customer dbCustomer = jdbcTemplate.queryForObject("select * from customers where id = " + customerId,
 				new CustomerRowMapper());
 
-		assertTrue(new Customer(customerId, "Semen").equals(dbCustomer));
-	
-		assertEquals(jdbcTemplate.queryForObject("select count(*) from order_pizzasmap where order_Id = " + orderId, Integer.class), new Integer(0));
-		
-		jdbcTemplate.queryForObject("select * from orders where id = " + orderId,
-				new OrderRowMapper());
-		
+		assertTrue(new Customer(customerId, customerName).equals(dbCustomer));
+
+		assertEquals(jdbcTemplate.queryForObject("select count(*) from order_pizzasmap where order_Id = " + orderId,
+				Integer.class), new Integer(0));
+
+		jdbcTemplate.queryForObject("select * from orders where id = " + orderId, new OrderRowMapper());
+
 	}
 
 	@Test
 	public void confirmOrderTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String expectedState = "org.study.pizzaservice.domain.order.state.InProgressState";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String customerName = "Semen";
+		KeyHolder keyHolder = insertCustomer(customerName);
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlOrder = "INSERT INTO orders (id, date, pizzasammount, state, customer_id) VALUES (nextval('hibernate_sequence'), '2017-11-11', 10, 'org.study.pizzaservice.domain.order.state.NewState',"
-				+ customerId + ")";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlOrder, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String orderDate = "2017-11-11";
+		int pizzaAmmount = 10;
+		keyHolder = insertOrder(customerId, null, orderDate, pizzaAmmount);
 		Long orderId = keyHolder.getKey().longValue();
 
 		Order order = new Order();
@@ -208,37 +138,21 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		assertTrue(orderService.confirmOrder(order));
 
 		String dbState = jdbcTemplate.queryForObject("select state from orders where id = " + orderId, String.class);
-		assertTrue("org.study.pizzaservice.domain.order.state.InProgressState".equals(dbState));
+		assertTrue(expectedState.equals(dbState));
 	}
 
 	@Test
 	public void cancelOrderTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String expectedState = "org.study.pizzaservice.domain.order.state.CanceledState";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String customerName = "Semen";
+		KeyHolder keyHolder = insertCustomer(customerName);
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlOrder = "INSERT INTO orders (id, date, pizzasammount, state, customer_id) VALUES (nextval('hibernate_sequence'), '2017-11-11', 10, 'org.study.pizzaservice.domain.order.state.NewState',"
-				+ customerId + ")";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlOrder, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String orderDate = "2017-11-11";
+		int pizzaAmmount = 10;
+		keyHolder = insertOrder(customerId, null, orderDate, pizzaAmmount);
 		Long orderId = keyHolder.getKey().longValue();
 
 		Order order = new Order();
@@ -247,37 +161,21 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		assertTrue(orderService.cancelOrder(order));
 
 		String dbState = jdbcTemplate.queryForObject("select state from orders where id = " + orderId, String.class);
-		assertTrue("org.study.pizzaservice.domain.order.state.CanceledState".equals(dbState));
+		assertTrue(expectedState.equals(dbState));
 	}
 
 	@Test
 	public void accomplishOrderTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String expectedState = "org.study.pizzaservice.domain.order.state.DoneState";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String customerName = "Semen";
+		KeyHolder keyHolder = insertCustomer(customerName);
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlOrder = "INSERT INTO orders (id, date, pizzasammount, state, customer_id) VALUES (nextval('hibernate_sequence'), '2017-11-11', 10, 'org.study.pizzaservice.domain.order.state.NewState',"
-				+ customerId + ")";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlOrder, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		String orderDate = "2017-11-11";
+		int pizzaAmmount = 10;
+		keyHolder = insertOrder(customerId, null, orderDate, pizzaAmmount);
 		Long orderId = keyHolder.getKey().longValue();
 
 		Order order = new Order();
@@ -286,42 +184,27 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		assertTrue(orderService.accomplishOrder(order));
 
 		String dbState = jdbcTemplate.queryForObject("select state from orders where id = " + orderId, String.class);
-		assertTrue("org.study.pizzaservice.domain.order.state.DoneState".equals(dbState));
+		assertTrue(expectedState.equals(dbState));
 	}
 
 	@Test
 	public void placeNewOrderTest() {
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		String customerName = "Semen";
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
 		Customer customer = new Customer();
 		customer.setId(customerId);
-		customer.setName("Semen");
+		customer.setName(customerName);
 
-		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlAddress, new String[] { "id" });
-			}
-		}, keyHolder);
-
+		keyHolder = insertAddress("1", "2", "3", "4", "5");
 		Long addressId = keyHolder.getKey().longValue();
 		Address orderAddress = new Address(addressId, "1", "2", "3", "4", "5");
 
-		List<Long> pizzas = pizzasInsertion();
+		List<Long> pizzas = new ArrayList<Long>();
+		pizzas.add(insertPizza(10.0, Pizza.Type.MEAT, "PizzaOne").getId());
+		pizzas.add(insertPizza(10.0, Pizza.Type.MEAT, "PizzaTwo").getId());
 
 		Order order = orderService.placeNewOrder(customer, orderAddress, pizzas.toArray(new Long[0]));
 
@@ -422,74 +305,67 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		}
 	}
 
-	private List<Pizza> generatePizzas() {
-
-		List<Pizza> result = new ArrayList<Pizza>();
-
-		final String firstPizza = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'PizzaOne', 'MEAT', 130.0)";
+	private Pizza insertPizza(double excpectedPrice, Pizza.Type excpectedType, String pizzaName) {
+		final String sql = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), '"
+				+ pizzaName + "', '" + excpectedType + "', " + excpectedPrice + ")";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
 
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(firstPizza, new String[] { "id" });
+				return con.prepareStatement(sql, new String[] { "id" });
 			}
 		}, keyHolder);
-
-		result.add(new Pizza(keyHolder.getKey().longValue(), "PizzaOne", 130, Pizza.Type.MEAT));
-
-		final String secondPizza = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'PizzaTwo', 'MEAT', 10.0)";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(secondPizza, new String[] { "id" });
-			}
-		}, keyHolder);
-
-		result.add(new Pizza(keyHolder.getKey().longValue(), "PizzaTwo", 10, Pizza.Type.MEAT));
-
-		return result;
+		return new Pizza(keyHolder.getKey().longValue(), pizzaName, excpectedPrice, excpectedType);
 	}
 
-	
-	private List<Long> pizzasInsertion() {
-
-		List<Long> result = new ArrayList<Long>();
-
-		final String firstPizza = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'PizzaOne', 'MEAT', 130.0)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(firstPizza, new String[] { "id" });
-			}
-		}, keyHolder);
-
-		result.add(keyHolder.getKey().longValue());
-		result.add(keyHolder.getKey().longValue());
-		result.add(keyHolder.getKey().longValue());
-
-		final String secondPizza = "INSERT INTO pizzas (id, name, pizzaType, price) VALUES (nextval('hibernate_sequence'), 'PizzaTwo', 'MEAT', 10.0)";
+	private KeyHolder insertAddress(String one, String two, String three, String four, String five) {
+		KeyHolder keyHolder;
+		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '"
+				+ one + "','" + two + "','" + three + "','" + four + "','" + five + "')";
 		keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
 
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(secondPizza, new String[] { "id" });
+				return con.prepareStatement(sqlAddress, new String[] { "id" });
 			}
 		}, keyHolder);
+		return keyHolder;
+	}
 
-		result.add(keyHolder.getKey().longValue());
-		result.add(keyHolder.getKey().longValue());
+	private KeyHolder insertCustomer(String customerName) {
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), '"
+				+ customerName + "')";
+		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		return result;
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				return con.prepareStatement(sqlCustomer, new String[] { "id" });
+			}
+		}, keyHolder);
+		return keyHolder;
+	}
+
+	private KeyHolder insertOrder(Long customerId, Long addressId, String orderDate, int pizzaAmmount) {
+		KeyHolder keyHolder;
+		final String sqlOrder = "INSERT INTO orders (id, date,pizzasammount, state,address_id,customer_id) VALUES (nextval('hibernate_sequence'), '"
+				+ orderDate + "', " + pizzaAmmount + ", 'org.study.pizzaservice.domain.order.state.NewState',"
+				+ addressId + "," + customerId + ")";
+		keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				return con.prepareStatement(sqlOrder, new String[] { "id" });
+			}
+		}, keyHolder);
+		return keyHolder;
 	}
 
 }
