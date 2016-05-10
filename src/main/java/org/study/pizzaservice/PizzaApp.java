@@ -49,8 +49,11 @@ public class PizzaApp {
 //		if (cardService.setNewCard(customers.getCustomerById(5l))) {
 //			cardService.addSumToCard(customers.getCustomerById(5l), 100);
 //		}
+		
+		Address address= customers.getCustomerById(1l).getAddresses().get(0);
+		System.out.println(address);
 
-		order = pizzaShop.makeOrder(customers.getCustomerById(5l),customers.getCustomerById(5l).getAddresses().get(0), 1l, 2l, 3l, 4l);
+		order = pizzaShop.makeOrder(customers.getCustomerById(1l),address, 1l, 2l, 3l, 4l);
 
 		System.out.println(order);
 		System.out.println(order.getPrice());
