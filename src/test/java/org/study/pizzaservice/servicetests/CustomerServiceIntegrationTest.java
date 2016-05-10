@@ -34,29 +34,14 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 	@Test
 	public void getCostumerByIdTest() {
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
+		String customerName = "Semen";
 
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlAddress, new String[] { "id" });
-			}
-		}, keyHolder);
+		keyHolder =  insertAddress("1", "2", "3", "4", "5");
 
 		Long addressId = keyHolder.getKey().longValue();
 
@@ -95,46 +80,30 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 	@Test(expected = IncorrectResultSizeDataAccessException.class)
 	public void testRemoveCustomer() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
+		String customerName = "Semen";
 
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long id = keyHolder.getKey().longValue();
 
-		Customer customer = new Customer(id, "Semen");
+		Customer customer = new Customer(id, customerName);
 
 		assertTrue(customerService.removeCustomer(customer));
 
-		jdbcTemplate.queryForObject("select * from customers where id = ?",
-				new Object[] { customer.getId() }, new CustomerRowMapper());
+		jdbcTemplate.queryForObject("select * from customers where id = ?", new Object[] { customer.getId() },
+				new CustomerRowMapper());
 
 	}
 
 	@Test
 	public void addAddressTest() {
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
+		String customerName = "Semen";
 
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long id = keyHolder.getKey().longValue();
 
-		Customer customer = new Customer(id, "Semen");
+		Customer customer = new Customer(id, customerName);
 		Address address = new Address("1", "2", "3", "4", "5");
 
 		assertTrue(customerService.addAddress(customer, address));
@@ -150,29 +119,14 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 	@Test
 	public void removeAddressTest() {
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		String customerName = "Semen";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
 
-		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '1','2','3','4','5')";
-		keyHolder = new GeneratedKeyHolder();
-
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlAddress, new String[] { "id" });
-			}
-		}, keyHolder);
+		keyHolder = insertAddress("1", "2", "3", "4", "5");
 
 		Long addressId = keyHolder.getKey().longValue();
 
@@ -188,53 +142,42 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 				add(addr);
 			}
 		});
-	
+
 		assertTrue(customerService.removeAddress(customer, addr));
 
-		int numberOfAddressesAfterRemove = jdbcTemplate.queryForObject("select count(*) from customers_addresses where customer_id = " + customerId, Integer.class);
-		
+		int numberOfAddressesAfterRemove = jdbcTemplate.queryForObject(
+				"select count(*) from customers_addresses where customer_id = " + customerId, Integer.class);
+
 		assertEquals(numberOfAddressesAfterRemove, 0);
 	}
-	
-	
+
 	@Test
 	public void testGetCustomers() {
-		final String customerOne = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		final String customerTwo = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Petro')";
+
+		String fristCustomerName = "Semen";
+
+		KeyHolder keyHolder = insertCustomer(fristCustomerName);
+
+		Long customerId = keyHolder.getKey().longValue();
 		
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update(new PreparedStatementCreator() {
+		Customer firstCustomer = new Customer(customerId, fristCustomerName);
+		
+		
+		
+		String secondCustomerName = "Petro";
 
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(customerOne, new String[] { "id" });
-			}
-		}, keyHolder);
+		keyHolder = insertCustomer(secondCustomerName);
 
-		Long id = keyHolder.getKey().longValue();
-
-		Customer firstCustomer = new Customer(id, "Semen");
-
-		keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(customerTwo, new String[] { "id" });
-			}
-		}, keyHolder);
-
-		id = keyHolder.getKey().longValue();
-
-		Customer secondCustomer = new Customer(id, "Petro");
-
+		customerId = keyHolder.getKey().longValue();
+		
+		Customer secondCustomer = new Customer(customerId, secondCustomerName);
+		
+		
 		List<Customer> dbCustomers = customerService.getCustomers();
-		assertTrue(dbCustomers.contains(secondCustomer));
 		assertTrue(dbCustomers.contains(firstCustomer));
+		assertTrue(dbCustomers.contains(secondCustomer));
 
 	}
-	
-	
 
 	private static final class CustomerRowMapper implements RowMapper<Customer> {
 		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -250,4 +193,35 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 			return result;
 		}
 	}
+
+	private KeyHolder insertCustomer(String customerName) {
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), '"
+				+ customerName + "')";
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				return con.prepareStatement(sqlCustomer, new String[] { "id" });
+			}
+		}, keyHolder);
+		return keyHolder;
+	}
+	
+	private KeyHolder insertAddress(String one, String two, String three, String four, String five) {
+		KeyHolder keyHolder;
+		final String sqlAddress = "INSERT INTO addresses (id, city, street, house, flat, phoneNumber) VALUES (nextval('hibernate_sequence'), '"+one+"','"+two+"','"+three+"','"+four+"','"+five+"')";
+		keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				return con.prepareStatement(sqlAddress, new String[] { "id" });
+			}
+		}, keyHolder);
+		return keyHolder;
+	}
+	
 }

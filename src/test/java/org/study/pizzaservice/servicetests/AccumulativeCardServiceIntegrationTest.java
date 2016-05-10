@@ -33,21 +33,15 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 	@Test
 	public void getCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String customerName = "Semen";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
-		Customer customer = new Customer(customerId, "Semen");
+		Customer customer = new Customer(customerId, customerName);
 
-		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 100, " + customerId + ")";
+		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 100, "
+				+ customerId + ")";
 		jdbcTemplate.update(sqlCard);
 
 		AccumulativeCard card = cardService.getCard(customer).get();
@@ -60,19 +54,12 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 	@Test
 	public void setNewCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String customerName = "Semen";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
-		Customer customer = new Customer(customerId, "Semen");
+		Customer customer = new Customer(customerId, customerName);
 
 		assertTrue(cardService.setNewCard(customer));
 
@@ -82,28 +69,22 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 		assertNotNull(card);
 		assertEquals(card.getSum(), 0, 0.00001);
 	}
-	
+
 	@Test
 	public void addSumToCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String customerName = "Semen";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
-		Customer customer = new Customer(customerId, "Semen");
+		Customer customer = new Customer(customerId, customerName);
 
-		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 500, " + customerId + ")";
+		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 500, "
+				+ customerId + ")";
 		jdbcTemplate.update(sqlCard);
-		
-		assertTrue(cardService.addSumToCard(customer,100));
+
+		assertTrue(cardService.addSumToCard(customer, 100));
 
 		AccumulativeCard card = jdbcTemplate.queryForObject(
 				"select * from accumulativecards where customer_id =" + customerId, new CardRowMapper());
@@ -111,27 +92,21 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 		assertNotNull(card);
 		assertEquals(card.getSum(), 600, 0.00001);
 	}
-	
+
 	@Test(expected = IncorrectResultSizeDataAccessException.class)
 	public void removeCardTest() {
 
-		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), 'Semen')";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String customerName = "Semen";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				return con.prepareStatement(sqlCustomer, new String[] { "id" });
-			}
-		}, keyHolder);
+		KeyHolder keyHolder = insertCustomer(customerName);
 
 		Long customerId = keyHolder.getKey().longValue();
-		Customer customer = new Customer(customerId, "Semen");
+		Customer customer = new Customer(customerId, customerName);
 
-		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 500, " + customerId + ")";
+		final String sqlCard = "INSERT INTO accumulativecards (id, sum, customer_id) VALUES (nextval('hibernate_sequence'), 500, "
+				+ customerId + ")";
 		jdbcTemplate.update(sqlCard);
-		
+
 		assertTrue(cardService.removeCard(customer));
 
 		AccumulativeCard card = jdbcTemplate.queryForObject(
@@ -148,6 +123,21 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 
 			return result;
 		}
+	}
+
+	private KeyHolder insertCustomer(String customerName) {
+		final String sqlCustomer = "INSERT INTO customers (id, name) VALUES (nextval('hibernate_sequence'), '"
+				+ customerName + "')";
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				return con.prepareStatement(sqlCustomer, new String[] { "id" });
+			}
+		}, keyHolder);
+		return keyHolder;
 	}
 
 }
