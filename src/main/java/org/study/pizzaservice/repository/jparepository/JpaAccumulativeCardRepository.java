@@ -6,14 +6,12 @@ import java.util.Optional;
 import javax.persistence.*;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.AccumulativeCardRepository;
 
 @Repository
-@Transactional
 public class JpaAccumulativeCardRepository implements AccumulativeCardRepository {
 
 	@PersistenceContext

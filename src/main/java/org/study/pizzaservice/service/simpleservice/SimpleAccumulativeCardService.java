@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Customer;
@@ -18,6 +19,7 @@ import org.study.pizzaservice.service.AccumulativeCardService;
  *
  */
 @Service
+@Transactional
 public class SimpleAccumulativeCardService implements AccumulativeCardService {
 
     private AccumulativeCardRepository cardRepository;

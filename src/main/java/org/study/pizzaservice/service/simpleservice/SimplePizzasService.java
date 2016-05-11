@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.exceptions.PizzaWithSpecificIdIsAbsentException;
 import org.study.pizzaservice.repository.PizzaRepository;
@@ -17,6 +18,7 @@ import org.study.pizzaservice.service.PizzasService;
  *
  */
 @Service
+@Transactional
 public class SimplePizzasService implements PizzasService {
 
 	private PizzaRepository pizzaRepository;

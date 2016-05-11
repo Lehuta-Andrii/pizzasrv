@@ -6,12 +6,10 @@ import java.util.Optional;
 import javax.persistence.*;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.repository.PizzaRepository;
 
 @Repository
-@Transactional
 public class JpaPizzaRepository implements PizzaRepository {
 
 	@PersistenceContext

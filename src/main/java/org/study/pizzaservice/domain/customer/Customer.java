@@ -1,9 +1,6 @@
 package org.study.pizzaservice.domain.customer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import java.util.*;
 import javax.persistence.*;
 
 /**

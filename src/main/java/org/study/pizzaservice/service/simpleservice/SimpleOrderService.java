@@ -1,25 +1,17 @@
 package org.study.pizzaservice.service.simpleservice;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import org.study.pizzaservice.domain.order.Order;
-import org.study.pizzaservice.domain.order.OrderState;
-import org.study.pizzaservice.domain.order.state.CanceledState;
-import org.study.pizzaservice.domain.order.state.DoneState;
-import org.study.pizzaservice.domain.order.state.InProgressState;
-import org.study.pizzaservice.exceptions.OrderWithSpecificIdIsAbsentException;
-import org.study.pizzaservice.exceptions.TooManyPizzasException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
+import org.study.pizzaservice.service.*;
+import org.study.pizzaservice.exceptions.*;
+import org.study.pizzaservice.domain.order.*;
+import org.study.pizzaservice.domain.customer.*;
+import org.study.pizzaservice.domain.order.state.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.Pizza;
-import org.study.pizzaservice.domain.customer.Address;
-import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.repository.OrderRepository;
-import org.study.pizzaservice.service.OrderService;
-import org.study.pizzaservice.service.PizzasService;
 
 /**
  * Class represent order service entity o of pizza service
@@ -28,6 +20,7 @@ import org.study.pizzaservice.service.PizzasService;
  *
  */
 @Service
+@Transactional
 public class SimpleOrderService implements OrderService {
 
 	public static final int MAX_NUMBER_OF_PIZZAS = 10;

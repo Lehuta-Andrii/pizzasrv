@@ -10,7 +10,7 @@
   http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
-	<tx:annotation-driven />
+<!-- 	<tx:annotation-driven /> -->
 	<context:component-scan base-package="org.study.pizzaservice.repository" />
 	<context:property-placeholder
 		system-properties-mode="OVERRIDE" location="jdbc.properties" />

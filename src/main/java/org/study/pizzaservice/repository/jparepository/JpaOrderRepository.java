@@ -6,12 +6,10 @@ import java.util.Optional;
 import javax.persistence.*;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.study.pizzaservice.domain.order.Order;
 import org.study.pizzaservice.repository.OrderRepository;
 
 @Repository
-@Transactional
 public class JpaOrderRepository implements OrderRepository {
 
 	@PersistenceContext
