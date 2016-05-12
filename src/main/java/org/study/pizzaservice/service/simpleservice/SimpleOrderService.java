@@ -38,6 +38,8 @@ public class SimpleOrderService implements OrderService {
 		this.pizzasService = pizzasService;
 	}
 
+	@Transactional(rollbackFor=Exception.class)
+	@Override
 	public Order placeNewOrder(Customer customer, Address address, Long... pizzasID) {
 
 		if (pizzasID.length <= MAX_NUMBER_OF_PIZZAS && pizzasID.length > 0) {
@@ -57,21 +59,25 @@ public class SimpleOrderService implements OrderService {
 		throw new TooManyPizzasException();
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean confirmOrder(Order order) {
 		return changeOrderStatus(order, new InProgressState());
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean cancelOrder(Order order) {
 		return changeOrderStatus(order, new CanceledState());
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean accomplishOrder(Order order) {
 		return changeOrderStatus(order, new DoneState());
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean changeOrderStatus(Order order, OrderState state) {
 		boolean result = order.setState(state);
@@ -88,6 +94,7 @@ public class SimpleOrderService implements OrderService {
 		return new Order();
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean removeOrder(Order order) {
 		return orderRepository.removeOrder(order);

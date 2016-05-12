@@ -44,11 +44,13 @@ public class SimpleCustomerService implements CustomerService {
 		return customers.getCustomers();
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean addCustomer(Customer costumer) {
 		return customers.addCustomer(costumer);
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean addAddress(Customer customer, Address address) {
 	    if(customer.addAddress(address)){
@@ -58,6 +60,7 @@ public class SimpleCustomerService implements CustomerService {
 	    }
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean removeAddress(Customer customer, Address address) {
 	    if(customer.removeAddress(address)){
@@ -67,6 +70,7 @@ public class SimpleCustomerService implements CustomerService {
 	    }
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean removeCustomer(Customer customer) {
 	    return customers.removeCustomer(customer);

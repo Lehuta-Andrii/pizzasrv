@@ -38,6 +38,7 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	return cardRepository.getCard(customer);
     }
 
+	@Transactional(rollbackFor=Exception.class)
     @Override
     public boolean setNewCard(Customer customer) {
 	AccumulativeCard card = createEmptyCard();
@@ -45,6 +46,7 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	return cardRepository.addCard(card);
     }
 
+	@Transactional(rollbackFor=Exception.class)
     @Override
     public boolean addSumToCard(Customer customer, double sum) {
 	boolean result = false;
@@ -59,6 +61,7 @@ public class SimpleAccumulativeCardService implements AccumulativeCardService {
 	return result;
     }
 
+	@Transactional(rollbackFor=Exception.class)
     @Override
     public boolean removeCard(Customer customer) {
 	return cardRepository.removeCustomerCard(customer);

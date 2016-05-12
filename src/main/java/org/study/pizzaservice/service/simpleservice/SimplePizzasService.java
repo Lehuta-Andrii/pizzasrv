@@ -33,16 +33,19 @@ public class SimplePizzasService implements PizzasService {
 		return pizzaRepository.getPizzas();
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean setPizzas(List<Pizza> pizzas) {
 		return pizzaRepository.setPizzas(pizzas);
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean addPizza(Pizza pizza) {
 		return pizzaRepository.addPizza(pizza);
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean deletePizza(Pizza pizza) {
 		return pizzaRepository.deletePizza(pizza);
