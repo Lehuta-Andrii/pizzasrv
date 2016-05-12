@@ -19,7 +19,6 @@ public class JpaOrderRepository implements OrderRepository {
 	public boolean saveOrder(Order order) {
 		try {
 			entityManager.persist(order);
-			entityManager.flush();
 		} catch (PersistenceException ex) {
 			System.err.println(ex);
 			return false;
@@ -37,7 +36,6 @@ public class JpaOrderRepository implements OrderRepository {
 		if (dbOrder != null) {
 			
 			entityManager.merge(order);
-			entityManager.flush();
 	
 			return true;
 		}
@@ -69,7 +67,6 @@ public class JpaOrderRepository implements OrderRepository {
 		Order dbOrder = query.getSingleResult();
 		if (dbOrder != null) {
 			entityManager.remove(dbOrder);
-			entityManager.flush();
 			return true;
 		}
 

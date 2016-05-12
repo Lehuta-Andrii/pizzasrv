@@ -23,9 +23,11 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
@@ -40,6 +42,11 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 	@Autowired
 	private OrderService orderService;
 
+	private DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	
+	@Autowired
+	private JpaTransactionManager  transactionManager;
+	
 	@Test
 	public void getOrderByIdTest() {
 
@@ -100,6 +107,8 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		order.setId(orderId);
 
 		assertTrue(orderService.removeOrder(order));
+		
+		transactionManager.getTransaction(def).flush();
 
 		Address dbAddress = jdbcTemplate.queryForObject("select * from addresses where id = " + addressId,
 				new AddressRowMapper());
@@ -137,6 +146,8 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 		assertTrue(orderService.confirmOrder(order));
 
+		transactionManager.getTransaction(def).flush();
+		
 		String dbState = jdbcTemplate.queryForObject("select state from orders where id = " + orderId, String.class);
 		assertTrue(expectedState.equals(dbState));
 	}
@@ -160,6 +171,8 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 		assertTrue(orderService.cancelOrder(order));
 
+		transactionManager.getTransaction(def).flush();
+		
 		String dbState = jdbcTemplate.queryForObject("select state from orders where id = " + orderId, String.class);
 		assertTrue(expectedState.equals(dbState));
 	}
@@ -183,6 +196,8 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 		assertTrue(orderService.accomplishOrder(order));
 
+		transactionManager.getTransaction(def).flush();
+		
 		String dbState = jdbcTemplate.queryForObject("select state from orders where id = " + orderId, String.class);
 		assertTrue(expectedState.equals(dbState));
 	}
@@ -208,6 +223,8 @@ public class OrderServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 		Order order = orderService.placeNewOrder(customer, orderAddress, pizzas.toArray(new Long[0]));
 
+		transactionManager.getTransaction(def).flush();
+		
 		assertNotNull(order);
 
 		Order dbOrder = jdbcTemplate.queryForObject("select * from orders where id = " + order.getId(),

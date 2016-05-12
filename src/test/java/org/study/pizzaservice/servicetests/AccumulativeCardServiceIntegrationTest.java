@@ -15,9 +15,11 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCard;
 import org.study.pizzaservice.domain.accumulativecard.AccumulativeCardImpl;
 import org.study.pizzaservice.domain.customer.Customer;
@@ -29,6 +31,11 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 
 	@Autowired
 	private AccumulativeCardService cardService;
+	
+	private DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	
+	@Autowired
+	private JpaTransactionManager  transactionManager;
 
 	@Test
 	public void getCardTest() {
@@ -62,6 +69,8 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 		Customer customer = new Customer(customerId, customerName);
 
 		assertTrue(cardService.setNewCard(customer));
+		
+		transactionManager.getTransaction(def).flush();
 
 		AccumulativeCard card = jdbcTemplate.queryForObject(
 				"select * from accumulativecards where customer_id =" + customerId, new CardRowMapper());
@@ -86,6 +95,8 @@ public class AccumulativeCardServiceIntegrationTest extends AbstractTransactiona
 
 		assertTrue(cardService.addSumToCard(customer, 100));
 
+		transactionManager.getTransaction(def).flush();
+		
 		AccumulativeCard card = jdbcTemplate.queryForObject(
 				"select * from accumulativecards where customer_id =" + customerId, new CardRowMapper());
 

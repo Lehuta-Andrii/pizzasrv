@@ -34,7 +34,6 @@ public class JpaCustomerRepository implements CustomerRepository {
 
 		try {
 			entityManager.persist(customer);
-			entityManager.flush();
 		} catch (PersistenceException ex) {
 			System.err.println(ex);
 			return false;
@@ -47,7 +46,6 @@ public class JpaCustomerRepository implements CustomerRepository {
 		Customer dbCustomer = entityManager.find(Customer.class, customer.getId());
 		if (dbCustomer != null) {			
 			entityManager.merge(customer);
-			entityManager.flush();
 			return true;
 		}
 
@@ -60,7 +58,6 @@ public class JpaCustomerRepository implements CustomerRepository {
 		Customer dbCustomer = entityManager.find(Customer.class, customer.getId());
 		if (dbCustomer != null) {
 			entityManager.remove(dbCustomer);
-			entityManager.flush();
 			return true;
 		}
 

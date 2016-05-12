@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.service.PizzasService;
 
@@ -26,7 +29,12 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 
 	@Autowired
 	private PizzasService pizzasService;
-
+	
+	private DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	
+	@Autowired
+	private JpaTransactionManager  transactionManager;
+	
 	@Test
 	public void testGetPizzaByID() {
 
@@ -88,6 +96,8 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		Pizza pizza = new Pizza(id, pizzaName, excpectedPrice, excpectedType);
 
 		assertTrue(pizzasService.deletePizza(pizza));
+		
+		transactionManager.getTransaction(def).flush();
 
 		jdbcTemplate.queryForObject("select * from pizzas where id = ?", new Object[] { pizza.getId() },
 				new PizzaRowMapper());
@@ -100,6 +110,8 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		Pizza pizza = new Pizza("Pizza", 159, Pizza.Type.SEA);
 		assertTrue(pizzasService.addPizza(pizza));
 
+		transactionManager.getTransaction(def).flush();
+
 		Pizza inDbPizza = jdbcTemplate.queryForObject("select * from pizzas where id = ?",
 				new Object[] { pizza.getId() }, new PizzaRowMapper());
 
@@ -109,6 +121,7 @@ public class PizzaServiceIntegrationTest extends AbstractTransactionalJUnit4Spri
 		assertEquals(pizza.getName(), inDbPizza.getName());
 
 	}
+	
 
 	@Test
 	public void testSetPizzas() {

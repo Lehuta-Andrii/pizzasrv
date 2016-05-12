@@ -18,9 +18,11 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.study.pizzaservice.domain.customer.Address;
 import org.study.pizzaservice.domain.customer.Customer;
 import org.study.pizzaservice.service.CustomerService;
@@ -32,6 +34,11 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 	@Autowired
 	private CustomerService customerService;
 
+	private DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	
+	@Autowired
+	private JpaTransactionManager  transactionManager;
+	
 	@Test
 	public void getCostumerByIdTest() {
 
@@ -61,6 +68,8 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 		Customer customer = new Customer("Petro", Arrays.asList(new Address("1", "2", "3", "4", "5")));
 
 		assertTrue(customerService.addCustomer(customer));
+		
+		transactionManager.getTransaction(def).flush();
 
 		Customer inDbCustomer = jdbcTemplate.queryForObject("select * from customers where id = ?",
 				new Object[] { customer.getId() }, new CustomerRowMapper());
@@ -90,6 +99,8 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 
 		assertTrue(customerService.removeCustomer(customer));
 
+		transactionManager.getTransaction(def).flush();
+		
 		jdbcTemplate.queryForObject("select * from customers where id = ?", new Object[] { customer.getId() },
 				new CustomerRowMapper());
 
@@ -107,6 +118,8 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 		Address address = new Address("1", "2", "3", "4", "5");
 
 		assertTrue(customerService.addAddress(customer, address));
+		
+		transactionManager.getTransaction(def).flush();
 
 		List<Address> inDbAddresses = jdbcTemplate.query(
 				"select * from addresses left join customers_addresses on addresses.id = customers_addresses.Addresses_id where customer_id = ?",
@@ -144,6 +157,8 @@ public class CustomerServiceIntegrationTest extends AbstractTransactionalJUnit4S
 		});
 
 		assertTrue(customerService.removeAddress(customer, addr));
+		
+		transactionManager.getTransaction(def).flush();
 
 		int numberOfAddressesAfterRemove = jdbcTemplate.queryForObject(
 				"select count(*) from customers_addresses where customer_id = " + customerId, Integer.class);
