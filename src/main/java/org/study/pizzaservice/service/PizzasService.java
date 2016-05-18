@@ -14,6 +14,8 @@ public interface PizzasService {
 	List<Pizza> getPizzas();
 
 	boolean setPizzas(List<Pizza> pizzas);
+	
+	boolean updatePizza(Pizza pizza);
 
 	boolean addPizza(Pizza pizza);
 

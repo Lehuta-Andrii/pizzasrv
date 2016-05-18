@@ -62,4 +62,9 @@ public class SimplePizzasService implements PizzasService {
 		}
 	}
 
+	@Override
+	public boolean updatePizza(Pizza pizza) {
+		return pizzaRepository.updatePizza(pizza);
+	}
+
 }

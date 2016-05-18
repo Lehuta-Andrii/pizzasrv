@@ -24,4 +24,5 @@ public interface PizzaRepository {
     boolean updatePizza(Pizza pizza);
     
     Optional<Pizza> getPizzaByID(Long id);
+
 }

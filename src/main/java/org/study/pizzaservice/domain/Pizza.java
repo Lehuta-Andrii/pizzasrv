@@ -41,7 +41,7 @@ public class Pizza {
 	@Column(name = "pizzatype")
 	private Type pizzaType;
 
-	protected Pizza() {
+	public Pizza() {
 	}
 
 	public Pizza(Long id, String name, double price, Type pizzaType) {
