@@ -43,30 +43,45 @@ public class PizzasController {
 		return "redirect:/pizzas/edit";
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@ModelAttribute
+	public void findPizza(@RequestParam(value="id", required=false) Long id, Model model){
+	    
+	    Pizza pizza = null;
+	    System.out.println(id);
+	    if(id != null){
+		pizza = pizzaService.getPizzaById(id);
+	    }
+	    
+	    model.addAttribute("types", Arrays.asList(Pizza.Type.values()));
+	    System.out.println("Find: " + pizza);
+	    model.addAttribute("pizza", pizza);
+	}
+	
+	@RequestMapping(value = "/edits", method = RequestMethod.GET)
 	public String showEditPizzaForm(Model model) {
 		model.addAttribute("pizzasList", pizzaService.getPizzas());
 		return "edit-pizzas-list";
 	}
 	
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String editPizzaForm(@ModelAttribute Pizza pizza, @PathVariable Long id) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String editPizzaForm(@ModelAttribute Pizza pizza){//, @PathVariable Long id) {
 		
-		pizza.setId(id);
+		//pizza.setId(id);
 		pizzaService.updatePizza(pizza);
 		return "redirect:/pizzas/edit";
 	}
 	
 	
-	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
-	public ModelAndView editTeamPage(@PathVariable Long id) {
-		
-		ModelAndView modelAndView = new ModelAndView("edit-pizza-form");
-		Pizza pizza = pizzaService.getPizzaById(id);
-		modelAndView.addObject("pizza",pizza);
-		modelAndView.addObject("types", Arrays.asList(Pizza.Type.values()));
-		
-		return modelAndView;
+	@RequestMapping(value="/edit", method=RequestMethod.GET)
+	public /*ModelAndView*/ String editPizzaPage(/*@PathVariable("id")*/ @RequestParam(value="id") Long id) {
+//		ModelAndView modelAndView = new ModelAndView("edit-pizza-form");
+//		Pizza pizza = pizzaService.getPizzaById(id);
+//		modelAndView.addObject("pizza",pizza);
+//		modelAndView.addObject("types", Arrays.asList(Pizza.Type.values()));
+//		
+//		return modelAndView;
+	
+		return "edit-pizza-form";
 	}
 	
 	
