@@ -10,12 +10,14 @@
 <body>
 
 	<form action="add" method="post">
-		<br>Name:<input type="text" name="name"> <br>Type: <select
-			name="pizzaType">
-			<option value="MEAT">Meat</option>
-			<option value="SEA">Sea</option>
-			<option value="VEGETARIAN">Vegetarian</option>
-		</select> <br>Price:<input type="text" name="price"> <br> <input
+		<br>Name:<input type="text" name="name"> <br>
+		Type: <select name="pizzaType">
+					<c:forEach var="type" items="${types}">
+		<option>${type}</option>
+		</c:forEach>
+		</select> 
+		<br>Price:
+		<input type="text" name="price"> <br> <input
 			type="submit" value="addPizza">
 	</form>
 

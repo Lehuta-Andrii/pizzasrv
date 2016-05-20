@@ -4,9 +4,9 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.study.pizzaservice.domain.Pizza;
 import org.study.pizzaservice.service.PizzaShopTemplate;
 
@@ -16,27 +16,32 @@ public class OrderController {
 	@Autowired
 	PizzaShopTemplate pizzaShop;
 	
+//	@ModelAttribute("orderForm")
+//	public void buildOrderForm(Model model){
+//				
+//		OrderForm orderForm = new OrderForm();
+//		
+//		int i=0;
+//		for(Pizza pizza: pizzaShop.showMenu()){
+//			orderForm.getPizzas().put(pizza.getId(), ++i + "");
+//		}
+//		
+//		model.addAttribute("orderForm", orderForm);
+//	
+//	}
+	
 	
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
-	public ModelAndView orderForm(){
-		ModelAndView model = new ModelAndView("pizza-order-form");
-	
+	public String orderForm(Model model){
+		model.addAttribute("pizzasList", pizzaShop.showMenu());
 		
-		PizzaAndAmmount paa = new PizzaAndAmmount();
-		
-		int i=0;
-		for(Pizza pizza: pizzaShop.showMenu()){
-			paa.getPizzas().put(pizza, ++i +"");
-		}
-		
-		model.addObject("pizzaAndAmmount", paa);
-		
-		return model;
+		return "pizza-order-form";
 	}
 
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String makeOrder(@ModelAttribute("pizzaAndAmmount") PizzaAndAmmount result, BindingResult res){
+	public String makeOrder(@ModelAttribute("orderForm") OrderForm result, BindingResult res){
+		System.out.println(result.getPizzas());
 		return "redirect:/order";
 	}
 	

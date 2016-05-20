@@ -10,19 +10,18 @@
 </head>
 <body>
 
-	<form:form method="POST" modelAttribute="pizzaAndAmmount"
-		action="${pageContext.request.contextPath}/order">
+	<form method="POST"  action="${pageContext.request.contextPath}/order">
 
-		<c:forEach items="${pizzaAndAmmount.pizzas}" var="pizza">
+		<c:forEach items="${pizzasList}" var="pizza">
 
-		${pizza.key}
-        <form:input path="pizzas[${pizza.key}]" />
+		${pizza}
+        <input name="pizzas[${pizza.id}]" value = "0" />
 			<br>
 
 
 		</c:forEach>
 		<input value="Order" type="submit">
-	</form:form>
+	</form>
 
 
 
